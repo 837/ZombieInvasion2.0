@@ -16,6 +16,14 @@ local.properties
 .settings/
 .loadpath
 
+#IntelliJ
+.idea
+.iws
+.iml
+.ipr
+/out/
+nativeLibs/
+
 # External tool builders
 .externalToolBuilders/
 
@@ -47,7 +55,6 @@ local.properties
 [Rr]elease/
 x64/
 build/
-[Bb]in/
 [Oo]bj/
 
 # MSTest test Results
@@ -68,14 +75,12 @@ build/
 *.tlb
 *.tli
 *.tlh
-*.tmp
 *.tmp_proj
 *.log
 *.vspscc
 *.vssscc
 .builds
 *.pidb
-*.log
 *.scc
 
 # Visual C++ cache files
@@ -194,7 +199,6 @@ $RECYCLE.BIN/
 *.egg
 *.egg-info
 dist/
-build/
 eggs/
 parts/
 var/
