@@ -6,6 +6,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ch.m837.zombieInvasion.entities.World;
+
 public class Game extends BasicGameState {
   private final int ID;
 
@@ -20,11 +22,11 @@ public class Game extends BasicGameState {
   private int loops;
   private double extrapolation;
 
-//höhö
+  private World world;
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-    // TODO Auto-generated method stub
+    world = new World();
 
   }
 

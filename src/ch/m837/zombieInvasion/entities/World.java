@@ -7,6 +7,10 @@ import ch.zombieInvasion.Eventhandling.Event;
 public class World {
   static private ArrayList<Entity> entities = new ArrayList<>();
 
+  static public void addEntity(Entity entity) {
+    entities.add(entity);
+  }
+
   static public ArrayList<Event> getEventsFrom(String fromID) {
     Entity entity =
         entities.parallelStream().filter(e -> e.getID().equals(fromID)).findAny().orElse(null);
