@@ -1,52 +1,52 @@
 package ch.zombieInvasion.Eventhandling;
 
-import java.util.ArrayList;
-
 public class Event {
-	private EventType event;
-	private long delayMillis;
-	private boolean persistent = false;
-	private ArrayList<Object> additionalInfos;
-	private Object additionalInfo;
+  private EventType event;
+  private long delayMillis;
+  private boolean persistent = false;
+  private Object additionalInfo;
+  private String senderID;
+  private String receiverID;
 
-	public Event(long delayMillis, EventType event, ArrayList<Object> additionalInfos) {
-		this.event = event;
-		this.delayMillis = delayMillis;
-		this.additionalInfos = additionalInfos;
-	}
+  public Event(long delayMillis, EventType event, Object additionalInfo, String senderID,
+      String receiverID) {
+    this.event = event;
+    this.delayMillis = delayMillis;
+    this.additionalInfo = additionalInfo;
+    this.senderID = senderID;
+    this.receiverID = receiverID;
+  }
 
-	public Event(long delayMillis, EventType event, Object additionalInfo) {
-		this.event = event;
-		this.delayMillis = delayMillis;
-		this.additionalInfo = additionalInfo;
-	}
+  public EventType getEvent() {
+    return event;
+  }
 
-	public EventType getEvent() {
-		return event;
-	}
+  public String getSenderID() {
+    return senderID;
+  }
 
-	public long getDelayMillis() {
-		return delayMillis;
-	}
+  public String getReceiverID() {
+    return receiverID;
+  }
 
-	public boolean isPersistent() {
-		return persistent;
-	}
+  public long getDelayMillis() {
+    return delayMillis;
+  }
 
-	public ArrayList<Object> getAdditionalInfos() {
-		return additionalInfos;
-	}
+  public boolean isPersistent() {
+    return persistent;
+  }
 
-	public Object getAdditionalInfo() {
-		return additionalInfo;
-	}
+  public Object getAdditionalInfo() {
+    return additionalInfo;
+  }
 
-	public void setDelayMillis(long delayMillis) {
-		this.delayMillis = delayMillis;
-	}
+  public void setDelayMillis(long delayMillis) {
+    this.delayMillis = delayMillis;
+  }
 
-	public void setPersistent(boolean persistent) {
-		this.persistent = persistent;
-	}
+  public void setPersistent(boolean persistent) {
+    this.persistent = persistent;
+  }
 
 }
