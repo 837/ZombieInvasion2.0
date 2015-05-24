@@ -5,6 +5,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ch.m837.zombieInvasion.gameStates.Game;
+import ch.m837.zombieInvasion.gameStates.MainMenu;
 import ch.zombieInvasion.util.LOGGER;
 
 public class ZombieInvasion extends StateBasedGame {

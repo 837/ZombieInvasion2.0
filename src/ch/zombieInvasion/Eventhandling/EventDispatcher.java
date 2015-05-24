@@ -45,8 +45,10 @@ public class EventDispatcher {
   }
 
   static public ArrayList<Event> getEvents() {
-    currentEvents.addAll(persistentEvents);
-    return currentEvents;
+    ArrayList<Event> allEvents = new ArrayList<>();
+    allEvents.addAll(currentEvents);
+    allEvents.addAll(persistentEvents);
+    return allEvents;
   }
 
   static public void removePersistentEvent(Event event) {
