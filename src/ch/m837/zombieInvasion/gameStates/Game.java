@@ -10,6 +10,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.Entity;
+import ch.m837.zombieInvasion.entities.entityFactories.EntityFactory;
+import ch.m837.zombieInvasion.entities.entityFactories.EntityType;
 import ch.m837.zombieInvasion.entities.modul.moduls.TestModul1;
 import ch.m837.zombieInvasion.entities.modul.moduls.TestModul2;
 import ch.zombieInvasion.Eventhandling.EventDispatcher;
@@ -33,17 +35,10 @@ public class Game extends BasicGameState {
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-    // Create entity 1 //XXX würde man in eine factory verpacken
-    World.getEntityHandler().addEntity(new Entity("TEST_ENTITY"));
-    World.getModulHandler().addModul(new TestModul1("TEST_ENTITY"));
-    World.getModulHandler().addModul(new TestModul2("TEST_ENTITY"));
-
-    // Create entity 2 //XXX würde man in eine factory verpacken
-    World.getEntityHandler().addEntity(new Entity("TEST_ENTITY 2"));
-    World.getModulHandler().addModul(new TestModul1("TEST_ENTITY 2"));
-    World.getModulHandler().addModul(new TestModul2("TEST_ENTITY 2"));
-
-
+    EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
+    EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
+    EntityFactory.createEntity(EntityType.TEST_ENTITY_2);
+    EntityFactory.createEntity(EntityType.TEST_ENTITY_2);
   }
 
   @Override
@@ -62,27 +57,16 @@ public class Game extends BasicGameState {
       // XXX TEST
 
       World.getEntityHandler().UPDATE_ENTITIES();
-      
+
       // XXX Kann man natürlich zusammenfassen
       World.getModulHandler().getTestModuls1().parallelStream()
           .forEach(testModul1 -> testModul1.UPDATE(gc, sbg));
-      
+
       // XXX Kann man natürlich zusammenfassen
       World.getModulHandler().getTestModuls2().parallelStream()
           .forEach(testModul2 -> testModul2.UPDATE(gc, sbg));
 
-      switch (new Random().nextInt(3)) {
-        case 0:
-          EventDispatcher.createEvent(0, EventType.TESTEVENT, null, "TEST_ENTITY", "TEST_ENTITY 2");
-          break;
-        case 1:
-          EventDispatcher.createEvent(0, EventType.TESTEVENT, null, "TEST_ENTITY 2", "TEST_ENTITY");
-          break;
-        default:
-          EventDispatcher.createEvent(0, EventType.TESTEVENT, null, "TEST_ENTITY 2",
-              "TEST_ENTITY 3");
-          break;
-      }
+     
       EventDispatcher.dispatchEvents();
 
       // XXX TEST

@@ -32,7 +32,8 @@ public class TestModul1 extends Modul implements RenderableModul, UpdatableModul
     ArrayList<Event> events = World.getEntityHandler().getEventsFrom(getEntityID());
     events.parallelStream().filter(event -> event.getEvent() == EventType.TESTEVENT).findAny()
         .ifPresent(eventPresent -> {
-          System.out.println(getEntityID() + " received Event from: " + eventPresent.getSenderID());
+          System.out.println(getEntityID() + " received Event from: " + eventPresent.getSenderID()
+              + "  Loop: " + (int) eventPresent.getAdditionalInfo());
         });
   }
 
