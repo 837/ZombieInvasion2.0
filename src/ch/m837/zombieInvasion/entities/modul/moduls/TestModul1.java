@@ -30,6 +30,7 @@ public class TestModul1 extends Modul implements RenderableModul, UpdatableModul
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     ArrayList<Event> events = World.getEntityHandler().getEventsFrom(getEntityID());
+    
     events.parallelStream().filter(event -> event.getEvent() == EventType.TESTEVENT).findAny()
         .ifPresent(eventPresent -> {
           System.out.println(getEntityID() + " received Event from: " + eventPresent.getSenderID()

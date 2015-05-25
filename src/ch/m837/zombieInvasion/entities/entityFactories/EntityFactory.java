@@ -23,14 +23,12 @@ public class EntityFactory {
   static private void createTestEntity1() {
     String id = "TEST_ENTITY_1: " + UUID.randomUUID();
     World.getEntityHandler().addEntity(new Entity(id));
-    World.getModulHandler().addModul(new TestModul1(id));
-    World.getModulHandler().addModul(new TestModul2(id));
+    World.getModulHandler().addModuls(new TestModul1(id), new TestModul2(id));
   }
 
   static private void createTestEntity2() {
     String id = "TEST_ENTITY_2: " + UUID.randomUUID();
     World.getEntityHandler().addEntity(new Entity(id));
-    World.getModulHandler().addModul(new TestModul1(id));
-    World.getModulHandler().addModul(new TestModul2(id));
+    World.getModulHandler().addModuls(new TestModul1(id), new TestModul2(id));
   }
 }

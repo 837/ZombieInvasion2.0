@@ -18,6 +18,7 @@ public class Entity {
   public Entity(String ID) {
     this.ID = ID;
   }
+  
   public void UPDATE_ENTITY() {
     events.clear();// XXX ned sicher ob ich das so möchti.. removes events every update
     events.addAll(EventDispatcher.getEvents().parallelStream()
