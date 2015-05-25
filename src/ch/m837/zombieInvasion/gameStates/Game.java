@@ -9,6 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityFactory;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityType;
+import ch.m837.zombieInvasion.input.InputHandler;
 import ch.zombieInvasion.Eventhandling.EventDispatcher;
 
 public class Game extends BasicGameState {
@@ -31,7 +32,7 @@ public class Game extends BasicGameState {
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
     EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
-    
+
     EntityFactory.createEntity(EntityType.TEST_ENTITY_2);
     EntityFactory.createEntity(EntityType.TEST_ENTITY_2);
   }
@@ -58,11 +59,6 @@ public class Game extends BasicGameState {
 
 
 
-      
-      
-      
-      
-      
       EventDispatcher.dispatchEvents();
       // XXX TEST
       next_game_tick += timePerTick;
