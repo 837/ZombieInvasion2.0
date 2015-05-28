@@ -33,8 +33,6 @@ public class Game extends BasicGameState {
     EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
     EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
 
-    EntityFactory.createEntity(EntityType.TEST_ENTITY_2);
-    EntityFactory.createEntity(EntityType.TEST_ENTITY_2);
   }
 
   @Override
@@ -52,11 +50,7 @@ public class Game extends BasicGameState {
       // XXX TEST
       World.getEntityHandler().UPDATE_ENTITIES();
 
-      World.getModulHandler().getTestModuls1().parallelStream()
-          .forEach(testModul1 -> testModul1.UPDATE(gc, sbg));
-      World.getModulHandler().getTestModuls2().parallelStream()
-          .forEach(testModul2 -> testModul2.UPDATE(gc, sbg));
-
+      
 
 
       EventDispatcher.dispatchEvents();

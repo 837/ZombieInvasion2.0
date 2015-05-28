@@ -6,17 +6,24 @@ import org.newdawn.slick.state.StateBasedGame;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.modul.Modul;
 import ch.m837.zombieInvasion.entities.modul.UpdatableModul;
+import ch.zombieInvasion.util.Vector2D;
 
-public class TestModul2 extends Modul implements  UpdatableModul {
+public class PhysicModul extends Modul implements UpdatableModul {
+  Box2d box2d = new Box2d();
 
-  public TestModul2(String entityID) {
+  public PhysicModul(String entityID) {
     super(entityID);
     // TODO Auto-generated constructor stub
   }
 
   @Override
   public Object getData(DataType dataType) {
-    // TODO Auto-generated method stub
+    switch (dataType) {
+      case POSITION:
+        return box2d.pos;
+      case COLLISION_SHAPE:
+        return box2d.shape;
+    }
     return null;
   }
 
@@ -25,4 +32,13 @@ public class TestModul2 extends Modul implements  UpdatableModul {
     // TODO Auto-generated method stub
 
   }
+
+
+}
+
+
+class Box2d {
+  Object shape = null;
+  Vector2D pos = new Vector2D(100, 100);
+
 }

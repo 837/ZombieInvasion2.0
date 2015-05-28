@@ -3,39 +3,51 @@ package ch.m837.zombieInvasion.entities.modul;
 import java.util.ArrayList;
 
 import ch.m837.zombieInvasion.World;
-import ch.m837.zombieInvasion.entities.modul.moduls.TestModul1;
-import ch.m837.zombieInvasion.entities.modul.moduls.TestModul2;
+import ch.m837.zombieInvasion.entities.modul.moduls.PhysicModul;
+import ch.m837.zombieInvasion.entities.modul.moduls.SelectionModul;
 
 public class ModulHandler {
-  private ArrayList<TestModul1> testModuls1 = new ArrayList<>();
-  private ArrayList<TestModul2> testModuls2 = new ArrayList<>();
+  /*
+   * Needs to be expanded for each new Modul
+   * 
+   */
+  private ArrayList<SelectionModul> selectionModuls = new ArrayList<>();
+  private ArrayList<PhysicModul> physicsModuls = new ArrayList<>();
 
   public void addModuls(Modul... moduls) {
     for (int i = 0; i < moduls.length; i++) {
       Modul modul = moduls[i];
       World.getEntityHandler().addModulToEntity(modul);
 
-      if (modul instanceof TestModul1) {
-        testModuls1.add((TestModul1) modul);
-      } else if (modul instanceof TestModul2) {
-        testModuls2.add((TestModul2) modul);
+      /*
+       * Needs to be expanded for each new Modul
+       * 
+       */
+      if (modul instanceof SelectionModul) {
+        selectionModuls.add((SelectionModul) modul);
+      } else if (modul instanceof PhysicModul) {
+        physicsModuls.add((PhysicModul) modul);
       }
     }
   }
 
+  /*
+   * Needs to be expanded for each new Modul
+   * 
+   */
   public ArrayList<Modul> getAllModuls() {
     ArrayList<Modul> allModuls = new ArrayList<>();
-    allModuls.addAll(testModuls1);
-    allModuls.addAll(testModuls2);
+    allModuls.addAll(selectionModuls);
+    allModuls.addAll(physicsModuls);
     return allModuls;
   }
 
-  public ArrayList<TestModul1> getTestModuls1() {
-    return testModuls1;
+
+  public ArrayList<PhysicModul> getPhysicsModuls() {
+    return physicsModuls;
   }
 
-  public ArrayList<TestModul2> getTestModuls2() {
-    return testModuls2;
+  public ArrayList<SelectionModul> getSelectionModuls() {
+    return selectionModuls;
   }
-
 }

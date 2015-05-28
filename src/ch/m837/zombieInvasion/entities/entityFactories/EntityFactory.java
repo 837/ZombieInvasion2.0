@@ -4,8 +4,7 @@ import java.util.UUID;
 
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.Entity;
-import ch.m837.zombieInvasion.entities.modul.moduls.TestModul1;
-import ch.m837.zombieInvasion.entities.modul.moduls.TestModul2;
+import ch.m837.zombieInvasion.entities.modul.moduls.SelectionModul;
 
 public class EntityFactory {
   static public void createEntity(EntityType type) {
@@ -14,21 +13,13 @@ public class EntityFactory {
         createTestEntity1();
         break;
 
-      case TEST_ENTITY_2:
-        createTestEntity2();
-        break;
     }
   }
 
   static private void createTestEntity1() {
     String id = "TEST_ENTITY_1: " + UUID.randomUUID();
     World.getEntityHandler().addEntity(new Entity(id));
-    World.getModulHandler().addModuls(new TestModul1(id), new TestModul2(id));
+    World.getModulHandler().addModuls( new SelectionModul(id));
   }
 
-  static private void createTestEntity2() {
-    String id = "TEST_ENTITY_2: " + UUID.randomUUID();
-    World.getEntityHandler().addEntity(new Entity(id));
-    World.getModulHandler().addModuls(new TestModul1(id), new TestModul2(id));
-  }
 }

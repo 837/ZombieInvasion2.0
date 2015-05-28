@@ -1,5 +1,5 @@
 package ch.zombieInvasion.Eventhandling;
 
 public enum EventType {
-  TESTEVENT
+  TESTEVENT, POINT_SELECTION_EVENT, AREA_SELECTION_EVENT
 }

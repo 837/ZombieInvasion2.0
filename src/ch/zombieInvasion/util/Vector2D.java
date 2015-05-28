@@ -163,7 +163,7 @@ public class Vector2D {
     }
 
     /**
-     * returns the angle between to vectors
+     * returns the angle between two vectors
      * 
      * A couple things to note here:
      * 
