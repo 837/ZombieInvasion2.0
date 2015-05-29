@@ -3,7 +3,7 @@ package ch.m837.zombieInvasion.entities;
 import java.util.ArrayList;
 
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
-import ch.m837.zombieInvasion.entities.modul.Modul;
+import ch.m837.zombieInvasion.entities.module.Module;
 import ch.zombieInvasion.Eventhandling.Event;
 
 public class EntityHandler {
@@ -13,9 +13,9 @@ public class EntityHandler {
     entities.add(entity);
   }
 
-  public void addModulToEntity(Modul modul) {
-    entities.parallelStream().filter(entity -> entity.getID().equals(modul.getEntityID())).findAny()
-        .ifPresent(foundEntity -> foundEntity.addModul(modul));
+  public void addModulToEntity(Module module) {
+    entities.parallelStream().filter(entity -> entity.getID().equals(module.getEntityID())).findAny()
+        .ifPresent(foundEntity -> foundEntity.addModul(module));
   }
 
   public ArrayList<Event> getEventsFrom(String fromID) {

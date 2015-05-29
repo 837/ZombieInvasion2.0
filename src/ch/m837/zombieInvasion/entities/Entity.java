@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
-import ch.m837.zombieInvasion.entities.modul.Modul;
+import ch.m837.zombieInvasion.entities.module.Module;
 import ch.zombieInvasion.Eventhandling.Event;
 import ch.zombieInvasion.Eventhandling.EventDispatcher;
 
@@ -13,7 +13,7 @@ public class Entity {
 
   private ArrayList<Event> events = new ArrayList<>();
 
-  private ArrayList<Modul> moduls = new ArrayList<>();
+  private ArrayList<Module> modules = new ArrayList<>();
 
   public Entity(String ID) {
     this.ID = ID;
@@ -30,8 +30,8 @@ public class Entity {
   }
 
   public Object getData(DataType dataType) {
-    for (Modul currentModul : moduls) {
-      Object data = currentModul.getData(dataType);
+    for (Module currentModule : modules) {
+      Object data = currentModule.getData(dataType);
       if (data != null) {
         return data;
       }
@@ -47,7 +47,7 @@ public class Entity {
     events.add(event);
   }
 
-  public void addModul(Modul modul) {
-    moduls.add(modul);
+  public void addModul(Module module) {
+    modules.add(module);
   }
 }
