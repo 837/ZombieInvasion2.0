@@ -3,6 +3,8 @@ package ch.m837.zombieInvasion.entities.module.modules;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
@@ -28,19 +30,22 @@ public class SelectionModule extends Module implements UpdatableModul {
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     World.getEntityHandler().getEventsFrom(getEntityID()).parallelStream().forEach(event -> {
       switch (event.getEvent()) {
-        case POINT_SELECTION_EVENT:
-          // Shape s = (Shape) World.getEntityHandler().getDataFrom(getEntityID(),
-          // DataType.COLLISION_SHAPE);
-          // if(s.collide((Vector2D)event.getAdditionalInfo())){
-          // isSelected=true;
-          // }
+        case LEFT_CLICK:
+          Object data =
+              World.getEntityHandler().getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE);
+          if (data instanceof Fixture) {
+            Fixture fixture = (Fixture) data;
+            isSelected = fixture.testPoint((Vector2) event.getAdditionalInfo());
+            System.out.println("Entity: " + getEntityID() + " isSelected: " + isSelected);
+          }
           break;
         case AREA_SELECTION_EVENT:
-          // Shape s = (Shape) World.getEntityHandler().getDataFrom(getEntityID(),
-          // DataType.COLLISION_SHAPE);
-          // Vector2D[] a = (Vector2D[])event.getAdditionalInfo();
-          // if(s.collide(a)){
-          // isSelected=true;
+          Fixture fixture2 = (Fixture) World.getEntityHandler().getDataFrom(getEntityID(),
+              DataType.COLLISION_FIXTURE);
+
+
+          // if (fixture2.testPoint(a)) {
+          // isSelected = true;
           // }
           break;
         default:

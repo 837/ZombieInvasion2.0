@@ -18,11 +18,12 @@ public class Entity {
   public Entity(String ID) {
     this.ID = ID;
   }
-  
+
   public void UPDATE_ENTITY() {
     events.clear();// XXX ned sicher ob ich das so möchti.. removes events every update
     events.addAll(EventDispatcher.getEvents().parallelStream()
-        .filter(event -> event.getReceiverID().equals(ID)).collect(Collectors.toList()));
+        .filter(event -> event.getReceiverID().equals(ID) || event.getReceiverID().equals("GLOBAL"))
+        .collect(Collectors.toList()));
   }
 
   public String getID() {

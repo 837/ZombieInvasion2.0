@@ -3,10 +3,10 @@ package ch.m837.zombieInvasion.entities.module;
 import java.util.ArrayList;
 
 import ch.m837.zombieInvasion.World;
+import ch.m837.zombieInvasion.entities.module.modules.MovementModule;
 import ch.m837.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.m837.zombieInvasion.entities.module.modules.SelectionModule;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import ch.m837.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
 
 public class ModuleHandler {
   /*
@@ -15,6 +15,8 @@ public class ModuleHandler {
    */
   private ArrayList<SelectionModule> selectionModules = new ArrayList<>();
   private ArrayList<PhysicsModule> physicsModules = new ArrayList<>();
+  private ArrayList<SimpleImageRenderModule> simpleImageRenderModules = new ArrayList<>();
+  private ArrayList<MovementModule> movementModules = new ArrayList<>();
 
   public void addModules(Module... modules) {
     for (int i = 0; i < modules.length; i++) {
@@ -29,36 +31,16 @@ public class ModuleHandler {
         selectionModules.add((SelectionModule) module);
       } else if (module instanceof PhysicsModule) {
         physicsModules.add((PhysicsModule) module);
+      } else if (module instanceof SimpleImageRenderModule) {
+        simpleImageRenderModules.add((SimpleImageRenderModule) module);
+      } else if (module instanceof MovementModule) {
+        movementModules.add((MovementModule) module);
       }
     }
-  }
-
-
-  public void addSimplePhysicsModuleExample(){
-    Vector2 position = Vector2.Zero;
-
-    BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.DynamicBody; //others: static body, kinetic body (means it can move but will not react to forces)
-    bodyDef.allowSleep = true; // redundant - i think default is already true...
-    bodyDef.bullet = false;// redundant - set to true if object is supposed to move very very fast
-    bodyDef.fixedRotation = false;// redundant,
-    bodyDef.position.set(position);
-
-    //add body to World
-    Body body = World.getB2World().createBody(bodyDef);
-
-    FixtureDef fixture = new FixtureDef();
-    fixture.isSensor = false; //sensors register collissions but they're not affected by forces
-    fixture.shape = new CircleShape();
-    fixture.shape.setRadius(2);
-    fixture.density = 1;
-    fixture.friction = 0.1f;
-
-    body.createFixture(fixture); //bodies can have multiple shapes
-
-    PhysicsModule p = new PhysicsModule("bla",body);
 
   }
+
+
 
   /*
    * Needs to be expanded for each new Module
@@ -68,6 +50,8 @@ public class ModuleHandler {
     ArrayList<Module> allModules = new ArrayList<>();
     allModules.addAll(selectionModules);
     allModules.addAll(physicsModules);
+    allModules.addAll(simpleImageRenderModules);
+    allModules.addAll(movementModules);
     return allModules;
   }
 
@@ -78,5 +62,13 @@ public class ModuleHandler {
 
   public ArrayList<SelectionModule> getSelectionModules() {
     return selectionModules;
+  }
+
+  public ArrayList<SimpleImageRenderModule> getSimpleImageRenderModules() {
+    return simpleImageRenderModules;
+  }
+
+  public ArrayList<MovementModule> getMovementModules() {
+    return movementModules;
   }
 }

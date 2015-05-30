@@ -27,17 +27,18 @@ public class Game extends BasicGameState {
   private double extrapolation;
 
   private World world = new World();
+  private InputHandler inputHandler = null;
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
-    EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
-
+    inputHandler = new InputHandler(gc);
   }
 
   @Override
   public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-    // GAME RENDER CODE GOES HERE
+
+    World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
   }
 
   @Override
@@ -49,10 +50,12 @@ public class Game extends BasicGameState {
 
       // XXX TEST
       World.getEntityHandler().UPDATE_ENTITIES();
+      World.getModuleHandler().getSelectionModules().forEach(m -> m.UPDATE(gc, sbg));
+      World.getModuleHandler().getPhysicsModules().forEach(m -> m.UPDATE(gc, sbg));
+      World.getModuleHandler().getMovementModules().forEach(m -> m.UPDATE(gc, sbg));
 
-      
 
-
+      World.getB2World().step(1.0f / 10.0f, 5, 4);
       EventDispatcher.dispatchEvents();
       // XXX TEST
       next_game_tick += timePerTick;
