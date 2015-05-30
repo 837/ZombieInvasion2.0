@@ -34,8 +34,7 @@ public class PhysicsModule extends Module implements UpdatableModul {
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     Object data = World.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS);
     if (data instanceof Vector2) {
-     
-      b2Body.applyForce(new Vector2(10, 10), b2Body.getWorldCenter(), true);
+      b2Body.applyForceToCenter(new Vector2(100, 100), true);
     }
   }
 

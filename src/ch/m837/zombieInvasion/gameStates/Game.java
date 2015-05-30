@@ -55,7 +55,7 @@ public class Game extends BasicGameState {
       World.getModuleHandler().getMovementModules().forEach(m -> m.UPDATE(gc, sbg));
 
 
-      World.getB2World().step(1.0f / 10.0f, 5, 4);
+      World.getB2World().step(1.0f / TICKS_PER_SECOND, 5, 4);
       EventDispatcher.dispatchEvents();
       // XXX TEST
       next_game_tick += timePerTick;
