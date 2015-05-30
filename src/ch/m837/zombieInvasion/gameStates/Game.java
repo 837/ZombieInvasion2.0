@@ -6,6 +6,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityFactory;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityType;
@@ -33,12 +36,15 @@ public class Game extends BasicGameState {
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
     inputHandler = new InputHandler(gc);
+
   }
 
   @Override
   public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
+    World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));
+
   }
 
   @Override
@@ -55,7 +61,7 @@ public class Game extends BasicGameState {
       World.getModuleHandler().getMovementModules().forEach(m -> m.UPDATE(gc, sbg));
 
 
-      World.getB2World().step(1.0f / TICKS_PER_SECOND, 5, 4);
+      World.getB2World().step(1.0f / TICKS_PER_SECOND, 6, 2);
       EventDispatcher.dispatchEvents();
       // XXX TEST
       next_game_tick += timePerTick;

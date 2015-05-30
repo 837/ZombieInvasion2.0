@@ -2,16 +2,25 @@ package ch.m837.zombieInvasion.entities.module.modules;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Shape;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.ShapeFill;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
+import ch.m837.zombieInvasion.entities.module.RenderableModul;
 import ch.m837.zombieInvasion.entities.module.UpdatableModul;
 
 
-public class PhysicsModule extends Module implements UpdatableModul {
+public class PhysicsModule extends Module implements UpdatableModul, RenderableModul {
   private Body b2Body;
 
   public PhysicsModule(String entityID, Body b2Body) {
@@ -34,8 +43,16 @@ public class PhysicsModule extends Module implements UpdatableModul {
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     Object data = World.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS);
     if (data instanceof Vector2) {
-      b2Body.applyForceToCenter(new Vector2(100, 100), true);
+      b2Body.applyForceToCenter(new Vector2(1, 1), true);
     }
+  }
+
+  @Override
+  public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
+    Fixture s = b2Body.getFixtureList().first();
+    org.newdawn.slick.geom.Shape ss =
+        new Circle(s.getBody().getPosition().x, s.getBody().getPosition().y, s.getShape().getRadius());
+    g.fill(ss);
   }
 
 

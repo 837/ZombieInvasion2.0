@@ -23,7 +23,7 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     Object position = World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION);
-    if (position != DataType.DATA_NOT_FOUND) {
+    if (position instanceof Vector2) {
       Vector2 vec2Position = (Vector2) position;
       g.drawImage(imageToRender, vec2Position.x, vec2Position.y);
     }

@@ -6,10 +6,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
+import ch.m837.zombieInvasion.Config;
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.Entity;
 import ch.m837.zombieInvasion.entities.module.modules.MovementModule;
@@ -37,30 +40,37 @@ public class EntityFactory {
      * Add Physics for testentity
      */
     {
-      Vector2 position = Vector2.Zero;
+      // First we create a body definition
       BodyDef bodyDef = new BodyDef();
-      bodyDef.type = BodyDef.BodyType.DynamicBody; // others: static body, kinetic body (means it
-                                                   // can
-                                                   // move but will not react to forces)
-      bodyDef.allowSleep = true; // redundant - i think default is already true...
-      bodyDef.bullet = false;// redundant - set to true if object is supposed to move very very fast
-      bodyDef.fixedRotation = false;// redundant,
-      bodyDef.position.set(position);
+      // We set our body to dynamic, for something like ground which doesn't move we would set it to
+      // StaticBody
+      bodyDef.type = BodyType.DynamicBody;
+      // Set our body's starting position in the world
+      bodyDef.position.set(100, 300);
 
-      // add body to World
+      // Create our body in the world using our body definition
       Body body = World.getB2World().createBody(bodyDef);
 
-      FixtureDef fixture = new FixtureDef();
-      fixture.isSensor = false; // sensors register collissions but they're not affected by forces
-      PolygonShape shape = new PolygonShape();
-      shape.setAsBox(32f, 32f, new Vector2(position.x + Images.TEST_ENTITY_IMG.getRadiusW(),
-          position.y + Images.TEST_ENTITY_IMG.getRadiusH()), 0f); // a 32x32
-      // rectangle
-      fixture.shape = shape;
-      fixture.density = 1;
-      fixture.friction = 0.1f;
+      // Create a circle shape and set its radius to 6
+      // PolygonShape shape = new PolygonShape();
+      // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
+      CircleShape shape = new CircleShape();
+      shape.setRadius(16);
+      
+      FixtureDef fixtureDef = new FixtureDef();
+      // Create a fixture definition to apply our shape to
+      fixtureDef.shape = shape;
+      fixtureDef.density = 0.5f;
+      fixtureDef.friction = 0.4f;
 
-      body.createFixture(fixture); // bodies can have multiple shapes
+
+      // Create our fixture and attach it to the body
+      Fixture fixture = body.createFixture(fixtureDef);
+
+      // Remember to dispose of any shapes after you're done with them!
+      // BodyDef and FixtureDef don't need disposing, but shapes do.
+      shape.dispose();
+
       World.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
