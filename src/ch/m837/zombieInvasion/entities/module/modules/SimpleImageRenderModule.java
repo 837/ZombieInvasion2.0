@@ -20,12 +20,18 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
     this.imageToRender = imageToRender;
   }
 
+  /**
+   * get the position data from the entity, transform it to world coordinates and render g
+   * @param gc
+   * @param sbg
+   * @param g
+   */
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-    Object position = World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION);
-    if (position instanceof Vector2) {
-      Vector2 vec2Position = (Vector2) position;
-      g.drawImage(imageToRender, vec2Position.x, vec2Position.y);
+    Object objectPosition = World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION);
+    if (objectPosition instanceof Vector2) {
+      Vector2 worldPosition = ((Vector2)objectPosition).scl(World.B2PIX); //transform to world coordinates
+      g.drawImage(imageToRender, worldPosition.x, worldPosition.y);
     }
   }
 

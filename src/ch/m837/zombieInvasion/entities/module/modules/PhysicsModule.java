@@ -41,17 +41,15 @@ public class PhysicsModule extends Module implements UpdatableModul, RenderableM
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    Object data = World.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS);
-    if (data instanceof Vector2) {
-      b2Body.applyForceToCenter(new Vector2(1, 1), true);
-    }
+    b2Body.applyForceToCenter(new Vector2(0.1f, 0.1f), true);
+
   }
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     Fixture s = b2Body.getFixtureList().first();
     org.newdawn.slick.geom.Shape ss =
-        new Circle(s.getBody().getPosition().x, s.getBody().getPosition().y, s.getShape().getRadius());
+        new Circle(s.getBody().getPosition().x*World.B2PIX, s.getBody().getPosition().y*World.B2PIX, s.getShape().getRadius()*World.B2PIX);
     g.fill(ss);
   }
 
