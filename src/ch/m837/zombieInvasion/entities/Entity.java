@@ -1,6 +1,7 @@
 package ch.m837.zombieInvasion.entities;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
@@ -30,14 +31,14 @@ public class Entity {
     return ID;
   }
 
-  public Object getData(DataType dataType) {
+  public Optional<Object> getData(DataType dataType) {
     for (Module currentModule : modules) {
       Object data = currentModule.getData(dataType);
       if (data != null) {
-        return data;
+        return Optional.ofNullable(data);
       }
     }
-    return DataType.DATA_NOT_FOUND;
+    return Optional.empty();
   }
 
   public ArrayList<Event> getEvents() {

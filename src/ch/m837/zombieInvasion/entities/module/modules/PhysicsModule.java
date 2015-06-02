@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-import ch.m837.zombieInvasion.World;
+import ch.m837.zombieInvasion.Config;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
 import ch.m837.zombieInvasion.entities.module.RenderableModul;
@@ -37,15 +37,15 @@ public class PhysicsModule extends Module implements UpdatableModul, RenderableM
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    b2Body.applyForceToCenter(new Vector2(0.1f, 0.1f), true);
+    b2Body.applyForceToCenter(new Vector2(0.001f, 0.001f), true);
 
   }
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     Fixture s = b2Body.getFixtureList().first();
-    org.newdawn.slick.geom.Shape ss =
-        new Circle(s.getBody().getPosition().x*World.B2PIX, s.getBody().getPosition().y*World.B2PIX, s.getShape().getRadius()*World.B2PIX);
+    org.newdawn.slick.geom.Shape ss = new Circle(s.getBody().getPosition().x * Config.B2PIX,
+        s.getBody().getPosition().y * Config.B2PIX, s.getShape().getRadius() * Config.B2PIX);
     g.fill(ss);
   }
 

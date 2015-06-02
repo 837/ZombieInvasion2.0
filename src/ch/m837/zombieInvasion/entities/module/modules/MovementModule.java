@@ -23,14 +23,14 @@ public class MovementModule extends Module implements UpdatableModul {
     World.getEntityHandler().getEventsFrom(getEntityID()).parallelStream().forEach(event -> {
       switch (event.getEvent()) {
         case RIGHT_CLICK:
-          Object data = World.getEntityHandler().getDataFrom(getEntityID(), DataType.IS_SELECTED);
-          if (data instanceof Boolean) {
-            if ((Boolean) data) {
+          World.getEntityHandler().getDataFrom(getEntityID(), DataType.IS_SELECTED)
+              .ifPresent(isSelectedData -> {
+            if ((Boolean) isSelectedData) {
               moveToPos = (Vector2) event.getAdditionalInfo();
               System.out
                   .println("Entity: " + getEntityID() + " moveToPos: " + moveToPos.toString());
             }
-          }
+          });
           break;
       }
     });

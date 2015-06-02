@@ -10,18 +10,6 @@ import ch.m837.zombieInvasion.gameStates.MainMenu;
 import ch.zombieInvasion.util.LOGGER;
 
 public class ZombieInvasion extends StateBasedGame {
-
-  // Game state identifiers
-  public static final int SPLASHSCREEN = 0;
-  public static final int MAINMENU = 1;
-  public static final int GAME = 2;
-
-  // Application Properties
-  public static final int WIDTH = 1366;
-  public static final int HEIGHT = 768;
-  public static final int FPS = 60;
-  public static final double VERSION = 1.0;
-
   // Class Constructor
   public ZombieInvasion(String appName) {
     super(appName);
@@ -31,16 +19,16 @@ public class ZombieInvasion extends StateBasedGame {
   public void initStatesList(GameContainer gc) throws SlickException {
     // The first state added will be the one that is loaded first, when the application is launched
     // this.addState(new SplashScreen(SPLASHSCREEN));
-    this.addState(new MainMenu(MAINMENU));
-    this.addState(new Game(GAME));
+    this.addState(new MainMenu(Config.MAINMENU));
+    this.addState(new Game(Config.GAME));
   }
 
   public static void main(String[] args) {
     try {
       AppGameContainer app = new AppGameContainer(new ZombieInvasion(
-          ZombieInvasion.class.getSimpleName() + "2.0 [Version : " + VERSION + "]"));
-      app.setDisplayMode(WIDTH, HEIGHT, false);
-      app.setTargetFrameRate(FPS);
+          ZombieInvasion.class.getSimpleName() + "2.0 [Version : " + Config.VERSION + "]"));
+      app.setDisplayMode(Config.WIDTH, Config.HEIGHT, false);
+      app.setTargetFrameRate(Config.FPS);
       app.setShowFPS(true);
       app.setClearEachFrame(true);
       app.start();

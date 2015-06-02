@@ -7,6 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
 
+import ch.m837.zombieInvasion.Config;
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
@@ -22,17 +23,19 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
 
   /**
    * get the position data from the entity, transform it to world coordinates and render g
+   * 
    * @param gc
    * @param sbg
    * @param g
    */
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-    Object objectPosition = World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION);
-    if (objectPosition instanceof Vector2) {
-      Vector2 worldPosition = ((Vector2)objectPosition).scl(World.B2PIX); //transform to world coordinates
-      g.drawImage(imageToRender, worldPosition.x, worldPosition.y);
-    }
+    World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION)
+        .ifPresent(positionData -> {
+          Vector2 worldPosition = ((Vector2) positionData).scl(Config.B2PIX); // transform to world
+                                                                              // coordinates
+          g.drawImage(imageToRender, worldPosition.x, worldPosition.y);
+        });
   }
 
   @Override

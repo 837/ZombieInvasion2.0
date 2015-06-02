@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ch.m837.zombieInvasion.ZombieInvasion;
+import ch.m837.zombieInvasion.Config;
 import ch.zombieInvasion.util.Images;
 
 public class MainMenu extends BasicGameState {
@@ -31,7 +31,7 @@ public class MainMenu extends BasicGameState {
   @Override
   public void update(GameContainer gc, StateBasedGame sbg, int d) throws SlickException {
     if (gc.getInput().isKeyPressed(Input.KEY_SPACE)) {
-      sbg.enterState(ZombieInvasion.GAME);
+      sbg.enterState(Config.GAME);
     }
   }
 
