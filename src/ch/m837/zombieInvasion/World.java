@@ -1,13 +1,20 @@
 package ch.m837.zombieInvasion;
 
+import com.badlogic.gdx.math.Vector2;
+
 import ch.m837.zombieInvasion.entities.EntityHandler;
 import ch.m837.zombieInvasion.entities.module.ModuleHandler;
-import com.badlogic.gdx.math.Vector2;
 
 public class World {
 
   private static final ModuleHandler MODULE_HANDLER = new ModuleHandler();
   private static final EntityHandler ENTITY_HANDLER = new EntityHandler();
+
+  /*
+  temporary, there has to be a more sensible way to define this
+   */
+  public static final float B2PIX = 1920 / 20;
+  public static final float PIX2B = 1 / B2PIX;
 
   // create Box2d World without gravity
   private static final com.badlogic.gdx.physics.box2d.World B2DWORLD =

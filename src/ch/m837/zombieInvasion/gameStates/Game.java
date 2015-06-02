@@ -6,14 +6,15 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityFactory;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityType;
 import ch.m837.zombieInvasion.input.InputHandler;
+import ch.zombieInvasion.Camera.Camera;
 import ch.zombieInvasion.Eventhandling.EventDispatcher;
+import ch.zombieInvasion.util.Images;
 
 public class Game extends BasicGameState {
   private final int ID;
@@ -31,17 +32,23 @@ public class Game extends BasicGameState {
 
   private World world = new World();
   private InputHandler inputHandler = null;
+  private Camera cam;
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
+    
+    
+    
     inputHandler = new InputHandler(gc);
-
+    cam = new Camera(100, 100);
+    cam.setMapData(2000, 2000);
   }
 
   @Override
   public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-
+    g.translate(-cam.getCamPosX(), -cam.getCamPosY());
+    g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
     World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));
 
@@ -55,6 +62,26 @@ public class Game extends BasicGameState {
       // GAME UPDATE CODE GOES HERE
 
       // XXX TEST
+
+      EventDispatcher.getEvents().parallelStream()
+          .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
+            switch (e.getEvent()) {
+              case A_PRESSED:
+                cam.move(new Vector2(-10, 0));
+                break;
+              case D_PRESSED:
+                cam.move(new Vector2(10, 0));
+                break;
+              case S_PRESSED:
+                cam.move(new Vector2(0, 10));
+                break;
+              case W_PRESSED:
+                cam.move(new Vector2(0, -10));
+                break;
+            }
+          });
+
+
       World.getEntityHandler().UPDATE_ENTITIES();
       World.getModuleHandler().getSelectionModules().forEach(m -> m.UPDATE(gc, sbg));
       World.getModuleHandler().getPhysicsModules().forEach(m -> m.UPDATE(gc, sbg));

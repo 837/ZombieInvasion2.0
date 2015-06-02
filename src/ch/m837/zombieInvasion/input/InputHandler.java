@@ -85,14 +85,25 @@ public class InputHandler {
 
       @Override
       public void keyReleased(int arg0, char arg1) {
-        // TODO Auto-generated method stub
 
       }
 
       @Override
       public void keyPressed(int arg0, char arg1) {
-        // TODO Auto-generated method stub
-
+        switch (arg0) {
+          case Input.KEY_W:
+            EventDispatcher.createEvent(0, EventType.W_PRESSED, null, "INPUT_LISTENER", "GLOBAL");
+            break;
+          case Input.KEY_A:
+            EventDispatcher.createEvent(0, EventType.A_PRESSED, null, "INPUT_LISTENER", "GLOBAL");
+            break;
+          case Input.KEY_S:
+            EventDispatcher.createEvent(0, EventType.S_PRESSED, null, "INPUT_LISTENER", "GLOBAL");
+            break;
+          case Input.KEY_D:
+            EventDispatcher.createEvent(0, EventType.D_PRESSED, null, "INPUT_LISTENER", "GLOBAL");
+            break;
+        }
       }
 
       @Override

@@ -45,8 +45,8 @@ public class EntityFactory {
       // We set our body to dynamic, for something like ground which doesn't move we would set it to
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
-      // Set our body's starting position in the world
-      bodyDef.position.set(100, 300);
+      // Set our body's starting position in object space
+      bodyDef.position.set(1, 1);
 
       // Create our body in the world using our body definition
       Body body = World.getB2World().createBody(bodyDef);
@@ -55,7 +55,7 @@ public class EntityFactory {
       // PolygonShape shape = new PolygonShape();
       // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
       CircleShape shape = new CircleShape();
-      shape.setRadius(16);
+      shape.setRadius(0.1f);
       
       FixtureDef fixtureDef = new FixtureDef();
       // Create a fixture definition to apply our shape to

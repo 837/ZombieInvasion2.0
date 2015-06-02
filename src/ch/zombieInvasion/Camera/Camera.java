@@ -1,17 +1,17 @@
 package ch.zombieInvasion.Camera;
 
-import ch.zombieInvasion.util.Vector2D;
+import com.badlogic.gdx.math.Vector2;
 
 public class Camera {
-  private Vector2D position = new Vector2D();
+  private Vector2 position = new Vector2();
 
   private final int viewport_size_X;
   private final int viewport_size_Y;
 
-  private double offsetMaxX;
-  private double offsetMaxY;
-  private double offsetMinX;
-  private double offsetMinY;
+  private float offsetMaxX;
+  private float offsetMaxY;
+  private float offsetMinX;
+  private float offsetMinY;
 
   public Camera(int gameWidth, int gameHeight) {
     viewport_size_X = gameWidth;
@@ -21,11 +21,13 @@ public class Camera {
     offsetMinY = viewport_size_Y / 2;
   }
 
-  public void setPosition(Vector2D point) {
-    position = new Vector2D(checkOffset(offsetMinX, offsetMaxX, point.x), checkOffset(offsetMinY, offsetMaxY, point.y));
+  private void setPosition(Vector2 point) {
+    position = new Vector2(checkOffset(offsetMinX, offsetMaxX, point.x),
+        checkOffset(offsetMinY, offsetMaxY, point.y));
+    System.out.println("Moved " + position.toString());
   }
 
-  public void move(Vector2D direction) {
+  public void move(Vector2 direction) {
     setPosition(position.add(direction));
   }
 
@@ -35,50 +37,56 @@ public class Camera {
     /**
      * muss noch entfernt werden, workaround
      */
-    move(new Vector2D(0, -1));
+    move(new Vector2(0, -1));
   }
 
-  private double checkOffset(double lowerBound, double upperBound, double number) {
-    if (number < lowerBound) return lowerBound;
-    if (number > upperBound) return upperBound;
+  private float checkOffset(float lowerBound, float upperBound, float number) {
+    if (number < lowerBound) {
+      System.out.println("1");
+      return lowerBound;
+    }
+    if (number > upperBound) {
+      System.out.println("2");
+      return upperBound;
+    }
     return number;
   }
 
-  public Vector2D getPosition() {
-    return new Vector2D(position.x - viewport_size_X / 2, position.y - viewport_size_Y / 2);
+  public Vector2 getPosition() {
+    return new Vector2(position.x - viewport_size_X / 2, position.y - viewport_size_Y / 2);
   }
 
-  public double getWorldPosX(double x) {
+  public float getWorldPosX(float x) {
     return (x + getPosition().x);
   }
 
-  public double getWorldPosY(double y) {
+  public float getWorldPosY(float y) {
     return (y + getPosition().y);
   }
 
-  public Vector2D getPositionInWorld(Vector2D screenPos) {
+  public Vector2 getPositionInWorld(Vector2 screenPos) {
     return screenPos.add(getPosition());
   }
 
-  
-  public double getScreenPosX(double x) {
+
+  public float getScreenPosX(float x) {
     return (x - getPosition().x);
   }
 
-  public double getScreenPosY(double y) {
+  public float getScreenPosY(float y) {
     return (y - getPosition().y);
   }
 
-  public Vector2D getPositionOnScreen(Vector2D screenPos) {
+  public Vector2 getPositionOnScreen(Vector2 screenPos) {
     return screenPos.sub(getPosition());
   }
-  
-  
-  public double getCamPosX() {
+
+
+  public float getCamPosX() {
     return getPosition().x;
   }
 
-  public double getCamPosY() {
+  public float getCamPosY() {
     return getPosition().y;
   }
 
