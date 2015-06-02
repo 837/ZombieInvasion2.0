@@ -1,9 +1,8 @@
 package ch.m837.zombieInvasion;
 
-import com.badlogic.gdx.math.Vector2;
-
 import ch.m837.zombieInvasion.entities.EntityHandler;
 import ch.m837.zombieInvasion.entities.module.ModuleHandler;
+import com.badlogic.gdx.math.Vector2;
 
 public class World {
 
