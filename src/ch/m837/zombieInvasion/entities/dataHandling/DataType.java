@@ -5,6 +5,7 @@ public enum DataType {
   /*
    * generic
    */
+
   DATA_NOT_FOUND, IS_SELECTED,
 
   /*

@@ -5,6 +5,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
+
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;

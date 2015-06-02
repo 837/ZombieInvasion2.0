@@ -47,7 +47,7 @@ public class Game extends BasicGameState {
 
   @Override
   public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-    g.translate(-cam.getCamPosX(), -cam.getCamPosY());
+   // g.translate(-cam.getCamPosX(), -cam.getCamPosY());
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
     World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));

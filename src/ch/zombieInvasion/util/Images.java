@@ -12,4 +12,6 @@ public class Images {
    */
   public static final ImageWrapper TEST_ENTITY_IMG =
       new ImageWrapper("res/sprites/entities/testEntity1.png");
+
+ 
 }
