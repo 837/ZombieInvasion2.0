@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ch.m837.zombieInvasion.entities.EntityHandler;
 import ch.m837.zombieInvasion.entities.module.ModuleHandler;
+import ch.zombieInvasion.Camera.Camera;
 
 public class World {
 
@@ -13,6 +14,11 @@ public class World {
   // create Box2d World without gravity
   private static final com.badlogic.gdx.physics.box2d.World B2DWORLD =
       new com.badlogic.gdx.physics.box2d.World(Vector2.Zero, true);
+
+
+  private static final Camera CAMERA =
+      new Camera(Config.CAM_VIEWPORT_WIDTH, Config.CAM_VIEWPORT_HEIGHT);;
+
 
   public static ModuleHandler getModuleHandler() {
     return MODULE_HANDLER;
@@ -24,5 +30,9 @@ public class World {
 
   public static EntityHandler getEntityHandler() {
     return ENTITY_HANDLER;
+  }
+
+  public static Camera getCamera() {
+    return CAMERA;
   }
 }

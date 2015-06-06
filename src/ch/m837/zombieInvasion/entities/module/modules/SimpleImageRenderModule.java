@@ -34,7 +34,8 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
         .ifPresent(positionData -> {
           Vector2 worldPosition = ((Vector2) positionData).scl(Config.B2PIX); // transform to world
                                                                               // coordinates
-          g.drawImage(imageToRender, worldPosition.x, worldPosition.y);
+          g.drawImage(imageToRender, worldPosition.x - imageToRender.getWidth() / 2,
+              worldPosition.y - imageToRender.getHeight() / 2);
         });
   }
 

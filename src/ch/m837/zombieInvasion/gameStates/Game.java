@@ -32,22 +32,23 @@ public class Game extends BasicGameState {
 
   private World world = new World();
   private InputHandler inputHandler = null;
-  private Camera cam;
+
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-    EntityFactory.createEntity(EntityType.TEST_ENTITY_1);
-    
-    
-    
+    EntityFactory.createEntity(EntityType.PLAYER_TEST);
+
+
+
     inputHandler = new InputHandler(gc);
-    cam = new Camera(100, 100);
-    cam.setMapData(2000, 2000);
+
+    World.getCamera().setMapData(2000, 2000);
   }
 
   @Override
   public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-    g.translate(-cam.getCamPosX(), -cam.getCamPosY());
+    g.translate(-World.getCamera().getCamPosX(), -World.getCamera().getCamPosY());
+    
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
     World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));
@@ -67,16 +68,16 @@ public class Game extends BasicGameState {
           .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
             switch (e.getEvent()) {
               case A_PRESSED:
-                cam.move(new Vector2(-20, 0));
+                World.getCamera().move(new Vector2(-20, 0));
                 break;
               case D_PRESSED:
-                cam.move(new Vector2(20, 0));
+                World.getCamera().move(new Vector2(20, 0));
                 break;
               case S_PRESSED:
-                cam.move(new Vector2(0, 20));
+                World.getCamera().move(new Vector2(0, 20));
                 break;
               case W_PRESSED:
-                cam.move(new Vector2(0, -20));
+                World.getCamera().move(new Vector2(0, -20));
                 break;
             }
           });

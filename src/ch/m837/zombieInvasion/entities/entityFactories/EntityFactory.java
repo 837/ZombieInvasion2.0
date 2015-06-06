@@ -18,17 +18,17 @@ import ch.m837.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
 import ch.zombieInvasion.util.Images;
 
 public class EntityFactory {
-  static public void createEntity(EntityType type) {
-    switch (type) {
-      case TEST_ENTITY_1:
-        createTestEntity1();
+  static public void createEntity(EntityType entityType) {
+    switch (entityType) {
+      case PLAYER_TEST:
+        createTestEntity1(entityType);
         break;
 
     }
   }
 
-  static private void createTestEntity1() {
-    String id = "TEST_ENTITY_1: " + UUID.randomUUID();
+  static private void createTestEntity1(EntityType entityType) {
+    String id = "PLAYER_TEST: " + UUID.randomUUID();
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
@@ -51,13 +51,13 @@ public class EntityFactory {
       // PolygonShape shape = new PolygonShape();
       // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
       PolygonShape shape = new PolygonShape();
-      shape.setAsBox(10f, 10f);
-      
+      shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
+
       FixtureDef fixtureDef = new FixtureDef();
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
-      fixtureDef.density = 0.001f;
-      fixtureDef.friction = 0.001f;
+      fixtureDef.density = 0.01f;
+      fixtureDef.friction = 0.01f;
 
 
       // Create our fixture and attach it to the body
@@ -65,13 +65,13 @@ public class EntityFactory {
 
       // Remember to dispose of any shapes after you're done with them!
       // BodyDef and FixtureDef don't need disposing, but shapes do.
-      shape.dispose();
+      // shape.dispose();
 
       World.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
     World.getModuleHandler()
-        .addModules(new SimpleImageRenderModule(id, Images.TEST_ENTITY_IMG.get()));
+        .addModules(new SimpleImageRenderModule(id, Images.TEST_ENTITY_IMG.getB2DScaled()));
 
     World.getModuleHandler().addModules(new MovementModule(id));
   }

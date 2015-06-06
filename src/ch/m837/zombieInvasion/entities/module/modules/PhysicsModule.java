@@ -9,6 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import ch.m837.zombieInvasion.Config;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
@@ -38,17 +39,22 @@ public class PhysicsModule extends Module implements UpdatableModul, RenderableM
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    b2Body.applyForceToCenter(new Vector2(0.01f, 0.01f), true);
+   // b2Body.applyForceToCenter(new Vector2(0.01f, 0.01f), true);
 
   }
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-    Fixture s = b2Body.getFixtureList().first();
-    Rectangle ss = new Rectangle(s.getBody().getPosition().x * Config.B2PIX,
-        s.getBody().getPosition().y * Config.B2PIX, s.getShape().getRadius() * Config.B2PIX,
-        s.getShape().getRadius() * Config.B2PIX);
-    g.fill(ss);
+//    Fixture f = b2Body.getFixtureList().first();
+//    PolygonShape p = (PolygonShape) f.getShape();
+//    Rectangle ss = new Rectangle(
+//        f.getBody().getPosition().x * Config.B2PIX,
+//        f.getBody().getPosition().y * Config.B2PIX,
+//        f.,
+//        0
+//        );
+//    
+//    g.fill(ss);
   }
 
 

@@ -3,12 +3,18 @@ package ch.zombieInvasion.util;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import ch.m837.zombieInvasion.Config;
+import ch.m837.zombieInvasion.entities.entityFactories.EntityType;
+
 public class ImageWrapper {
   Image img;
+  Image b2dScaledImg;
 
-  public ImageWrapper(String data) {
+  public ImageWrapper(String data, EntityType entity) {
     try {
       img = new Image(data);
+      b2dScaledImg = img.getScaledCopy((int) (Config.B2PIX * entity.getWidth()),
+          (int) (Config.B2PIX * entity.getHeight()));
     } catch (SlickException e) {
       LOGGER.LOG("Error while creating an ImageWrapper: " + data);
     }
@@ -20,6 +26,14 @@ public class ImageWrapper {
    */
   public Image get() {
     return img;
+  }
+
+  /**
+   * 
+   * @return getB2D Scaled Img;
+   */
+  public Image getB2DScaled() {
+    return b2dScaledImg;
   }
 
   /**

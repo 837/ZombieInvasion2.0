@@ -37,7 +37,9 @@ public class SelectionModule extends Module implements UpdatableModul {
               .ifPresent(fixtureData -> {
             Fixture fixture = (Fixture) fixtureData;
             Vector2 clickPoint = (Vector2) event.getAdditionalInfo();
-            
+            clickPoint = clickPoint.add(World.getCamera().getPosition());
+            clickPoint = clickPoint.scl(Config.PIX2B);
+
             isSelected = fixture.testPoint(clickPoint);
             System.out.println("Entity: " + getEntityID() + " isSelected: " + isSelected);
 
@@ -51,8 +53,7 @@ public class SelectionModule extends Module implements UpdatableModul {
             // if (fixture2.testPoint(a)) {
             // isSelected = true;
             // }
-          });;
-
+          });
 
           break;
         default:
