@@ -5,9 +5,9 @@ import java.util.UUID;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.Entity;
@@ -50,8 +50,8 @@ public class EntityFactory {
       // Create a circle shape and set its radius to 6
       // PolygonShape shape = new PolygonShape();
       // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
-      CircleShape shape = new CircleShape();
-      shape.setRadius(0.1f);
+      PolygonShape shape = new PolygonShape();
+      shape.setAsBox(0.1f, 0.1f);
       
       FixtureDef fixtureDef = new FixtureDef();
       // Create a fixture definition to apply our shape to

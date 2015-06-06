@@ -3,6 +3,7 @@ package ch.m837.zombieInvasion.entities.module.modules;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
@@ -44,8 +45,9 @@ public class PhysicsModule extends Module implements UpdatableModul, RenderableM
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     Fixture s = b2Body.getFixtureList().first();
-    org.newdawn.slick.geom.Shape ss = new Circle(s.getBody().getPosition().x * Config.B2PIX,
-        s.getBody().getPosition().y * Config.B2PIX, s.getShape().getRadius() * Config.B2PIX);
+    Rectangle ss = new Rectangle(s.getBody().getPosition().x * Config.B2PIX,
+        s.getBody().getPosition().y * Config.B2PIX, s.getShape().getRadius() * Config.B2PIX,
+        s.getShape().getRadius() * Config.B2PIX);
     g.fill(ss);
   }
 

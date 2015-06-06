@@ -42,11 +42,9 @@ public class Camera {
 
   private float checkOffset(float lowerBound, float upperBound, float number) {
     if (number < lowerBound) {
-      System.out.println("1");
       return lowerBound;
     }
     if (number > upperBound) {
-      System.out.println("2");
       return upperBound;
     }
     return number;
@@ -68,7 +66,6 @@ public class Camera {
     return screenPos.add(getPosition());
   }
 
-
   public float getScreenPosX(float x) {
     return (x - getPosition().x);
   }
@@ -80,7 +77,6 @@ public class Camera {
   public Vector2 getPositionOnScreen(Vector2 screenPos) {
     return screenPos.sub(getPosition());
   }
-
 
   public float getCamPosX() {
     return getPosition().x;
