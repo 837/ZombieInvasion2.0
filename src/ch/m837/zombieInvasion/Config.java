@@ -16,11 +16,11 @@ public class Config {
   /*
    * temporary, there has to be a more sensible way to define this
    */
-  public static final float B2PIX = WIDTH / 20;
+  public static final float B2PIX = WIDTH / 30;
   public static final float PIX2B = 1 / B2PIX;
-  
-  //Camera
-  public static final int CAM_VIEWPORT_HEIGHT = 100;
-  public static final int CAM_VIEWPORT_WIDTH = 100;
+
+  // Camera
+  public static final int CAM_VIEWPORT_WIDTH = WIDTH;
+  public static final int CAM_VIEWPORT_HEIGHT = HEIGHT;
 
 }

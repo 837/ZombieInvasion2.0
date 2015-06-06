@@ -33,10 +33,9 @@ public class SelectionModule extends Module implements UpdatableModul {
     World.getEntityHandler().getEventsFrom(getEntityID()).parallelStream().forEach(event -> {
       switch (event.getEvent()) {
         case LEFT_CLICK:
-          World.getEntityHandler().getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE)
-              .ifPresent(fixtureData -> {
-            Fixture fixture = (Fixture) fixtureData;
-            Vector2 clickPoint = (Vector2) event.getAdditionalInfo();
+          World.getEntityHandler().getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
+              .ifPresent(fixture -> {
+                       Vector2 clickPoint = (Vector2) event.getAdditionalInfo();
             clickPoint = clickPoint.add(World.getCamera().getPosition());
             clickPoint = clickPoint.scl(Config.PIX2B);
 
@@ -46,9 +45,9 @@ public class SelectionModule extends Module implements UpdatableModul {
           });
           break;
         case AREA_SELECTION_EVENT:
-          World.getEntityHandler().getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE)
-              .ifPresent(fixtureData -> {
-            Fixture fixture = (Fixture) fixtureData;
+          World.getEntityHandler().getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
+              .ifPresent(fixture -> {
+          
 
             // if (fixture2.testPoint(a)) {
             // isSelected = true;

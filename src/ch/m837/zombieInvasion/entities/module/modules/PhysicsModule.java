@@ -2,16 +2,10 @@ package ch.m837.zombieInvasion.entities.module.modules;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 
-import ch.m837.zombieInvasion.Config;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
 import ch.m837.zombieInvasion.entities.module.RenderableModul;

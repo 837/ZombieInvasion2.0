@@ -37,14 +37,24 @@ public class EntityHandler {
    * World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION) .ifPresent(positionData
    * -> { Vector2 worldPosition = (Vector2) positionData; //TODO JUST AN EXAMPLE });
    * 
+   * @param <T>
+   * 
    * @param fromID
    * @param dataType
    * @return Optional<Object>
    */
-  public Optional<Object> getDataFrom(String fromID, DataType dataType) {
+  public <T> Optional<T> getDataFrom(String fromID, DataType dataType, Class<T> clazz) {
     Entity entity =
         entities.parallelStream().filter(e -> e.getID().equals(fromID)).findAny().orElse(null);
-    return entity != null ? entity.getData(dataType) : Optional.empty();
+    if (entity != null) {
+      Optional<Object> data = entity.getData(dataType);
+      if (data.isPresent()) {
+        if (data.get().getClass().equals(clazz)) {
+          return Optional.ofNullable(clazz.cast(data.get()));
+        }
+      }
+    }
+    return Optional.empty();
   }
 
   public void UPDATE_ENTITIES() {

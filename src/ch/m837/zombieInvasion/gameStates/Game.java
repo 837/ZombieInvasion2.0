@@ -12,7 +12,6 @@ import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityFactory;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityType;
 import ch.m837.zombieInvasion.input.InputHandler;
-import ch.zombieInvasion.Camera.Camera;
 import ch.zombieInvasion.Eventhandling.EventDispatcher;
 import ch.zombieInvasion.util.Images;
 
@@ -42,7 +41,7 @@ public class Game extends BasicGameState {
 
     inputHandler = new InputHandler(gc);
 
-    World.getCamera().setMapData(2000, 2000);
+    World.getCamera().setMapData(Images.MENU_BACKGROUND.get().getWidth(), Images.MENU_BACKGROUND.get().getHeight());
   }
 
   @Override

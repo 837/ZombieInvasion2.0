@@ -30,10 +30,10 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
    */
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-    World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION)
-        .ifPresent(positionData -> {
-          Vector2 worldPosition = ((Vector2) positionData).scl(Config.B2PIX); // transform to world
-                                                                              // coordinates
+    World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
+        .ifPresent(position -> {
+          Vector2 worldPosition = position.scl(Config.B2PIX); // transform to world
+                                                              // coordinates
           g.drawImage(imageToRender, worldPosition.x - imageToRender.getWidth() / 2,
               worldPosition.y - imageToRender.getHeight() / 2);
         });
