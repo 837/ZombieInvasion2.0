@@ -51,17 +51,17 @@ public class EntityFactory {
       // PolygonShape shape = new PolygonShape();
       // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
       PolygonShape shape = new PolygonShape();
-      shape.setAsBox(0.1f, 0.1f);
+      shape.setAsBox(10f, 10f);
       
       FixtureDef fixtureDef = new FixtureDef();
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
-      fixtureDef.density = 0.5f;
-      fixtureDef.friction = 0.4f;
+      fixtureDef.density = 0.001f;
+      fixtureDef.friction = 0.001f;
 
 
       // Create our fixture and attach it to the body
-      Fixture fixture = body.createFixture(fixtureDef);
+      body.createFixture(fixtureDef);
 
       // Remember to dispose of any shapes after you're done with them!
       // BodyDef and FixtureDef don't need disposing, but shapes do.

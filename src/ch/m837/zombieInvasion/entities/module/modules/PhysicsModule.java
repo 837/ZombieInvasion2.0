@@ -38,7 +38,7 @@ public class PhysicsModule extends Module implements UpdatableModul, RenderableM
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    b2Body.applyForceToCenter(new Vector2(0.001f, 0.001f), true);
+    b2Body.applyForceToCenter(new Vector2(0.01f, 0.01f), true);
 
   }
 

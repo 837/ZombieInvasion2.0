@@ -16,7 +16,7 @@ public class Config {
   /*
    * temporary, there has to be a more sensible way to define this
    */
-  public static final float B2PIX = 1920 / 20;
+  public static final float B2PIX = WIDTH / 20;
   public static final float PIX2B = 1 / B2PIX;
 
 }
