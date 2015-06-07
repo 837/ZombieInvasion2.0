@@ -23,7 +23,7 @@ public class MovementModule extends Module implements UpdatableModul {
     World.getEntityHandler().getEventsFrom(getEntityID()).parallelStream().forEach(event -> {
       switch (event.getEvent()) {
         case RIGHT_CLICK:
-          World.getEntityHandler().getDataFrom(getEntityID(), DataType.IS_SELECTED, boolean.class)
+          World.getEntityHandler().getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
               .ifPresent(isSelected -> {
             if (isSelected) {
               moveToPos = (Vector2) event.getAdditionalInfo();

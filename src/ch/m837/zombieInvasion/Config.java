@@ -23,4 +23,7 @@ public class Config {
   public static final int CAM_VIEWPORT_WIDTH = WIDTH;
   public static final int CAM_VIEWPORT_HEIGHT = HEIGHT;
 
+  // Input
+  public static final float MOUSE_DRAG_SMOOTHNESS = 0.5f;
+
 }

@@ -140,37 +140,60 @@ public class InputHandler {
 
       @Override
       public void mouseReleased(int arg0, int arg1, int arg2) {
-        // TODO Auto-generated method stub
+        Vector2 position = new Vector2(arg1, arg2);
 
+        if (arg0 == 0/* 0=LeftButton */) {
+          EventDispatcher.createEvent(0, EventType.LEFT_RELEASED, position.cpy(), "INPUT_LISTENER",
+              "GLOBAL");
+        } else if (arg0 == 1/* 1=RightButton */) {
+          EventDispatcher.createEvent(0, EventType.RIGHT_RELEASED, position.cpy(), "INPUT_LISTENER",
+              "GLOBAL");
+        }
       }
 
       @Override
       public void mousePressed(int arg0, int arg1, int arg2) {
+        Vector2 position = new Vector2(arg1, arg2);
+
         if (arg0 == 0/* 0=LeftButton */) {
-          EventDispatcher.createEvent(0, EventType.LEFT_CLICK, new Vector2(arg1, arg2),
-              "INPUT_LISTENER", "GLOBAL");
+          EventDispatcher.createEvent(0, EventType.LEFT_DOWN, position.cpy(), "INPUT_LISTENER", "GLOBAL");
         } else if (arg0 == 1/* 1=RightButton */) {
-          EventDispatcher.createEvent(0, EventType.RIGHT_CLICK, new Vector2(arg1, arg2),
-              "INPUT_LISTENER", "GLOBAL");
+          EventDispatcher.createEvent(0, EventType.RIGHT_DOWN, position.cpy(), "INPUT_LISTENER",
+              "GLOBAL");
         }
       }
 
       @Override
       public void mouseMoved(int arg0, int arg1, int arg2, int arg3) {
-        // TODO Auto-generated method stub
 
       }
 
       @Override
       public void mouseDragged(int arg0, int arg1, int arg2, int arg3) {
-        // TODO Auto-generated method stub
+        Vector2 oldPos = new Vector2(arg2, arg3);
+        Vector2 newPos = new Vector2(arg0, arg1);
+        Vector2[] positions = {oldPos.cpy(), newPos.cpy()};
 
+        if (input.isMouseButtonDown(0)/* 0=LeftButton */) {
+          EventDispatcher.createEvent(0, EventType.LEFT_DRAGGED, positions, "INPUT_LISTENER",
+              "GLOBAL");
+        } else if (input.isMouseButtonDown(1)/* 0=LeftButton */) {
+          EventDispatcher.createEvent(0, EventType.RIGHT_DRAGGED, positions, "INPUT_LISTENER",
+              "GLOBAL");
+        }
       }
 
       @Override
       public void mouseClicked(int arg0, int arg1, int arg2, int arg3) {
-        // TODO Auto-generated method stub
+        Vector2 position = new Vector2(arg1, arg2);
 
+        if (arg0 == 0/* 0=LeftButton */) {
+          EventDispatcher.createEvent(0, EventType.LEFT_CLICK, position.cpy(), "INPUT_LISTENER",
+              "GLOBAL");
+        } else if (arg0 == 1/* 1=RightButton */) {
+          EventDispatcher.createEvent(0, EventType.RIGHT_CLICK, position.cpy(), "INPUT_LISTENER",
+              "GLOBAL");
+        }
       }
     };
     input.addListener(listener);

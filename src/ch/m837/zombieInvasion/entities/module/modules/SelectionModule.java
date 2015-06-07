@@ -1,6 +1,7 @@
 package ch.m837.zombieInvasion.entities.module.modules;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
@@ -32,32 +33,35 @@ public class SelectionModule extends Module implements UpdatableModul {
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     World.getEntityHandler().getEventsFrom(getEntityID()).parallelStream().forEach(event -> {
       switch (event.getEvent()) {
-        case LEFT_CLICK:
-          World.getEntityHandler().getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
+        case LEFT_CLICK_SELECTION:
+          World.getEntityHandler()
+              .getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
               .ifPresent(fixture -> {
-                       Vector2 clickPoint = (Vector2) event.getAdditionalInfo();
-            clickPoint = clickPoint.add(World.getCamera().getPosition());
-            clickPoint = clickPoint.scl(Config.PIX2B);
+            Vector2 clickPoint = (Vector2) event.getAdditionalInfo();
+            clickPoint.scl(Config.PIX2B);
 
             isSelected = fixture.testPoint(clickPoint);
-            System.out.println("Entity: " + getEntityID() + " isSelected: " + isSelected);
 
+            System.out.println("SINGLE: Entity: " + getEntityID() + " isSelected: " + isSelected);
           });
           break;
-        case AREA_SELECTION_EVENT:
-          World.getEntityHandler().getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
-              .ifPresent(fixture -> {
-          
 
-            // if (fixture2.testPoint(a)) {
-            // isSelected = true;
-            // }
+        case AREA_SELECTION:
+          World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
+              .ifPresent(position -> {
+            Rectangle area = (Rectangle) event.getAdditionalInfo();
+            Vector2 worldPos = position;
+            worldPos.add(World.getCamera().getPosition());
+            worldPos.scl(Config.B2PIX);
+
+
+            isSelected = area.contains(worldPos.x, worldPos.y);
+
+            System.out.println("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);
           });
-
-          break;
-        default:
           break;
       }
+
     });
 
   }

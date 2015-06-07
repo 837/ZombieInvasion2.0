@@ -7,7 +7,7 @@ public enum DataType {
   /*
    * generic
    */
-  IS_SELECTED(boolean.class),
+  IS_SELECTED(Boolean.class),
 
   /*
    * physics

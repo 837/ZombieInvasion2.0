@@ -1,6 +1,12 @@
 package ch.zombieInvasion.Camera;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.state.StateBasedGame;
+
 import com.badlogic.gdx.math.Vector2;
+
+import ch.m837.zombieInvasion.Config;
+import ch.zombieInvasion.Eventhandling.EventDispatcher;
 
 public class Camera {
   private Vector2 position = new Vector2();
@@ -21,10 +27,39 @@ public class Camera {
     offsetMinY = viewport_size_Y / 2;
   }
 
+  public void UPDATE(GameContainer gc, StateBasedGame sbg) {
+    EventDispatcher.getEvents().parallelStream()
+        .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
+          switch (e.getEvent()) {
+            case A_PRESSED:
+              move(new Vector2(-20, 0));
+              break;
+            case D_PRESSED:
+              move(new Vector2(20, 0));
+              break;
+            case S_PRESSED:
+              move(new Vector2(0, 20));
+              break;
+            case W_PRESSED:
+              move(new Vector2(0, -20));
+              break;
+            case RIGHT_DRAGGED:
+              Vector2 oldPos =
+                  ((Vector2[]) e.getAdditionalInfo())[0].scl(Config.MOUSE_DRAG_SMOOTHNESS);
+              Vector2 newPos =
+                  ((Vector2[]) e.getAdditionalInfo())[1].scl(Config.MOUSE_DRAG_SMOOTHNESS);
+              Vector2 movement = newPos.sub(oldPos);
+
+              move(movement);
+              break;
+          }
+        });
+  }
+
   private void setPosition(Vector2 point) {
     position = new Vector2(checkOffset(offsetMinX, offsetMaxX, point.x),
         checkOffset(offsetMinY, offsetMaxY, point.y));
-    System.out.println("Moved " + position.toString());
+    System.out.println("Camera moved " + position.toString());
   }
 
   public void move(Vector2 direction) {

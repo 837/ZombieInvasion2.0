@@ -40,8 +40,8 @@ public class EntityFactory {
       // We set our body to dynamic, for something like ground which doesn't move we would set it to
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
-      // Set our body's starting position in object space
-      bodyDef.position.set(1, 1);
+      // Set our body's starting position in object space (meters)
+      bodyDef.position.set(10, 10);
 
       // Create our body in the world using our body definition
       Body body = World.getB2World().createBody(bodyDef);
