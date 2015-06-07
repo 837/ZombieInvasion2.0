@@ -5,19 +5,19 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class EventDispatcher {
-  static private ArrayList<Event> currentEvents = new ArrayList<>();
-  static private ArrayList<Event> persistentEvents = new ArrayList<>();
+   private ArrayList<Event> currentEvents = new ArrayList<>();
+   private ArrayList<Event> persistentEvents = new ArrayList<>();
 
-  static private Comparator<Event> timeComparator = new Comparator<Event>() {
+   private Comparator<Event> timeComparator = new Comparator<Event>() {
     @Override
     public int compare(Event m1, Event m2) {
       return (int) (m1.getDelayMillis() - m2.getDelayMillis());
     }
   };
 
-  static private PriorityQueue<Event> messagesQueue = new PriorityQueue<>(timeComparator);
+   private PriorityQueue<Event> messagesQueue = new PriorityQueue<>(timeComparator);
 
-  static public void createEvent(long delayMillis, EventType msg, Object additonalInfo,
+   public void createEvent(long delayMillis, EventType msg, Object additonalInfo,
       String senderID, String receiverID) {
     Event event = new Event(delayMillis, msg, additonalInfo, senderID, receiverID);
     if (delayMillis == 0.0) {
@@ -32,7 +32,7 @@ public class EventDispatcher {
     }
   }
 
-  static public void dispatchEvents() {
+   public void dispatchEvents() {
     long currentTime = System.currentTimeMillis();
     currentEvents.clear();
     while (!messagesQueue.isEmpty() && messagesQueue.peek().getDelayMillis() < currentTime) {
@@ -44,14 +44,14 @@ public class EventDispatcher {
     }
   }
 
-  static public ArrayList<Event> getEvents() {
+   public ArrayList<Event> getEvents() {
     ArrayList<Event> allEvents = new ArrayList<>();
     allEvents.addAll(currentEvents);
     allEvents.addAll(persistentEvents);
     return allEvents;
   }
 
-  static public void removePersistentEvent(Event event) {
+   public void removePersistentEvent(Event event) {
     persistentEvents.remove(event);
   }
 }

@@ -6,11 +6,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ch.m837.zombieInvasion.Config;
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityFactory;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityType;
 import ch.m837.zombieInvasion.input.InputHandler;
-import ch.zombieInvasion.Eventhandling.EventDispatcher;
 import ch.zombieInvasion.Eventhandling.EventType;
 import ch.zombieInvasion.util.Images;
 
@@ -21,9 +21,7 @@ public class Game extends BasicGameState {
     this.ID = ID;
   }
 
-  private final int TICKS_PER_SECOND = 30;
-  private final double timePerTick = 1000 / TICKS_PER_SECOND;
-  private final int MAX_FRAMESKIP = 5;
+
   private double next_game_tick = System.currentTimeMillis();
   private int loops;
   private double extrapolation;
@@ -35,10 +33,7 @@ public class Game extends BasicGameState {
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     EntityFactory.createEntity(EntityType.MOUSE);
 
-
-    for (int i = 0; i < 1; i++) {
-      EntityFactory.createEntity(EntityType.PLAYER_TEST);
-    }
+    EntityFactory.createEntity(EntityType.PLAYER_TEST);
 
 
 
@@ -53,6 +48,8 @@ public class Game extends BasicGameState {
     g.translate(-World.getCamera().getPosition().x, -World.getCamera().getPosition().y);
 
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
+
+
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
     World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));
 
@@ -62,14 +59,13 @@ public class Game extends BasicGameState {
     // XXX MouseModules
     World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.RENDER(gc, sbg, g));
 
-
   }
 
 
   @Override
   public void update(GameContainer gc, StateBasedGame sbg, int d) throws SlickException {
     loops = 0;
-    while (System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) {
+    while (System.currentTimeMillis() > next_game_tick && loops < Config.MAX_FRAMESKIP) {
 
       // GAME UPDATE CODE GOES HERE
 
@@ -78,7 +74,7 @@ public class Game extends BasicGameState {
       World.getCamera().UPDATE(gc, sbg);
 
 
-      EventDispatcher.getEvents().parallelStream()
+      World.getEventDispatcher().getEvents().parallelStream()
           .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
             switch (e.getEvent()) {
               case G_PRESSED:
@@ -88,7 +84,8 @@ public class Game extends BasicGameState {
                 System.out.println("Spawned 10 new Entities");
                 break;
               case K_PRESSED:
-                EventDispatcher.createEvent(0, EventType.KILL_ENTITY, null, "GAME", "GLOBAL");
+                World.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null, "GAME",
+                    "GLOBAL");
                 System.out.println("Removed all Entities");
                 break;
             }
@@ -104,10 +101,11 @@ public class Game extends BasicGameState {
       World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.UPDATE(gc, sbg));
 
 
-      World.getB2World().step(1.0f / TICKS_PER_SECOND, 6, 2);
-      EventDispatcher.dispatchEvents();
+      World.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
+      World.getEventDispatcher().dispatchEvents();
+
       // XXX TEST
-      next_game_tick += timePerTick;
+      next_game_tick += Config.TIME_PER_TICK;
       loops++;
     }
 
@@ -117,7 +115,7 @@ public class Game extends BasicGameState {
       next_game_tick = System.currentTimeMillis();
     }
 
-    extrapolation = 1 - (next_game_tick - System.currentTimeMillis()) / timePerTick;
+    extrapolation = 1 - (next_game_tick - System.currentTimeMillis()) / Config.TIME_PER_TICK;
 
   }
 

@@ -6,7 +6,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.badlogic.gdx.math.Vector2;
 
 import ch.m837.zombieInvasion.Config;
-import ch.zombieInvasion.Eventhandling.EventDispatcher;
+import ch.m837.zombieInvasion.World;
 
 public class Camera {
   private Vector2 position = new Vector2();
@@ -28,7 +28,7 @@ public class Camera {
   }
 
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    EventDispatcher.getEvents().parallelStream()
+    World.getEventDispatcher().getEvents().parallelStream()
         .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
           switch (e.getEvent()) {
             case A_PRESSED:

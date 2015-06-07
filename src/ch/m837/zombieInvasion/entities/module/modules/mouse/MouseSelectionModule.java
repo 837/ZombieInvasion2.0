@@ -13,7 +13,6 @@ import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
 import ch.m837.zombieInvasion.entities.module.RenderableModul;
 import ch.m837.zombieInvasion.entities.module.UpdatableModul;
-import ch.zombieInvasion.Eventhandling.EventDispatcher;
 import ch.zombieInvasion.Eventhandling.EventType;
 
 public class MouseSelectionModule extends Module implements RenderableModul, UpdatableModul {
@@ -26,7 +25,7 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
   private final Color areaColor = new Color(96, 96, 96, 80);
 
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    EventDispatcher.getEvents().parallelStream()
+    World.getEntityHandler().getEventsFrom(getEntityID()).parallelStream()
         .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
           switch (e.getEvent()) {
             case LEFT_DOWN:
@@ -59,10 +58,10 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
                       Math.min(area.getMinY(), area.getMaxY()), Math.abs(area.getWidth()),
                       Math.abs(area.getHeight()));
 
-                  EventDispatcher.createEvent(0, EventType.AREA_SELECTION, areaToCheck,
+                  World.getEventDispatcher().createEvent(0, EventType.AREA_SELECTION, areaToCheck,
                       "AreaSelectionHelper", "GLOBAL");
                 } else {
-                  EventDispatcher.createEvent(0, EventType.LEFT_CLICK_SELECTION, position.cpy(),
+                  World.getEventDispatcher().createEvent(0, EventType.LEFT_CLICK_SELECTION, position.cpy(),
                       "AreaSelectionHelper", "GLOBAL");
                 }
                 area = new Rectangle(0, 0, 0, 0);

@@ -11,7 +11,10 @@ public class Config {
   public static final int HEIGHT = 768;
   public static final int FPS = 60;
   public static final double VERSION = 1.1;
-
+  public static final float TICKS_PER_SECOND = 30;
+  public static final double TIME_PER_TICK = 1000 / TICKS_PER_SECOND;
+  public static final int MAX_FRAMESKIP = 5;
+  
   // Box2D Config(??)
   /*
    * temporary, there has to be a more sensible way to define this
@@ -25,5 +28,6 @@ public class Config {
 
   // Input
   public static final float MOUSE_DRAG_SMOOTHNESS = 0.5f;
+ 
 
 }

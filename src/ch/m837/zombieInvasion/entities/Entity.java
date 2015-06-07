@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
 import ch.zombieInvasion.Eventhandling.Event;
-import ch.zombieInvasion.Eventhandling.EventDispatcher;
 import ch.zombieInvasion.Eventhandling.EventType;
 
 public class Entity {
@@ -23,7 +23,7 @@ public class Entity {
 
   public void UPDATE_ENTITY() {
     events.clear();// XXX ned sicher ob ich das so möchti.. removes events every update
-    events.addAll(EventDispatcher.getEvents().parallelStream()
+    events.addAll(World.getEventDispatcher().getEvents().parallelStream()
         .filter(event -> event.getReceiverID().equals(ID) || event.getReceiverID().equals("GLOBAL"))
         .collect(Collectors.toList()));
     events.parallelStream().filter(event -> event.getEvent().equals(EventType.KILL_ENTITY))
