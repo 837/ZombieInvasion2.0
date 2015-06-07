@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.badlogic.gdx.math.Vector2;
 
+import ch.m837.zombieInvasion.entities.Entity.EntityStatus;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
 import ch.zombieInvasion.Eventhandling.Event;
@@ -23,8 +24,9 @@ public class EntityHandler {
   }
 
   private void removeDeadEntities() {
-    entities.removeAll(
-        entities.parallelStream().filter(entity -> !entity.isAlive()).collect(Collectors.toList()));
+    entities.removeAll(entities.parallelStream()
+        .filter(entity -> entity.getEntityStatus().equals(EntityStatus.DEAD))
+        .collect(Collectors.toList()));
   }
 
   /**

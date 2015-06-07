@@ -11,8 +11,12 @@ import ch.zombieInvasion.Eventhandling.Event;
 import ch.zombieInvasion.Eventhandling.EventType;
 
 public class Entity {
+  public enum EntityStatus {
+    LIVING, DEAD, INDESTRUCTIBLE
+  }
+
   private final String ID;
-  private boolean isAlive = true;
+  private EntityStatus entityStatus = EntityStatus.LIVING;
   private ArrayList<Event> events = new ArrayList<>();
 
   private ArrayList<Module> modules = new ArrayList<>();
@@ -21,21 +25,30 @@ public class Entity {
     this.ID = ID;
   }
 
+  public Entity(String ID, EntityStatus entityStatus) {
+    this.ID = ID;
+    this.entityStatus = entityStatus;
+  }
+
   public void UPDATE_ENTITY() {
     events.clear();// XXX ned sicher ob ich das so möchti.. removes events every update
     events.addAll(World.getEventDispatcher().getEvents().parallelStream()
         .filter(event -> event.getReceiverID().equals(ID) || event.getReceiverID().equals("GLOBAL"))
         .collect(Collectors.toList()));
     events.parallelStream().filter(event -> event.getEvent().equals(EventType.KILL_ENTITY))
-        .findAny().ifPresent(e -> isAlive = false);
+        .findAny().ifPresent(e -> {
+          if (entityStatus.equals(EntityStatus.LIVING)) {
+            entityStatus = EntityStatus.DEAD;
+          }
+        });
   }
 
   public String getID() {
     return ID;
   }
 
-  public boolean isAlive() {
-    return isAlive;
+  public EntityStatus getEntityStatus() {
+    return entityStatus;
   }
 
   public Optional<Object> getData(DataType dataType) {

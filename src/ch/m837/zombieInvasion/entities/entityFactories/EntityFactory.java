@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.Entity;
+import ch.m837.zombieInvasion.entities.Entity.EntityStatus;
 import ch.m837.zombieInvasion.entities.module.modules.MovementModule;
 import ch.m837.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.m837.zombieInvasion.entities.module.modules.SelectionModule;
@@ -32,7 +33,7 @@ public class EntityFactory {
 
   private static void createMouseEntity(EntityType entityType) {
     String id = "MOUSE: " + UUID.randomUUID();
-    World.getEntityHandler().addEntity(new Entity(id));
+    World.getEntityHandler().addEntity(new Entity(id, EntityStatus.INDESTRUCTIBLE));
     World.getModuleHandler().addModules(new MouseSelectionModule(id));
   }
 
