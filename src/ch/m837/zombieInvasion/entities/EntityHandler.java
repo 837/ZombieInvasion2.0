@@ -2,6 +2,7 @@ package ch.m837.zombieInvasion.entities;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -19,6 +20,20 @@ public class EntityHandler {
   public void addModulToEntity(Module module) {
     entities.parallelStream().filter(entity -> entity.getID().equals(module.getEntityID()))
         .findAny().ifPresent(foundEntity -> foundEntity.addModul(module));
+  }
+
+  private void removeDeadEntities() {
+    entities.removeAll(
+        entities.parallelStream().filter(entity -> !entity.isAlive()).collect(Collectors.toList()));
+  }
+
+  /**
+   * Returns all Entities; Not sure if we need this
+   * 
+   * @return allEntities
+   */
+  public ArrayList<Entity> getAllEntities() {
+    return entities;
   }
 
   /**
@@ -63,6 +78,7 @@ public class EntityHandler {
   }
 
   public void UPDATE_ENTITIES() {
+    removeDeadEntities();
     entities.parallelStream().forEach(entity -> entity.UPDATE_ENTITY());
   }
 }

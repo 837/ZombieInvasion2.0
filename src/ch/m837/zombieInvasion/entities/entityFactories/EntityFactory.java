@@ -23,7 +23,6 @@ public class EntityFactory {
       case PLAYER_TEST:
         createTestEntity1(entityType);
         break;
-
     }
   }
 

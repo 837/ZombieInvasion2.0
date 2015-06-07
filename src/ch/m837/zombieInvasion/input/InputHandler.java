@@ -103,6 +103,12 @@ public class InputHandler {
           case Input.KEY_D:
             EventDispatcher.createEvent(0, EventType.D_PRESSED, null, "INPUT_LISTENER", "GLOBAL");
             break;
+          case Input.KEY_G:
+            EventDispatcher.createEvent(0, EventType.G_PRESSED, null, "INPUT_LISTENER", "GLOBAL");
+            break;
+          case Input.KEY_K:
+            EventDispatcher.createEvent(0, EventType.K_PRESSED, null, "INPUT_LISTENER", "GLOBAL");
+            break;
         }
       }
 
@@ -156,7 +162,8 @@ public class InputHandler {
         Vector2 position = new Vector2(arg1, arg2);
 
         if (arg0 == 0/* 0=LeftButton */) {
-          EventDispatcher.createEvent(0, EventType.LEFT_DOWN, position.cpy(), "INPUT_LISTENER", "GLOBAL");
+          EventDispatcher.createEvent(0, EventType.LEFT_DOWN, position.cpy(), "INPUT_LISTENER",
+              "GLOBAL");
         } else if (arg0 == 1/* 1=RightButton */) {
           EventDispatcher.createEvent(0, EventType.RIGHT_DOWN, position.cpy(), "INPUT_LISTENER",
               "GLOBAL");

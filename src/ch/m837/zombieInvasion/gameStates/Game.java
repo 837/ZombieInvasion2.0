@@ -11,6 +11,7 @@ import ch.m837.zombieInvasion.entities.entityFactories.EntityFactory;
 import ch.m837.zombieInvasion.entities.entityFactories.EntityType;
 import ch.m837.zombieInvasion.input.InputHandler;
 import ch.zombieInvasion.Eventhandling.EventDispatcher;
+import ch.zombieInvasion.Eventhandling.EventType;
 import ch.zombieInvasion.util.Images;
 
 public class Game extends BasicGameState {
@@ -33,11 +34,10 @@ public class Game extends BasicGameState {
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 1; i++) {
       EntityFactory.createEntity(EntityType.PLAYER_TEST);
-
     }
-   
+
 
 
     inputHandler = new InputHandler(gc);
@@ -53,7 +53,7 @@ public class Game extends BasicGameState {
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
     World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));
-    World.getModuleHandler().getDebugRendererModules().forEach(m -> m.RENDER(gc, sbg, g));    
+    World.getModuleHandler().getDebugRendererModules().forEach(m -> m.RENDER(gc, sbg, g));
     ash.RENDER(gc, sbg, g);
   }
 
@@ -70,6 +70,24 @@ public class Game extends BasicGameState {
 
       World.getCamera().UPDATE(gc, sbg);
       ash.UPDATE(gc, sbg);
+
+
+      EventDispatcher.getEvents().parallelStream()
+          .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
+            switch (e.getEvent()) {
+              case G_PRESSED:
+                for (int i = 0; i < 10; i++) {
+                  EntityFactory.createEntity(EntityType.PLAYER_TEST);
+                }
+                System.out.println("Spawned 10 new Entities");
+                break;
+              case K_PRESSED:
+                EventDispatcher.createEvent(0, EventType.KILL_ENTITY, null, "GAME", "GLOBAL");
+                System.out.println("Removed all Entities");
+                break;
+            }
+          });
+
 
       World.getEntityHandler().UPDATE_ENTITIES();
       World.getModuleHandler().getSelectionModules().forEach(m -> m.UPDATE(gc, sbg));

@@ -21,7 +21,7 @@ public class AreaSelectionHelper {
 
 
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    EventDispatcher.getEvents().stream().filter(event -> event.getReceiverID().equals("GLOBAL"))
+    EventDispatcher.getEvents().parallelStream().filter(event -> event.getReceiverID().equals("GLOBAL"))
         .forEach(e -> {
           switch (e.getEvent()) {
             case LEFT_DOWN:
