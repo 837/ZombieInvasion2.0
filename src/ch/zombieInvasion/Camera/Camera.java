@@ -19,9 +19,9 @@ public class Camera {
   private float offsetMinX;
   private float offsetMinY;
 
-  public Camera(int gameWidth, int gameHeight) {
-    viewport_size_X = gameWidth;
-    viewport_size_Y = gameHeight;
+  public Camera(int viewport_size_X, int viewport_size_Y) {
+    this.viewport_size_X = viewport_size_X;
+    this.viewport_size_Y = viewport_size_Y;
 
     offsetMinX = viewport_size_X / 2;
     offsetMinY = viewport_size_Y / 2;
@@ -51,8 +51,6 @@ public class Camera {
 
                 move(movement);
               });
-
-
               break;
           }
         });
@@ -91,36 +89,12 @@ public class Camera {
     return new Vector2(position.x - viewport_size_X / 2, position.y - viewport_size_Y / 2);
   }
 
-  public float getWorldPosX(float x) {
-    return (x + getPosition().x);
-  }
-
-  public float getWorldPosY(float y) {
-    return (y + getPosition().y);
-  }
-
   public Vector2 getPositionInWorld(Vector2 screenPos) {
     return screenPos.add(getPosition());
   }
 
-  public float getScreenPosX(float x) {
-    return (x - getPosition().x);
-  }
-
-  public float getScreenPosY(float y) {
-    return (y - getPosition().y);
-  }
-
   public Vector2 getPositionOnScreen(Vector2 screenPos) {
     return screenPos.sub(getPosition());
-  }
-
-  public float getCamPosX() {
-    return getPosition().x;
-  }
-
-  public float getCamPosY() {
-    return getPosition().y;
   }
 
   public int getViewport_size_X() {
@@ -130,5 +104,4 @@ public class Camera {
   public int getViewport_size_Y() {
     return viewport_size_Y;
   }
-
 }

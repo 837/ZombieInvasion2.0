@@ -10,11 +10,12 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.Entity;
-import ch.m837.zombieInvasion.entities.module.modules.DebugRendererModule;
 import ch.m837.zombieInvasion.entities.module.modules.MovementModule;
 import ch.m837.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.m837.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.m837.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.m837.zombieInvasion.entities.module.modules.debug.DebugRendererModule;
+import ch.m837.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.zombieInvasion.util.Images;
 
 public class EntityFactory {
@@ -23,10 +24,19 @@ public class EntityFactory {
       case PLAYER_TEST:
         createTestEntity1(entityType);
         break;
+      case MOUSE:
+        createMouseEntity(entityType);
+        break;
     }
   }
 
-  static private void createTestEntity1(EntityType entityType) {
+  private static void createMouseEntity(EntityType entityType) {
+    String id = "MOUSE: " + UUID.randomUUID();
+    World.getEntityHandler().addEntity(new Entity(id));
+    World.getModuleHandler().addModules(new MouseSelectionModule(id));
+  }
+
+  private static void createTestEntity1(EntityType entityType) {
     String id = "PLAYER_TEST: " + UUID.randomUUID();
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
@@ -74,7 +84,7 @@ public class EntityFactory {
 
     World.getModuleHandler().addModules(new MovementModule(id));
 
-    //DebugModules
+    // DebugModules
     World.getModuleHandler().addModules(new DebugRendererModule(id));
   }
 

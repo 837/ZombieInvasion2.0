@@ -50,10 +50,7 @@ public class SelectionModule extends Module implements UpdatableModul {
           World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
               .ifPresent(position -> {
             event.getAdditionalInfo(Rectangle.class).ifPresent(rectangle -> {
-              position.add(World.getCamera().getPosition());
               position.scl(Config.B2PIX);
-
-
               isSelected = rectangle.contains(position.x, position.y);
 
               System.out.println("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);

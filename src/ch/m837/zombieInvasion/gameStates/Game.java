@@ -28,12 +28,14 @@ public class Game extends BasicGameState {
   private int loops;
   private double extrapolation;
 
-  private World world = new World();
   private InputHandler inputHandler = null;
 
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+    EntityFactory.createEntity(EntityType.MOUSE);
+
+
     for (int i = 0; i < 1; i++) {
       EntityFactory.createEntity(EntityType.PLAYER_TEST);
     }
@@ -48,16 +50,21 @@ public class Game extends BasicGameState {
 
   @Override
   public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-    g.translate(-World.getCamera().getCamPosX(), -World.getCamera().getCamPosY());
+    g.translate(-World.getCamera().getPosition().x, -World.getCamera().getPosition().y);
 
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
     World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));
+
+    // XXX DEBUGRENDERER
     World.getModuleHandler().getDebugRendererModules().forEach(m -> m.RENDER(gc, sbg, g));
-    ash.RENDER(gc, sbg, g);
+
+    // XXX MouseModules
+    World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.RENDER(gc, sbg, g));
+
+
   }
 
-  private AreaSelectionHelper ash = new AreaSelectionHelper();
 
   @Override
   public void update(GameContainer gc, StateBasedGame sbg, int d) throws SlickException {
@@ -69,7 +76,6 @@ public class Game extends BasicGameState {
       // XXX TEST
 
       World.getCamera().UPDATE(gc, sbg);
-      ash.UPDATE(gc, sbg);
 
 
       EventDispatcher.getEvents().parallelStream()
@@ -93,6 +99,9 @@ public class Game extends BasicGameState {
       World.getModuleHandler().getSelectionModules().forEach(m -> m.UPDATE(gc, sbg));
       World.getModuleHandler().getPhysicsModules().forEach(m -> m.UPDATE(gc, sbg));
       World.getModuleHandler().getMovementModules().forEach(m -> m.UPDATE(gc, sbg));
+
+      // MouseModules
+      World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.UPDATE(gc, sbg));
 
 
       World.getB2World().step(1.0f / TICKS_PER_SECOND, 6, 2);

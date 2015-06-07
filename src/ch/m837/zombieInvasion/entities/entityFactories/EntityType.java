@@ -1,7 +1,7 @@
 package ch.m837.zombieInvasion.entities.entityFactories;
 
 public enum EntityType {
-  ZERO(0, 0), PLAYER_TEST(1, 1);
+  ZERO(0, 0), PLAYER_TEST(1, 1), MOUSE(0, 0);
 
   private float width, height;
 

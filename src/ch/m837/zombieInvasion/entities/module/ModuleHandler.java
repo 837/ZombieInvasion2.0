@@ -3,11 +3,12 @@ package ch.m837.zombieInvasion.entities.module;
 import java.util.ArrayList;
 
 import ch.m837.zombieInvasion.World;
-import ch.m837.zombieInvasion.entities.module.modules.DebugRendererModule;
 import ch.m837.zombieInvasion.entities.module.modules.MovementModule;
 import ch.m837.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.m837.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.m837.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.m837.zombieInvasion.entities.module.modules.debug.DebugRendererModule;
+import ch.m837.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 
 public class ModuleHandler {
   /*
@@ -21,6 +22,12 @@ public class ModuleHandler {
 
   // DEBUGMODULES
   private ArrayList<DebugRendererModule> debugRendererModules = new ArrayList<>();
+
+
+  // MouseModules
+  private ArrayList<MouseSelectionModule> mouseSelectionModule = new ArrayList<>();
+
+
 
   public void addModules(Module... modules) {
     for (int i = 0; i < modules.length; i++) {
@@ -41,6 +48,8 @@ public class ModuleHandler {
         movementModules.add((MovementModule) module);
       } else if (module instanceof DebugRendererModule) { // DebugModules
         debugRendererModules.add((DebugRendererModule) module);
+      } else if (module instanceof MouseSelectionModule) { // MouseModules
+        mouseSelectionModule.add((MouseSelectionModule) module);
       }
     }
 
@@ -58,12 +67,15 @@ public class ModuleHandler {
     allModules.addAll(physicsModules);
     allModules.addAll(simpleImageRenderModules);
     allModules.addAll(movementModules);
-
+    
+    //MouseModules
+    allModules.addAll(mouseSelectionModule);
 
     // DebugModules
     allModules.addAll(debugRendererModules);
     return allModules;
   }
+
 
 
   public ArrayList<PhysicsModule> getPhysicsModules() {
@@ -86,5 +98,10 @@ public class ModuleHandler {
   // DebugModules
   public ArrayList<DebugRendererModule> getDebugRendererModules() {
     return debugRendererModules;
+  }
+
+  // MouseModules
+  public ArrayList<MouseSelectionModule> getMouseSelectionModule() {
+    return mouseSelectionModule;
   }
 }
