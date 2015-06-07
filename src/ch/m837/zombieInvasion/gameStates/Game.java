@@ -49,6 +49,7 @@ public class Game extends BasicGameState {
 
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
 
+    // XXX TEST START
 
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
     World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));
@@ -59,6 +60,7 @@ public class Game extends BasicGameState {
     // XXX MouseModules
     World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.RENDER(gc, sbg, g));
 
+    // XXX TEST END
   }
 
 
@@ -69,7 +71,7 @@ public class Game extends BasicGameState {
 
       // GAME UPDATE CODE GOES HERE
 
-      // XXX TEST
+      // XXX TEST START
 
       World.getCamera().UPDATE(gc, sbg);
 
@@ -104,7 +106,7 @@ public class Game extends BasicGameState {
       World.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
       World.getEventDispatcher().dispatchEvents();
 
-      // XXX TEST
+      // XXX TEST END
       next_game_tick += Config.TIME_PER_TICK;
       loops++;
     }
