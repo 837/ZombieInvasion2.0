@@ -44,13 +44,15 @@ public class Camera {
               move(new Vector2(0, -20));
               break;
             case RIGHT_DRAGGED:
-              Vector2 oldPos =
-                  ((Vector2[]) e.getAdditionalInfo())[0].scl(Config.MOUSE_DRAG_SMOOTHNESS);
-              Vector2 newPos =
-                  ((Vector2[]) e.getAdditionalInfo())[1].scl(Config.MOUSE_DRAG_SMOOTHNESS);
-              Vector2 movement = newPos.sub(oldPos);
+              e.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {
+                Vector2 oldPos = positions[0].scl(Config.MOUSE_DRAG_SMOOTHNESS);
+                Vector2 newPos = positions[1].scl(Config.MOUSE_DRAG_SMOOTHNESS);
+                Vector2 movement = newPos.sub(oldPos);
 
-              move(movement);
+                move(movement);
+              });
+
+
               break;
           }
         });

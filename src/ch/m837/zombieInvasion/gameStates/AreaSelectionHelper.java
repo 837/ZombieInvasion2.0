@@ -25,33 +25,36 @@ public class AreaSelectionHelper {
         .forEach(e -> {
           switch (e.getEvent()) {
             case LEFT_DOWN:
-              Vector2 positionDown = ((Vector2) e.getAdditionalInfo());
-              positionDown.add(World.getCamera().getPosition());
-              area.setLocation(positionDown.x, positionDown.y);
-              System.out.println("area start pos: " + positionDown.toString());
+              e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+                position.add(World.getCamera().getPosition());
+                area.setLocation(position.x, position.y);
+                System.out.println("area start pos: " + position.toString());
+              });
+
               break;
 
             case LEFT_DRAGGED:
-              Vector2 positionDrag = ((Vector2[]) e.getAdditionalInfo())[0];
-              positionDrag.add(World.getCamera().getPosition());
-              calculateArea(positionDrag.cpy());
-              // EventDispatcher.createEvent(0, EventType.AREA_SELECTION_EVENT, area,
-              // "AreaSelectionHelper", "GLOBAL");
+              e.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {
+                positions[1].add(World.getCamera().getPosition());
+                calculateArea(positions[1].cpy());
+                // EventDispatcher.createEvent(0, EventType.AREA_SELECTION_EVENT, area,
+                // "AreaSelectionHelper", "GLOBAL");
+              });
 
               break;
             case LEFT_RELEASED:
-              Vector2 positionReleased = ((Vector2) e.getAdditionalInfo());
-              positionReleased.add(World.getCamera().getPosition());
-              calculateArea(positionReleased.cpy());
-              System.out.println("area end pos: " + positionReleased);
-              if (area.getWidth() > 10 || area.getHeight() > 10) {
-                EventDispatcher.createEvent(0, EventType.AREA_SELECTION, area,
-                    "AreaSelectionHelper", "GLOBAL");
-              } else {
-                EventDispatcher.createEvent(0, EventType.LEFT_CLICK_SELECTION, positionReleased.cpy(),
-                    "AreaSelectionHelper", "GLOBAL");
-
-              }
+              e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+                position.add(World.getCamera().getPosition());
+                calculateArea(position.cpy());
+                System.out.println("area end pos: " + position);
+                if (area.getWidth() > 10 || area.getHeight() > 10) {
+                  EventDispatcher.createEvent(0, EventType.AREA_SELECTION, area,
+                      "AreaSelectionHelper", "GLOBAL");
+                } else {
+                  EventDispatcher.createEvent(0, EventType.LEFT_CLICK_SELECTION, position.cpy(),
+                      "AreaSelectionHelper", "GLOBAL");
+                }
+              });
               area = new Rectangle(0, 0, 0, 0);
               break;
           }

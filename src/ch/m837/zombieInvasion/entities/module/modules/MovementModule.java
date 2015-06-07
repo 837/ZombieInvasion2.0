@@ -26,9 +26,11 @@ public class MovementModule extends Module implements UpdatableModul {
           World.getEntityHandler().getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
               .ifPresent(isSelected -> {
             if (isSelected) {
-              moveToPos = (Vector2) event.getAdditionalInfo();
-              System.out
-                  .println("Entity: " + getEntityID() + " moveToPos: " + moveToPos.toString());
+              event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+                moveToPos = position.cpy();
+                System.out
+                    .println("Entity: " + getEntityID() + " moveToPos: " + moveToPos.toString());
+              });
             }
           });
           break;

@@ -3,6 +3,7 @@ package ch.m837.zombieInvasion.entities.module;
 import java.util.ArrayList;
 
 import ch.m837.zombieInvasion.World;
+import ch.m837.zombieInvasion.entities.module.modules.DebugRendererModule;
 import ch.m837.zombieInvasion.entities.module.modules.MovementModule;
 import ch.m837.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.m837.zombieInvasion.entities.module.modules.SelectionModule;
@@ -17,6 +18,9 @@ public class ModuleHandler {
   private ArrayList<PhysicsModule> physicsModules = new ArrayList<>();
   private ArrayList<SimpleImageRenderModule> simpleImageRenderModules = new ArrayList<>();
   private ArrayList<MovementModule> movementModules = new ArrayList<>();
+
+  // DEBUGMODULES
+  private ArrayList<DebugRendererModule> debugRendererModules = new ArrayList<>();
 
   public void addModules(Module... modules) {
     for (int i = 0; i < modules.length; i++) {
@@ -35,6 +39,8 @@ public class ModuleHandler {
         simpleImageRenderModules.add((SimpleImageRenderModule) module);
       } else if (module instanceof MovementModule) {
         movementModules.add((MovementModule) module);
+      } else if (module instanceof DebugRendererModule) { // DebugModules
+        debugRendererModules.add((DebugRendererModule) module);
       }
     }
 
@@ -52,6 +58,10 @@ public class ModuleHandler {
     allModules.addAll(physicsModules);
     allModules.addAll(simpleImageRenderModules);
     allModules.addAll(movementModules);
+
+
+    // DebugModules
+    allModules.addAll(debugRendererModules);
     return allModules;
   }
 
@@ -70,5 +80,11 @@ public class ModuleHandler {
 
   public ArrayList<MovementModule> getMovementModules() {
     return movementModules;
+  }
+
+
+  // DebugModules
+  public ArrayList<DebugRendererModule> getDebugRendererModules() {
+    return debugRendererModules;
   }
 }

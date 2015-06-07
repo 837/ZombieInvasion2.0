@@ -1,8 +1,8 @@
 package ch.m837.zombieInvasion.entities.module.modules;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
@@ -13,29 +13,22 @@ import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
 import ch.m837.zombieInvasion.entities.module.RenderableModul;
 
-public class SimpleImageRenderModule extends Module implements RenderableModul {
-  private final Image imageToRender;
+public class DebugRendererModule extends Module implements RenderableModul {
 
-  public SimpleImageRenderModule(String entityID, Image imageToRender) {
+  public DebugRendererModule(String entityID) {
     super(entityID);
-    this.imageToRender = imageToRender;
+    // TODO Auto-generated constructor stub
   }
 
-  /**
-   * get the position data from the entity, transform it to world coordinates and render g
-   * 
-   * @param gc
-   * @param sbg
-   * @param g
-   */
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
         .ifPresent(position -> {
           position.scl(Config.B2PIX); // transform to world
                                       // coordinates
-          g.drawImage(imageToRender, position.x - imageToRender.getWidth() / 2,
-              position.y - imageToRender.getHeight() / 2);
+          g.setColor(Color.black);
+          g.drawString(getEntityID(), position.x - 18, position.y - 18);
+          g.drawString(position.toString(), position.x, position.y);
         });
   }
 

@@ -37,27 +37,28 @@ public class SelectionModule extends Module implements UpdatableModul {
           World.getEntityHandler()
               .getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
               .ifPresent(fixture -> {
-            Vector2 clickPoint = (Vector2) event.getAdditionalInfo();
-            clickPoint.scl(Config.PIX2B);
+            event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+              position.scl(Config.PIX2B);
+              isSelected = fixture.testPoint(position);
 
-            isSelected = fixture.testPoint(clickPoint);
-
-            System.out.println("SINGLE: Entity: " + getEntityID() + " isSelected: " + isSelected);
+              System.out.println("SINGLE: Entity: " + getEntityID() + " isSelected: " + isSelected);
+            });
           });
           break;
 
         case AREA_SELECTION:
           World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
               .ifPresent(position -> {
-            Rectangle area = (Rectangle) event.getAdditionalInfo();
-            Vector2 worldPos = position;
-            worldPos.add(World.getCamera().getPosition());
-            worldPos.scl(Config.B2PIX);
+            event.getAdditionalInfo(Rectangle.class).ifPresent(rectangle -> {
+              position.add(World.getCamera().getPosition());
+              position.scl(Config.B2PIX);
 
 
-            isSelected = area.contains(worldPos.x, worldPos.y);
+              isSelected = rectangle.contains(position.x, position.y);
 
-            System.out.println("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);
+              System.out.println("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);
+            });;
+
           });
           break;
       }

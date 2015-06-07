@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.Entity;
+import ch.m837.zombieInvasion.entities.module.modules.DebugRendererModule;
 import ch.m837.zombieInvasion.entities.module.modules.MovementModule;
 import ch.m837.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.m837.zombieInvasion.entities.module.modules.SelectionModule;
@@ -73,6 +74,9 @@ public class EntityFactory {
         .addModules(new SimpleImageRenderModule(id, Images.TEST_ENTITY_IMG.getB2DScaled()));
 
     World.getModuleHandler().addModules(new MovementModule(id));
+
+    //DebugModules
+    World.getModuleHandler().addModules(new DebugRendererModule(id));
   }
 
 }

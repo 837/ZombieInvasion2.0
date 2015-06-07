@@ -3,6 +3,8 @@ package ch.m837.zombieInvasion.entities;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.badlogic.gdx.math.Vector2;
+
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
 import ch.zombieInvasion.Eventhandling.Event;
@@ -34,8 +36,7 @@ public class EntityHandler {
   /**
    * Get Data from other Modules
    * 
-   * World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION) .ifPresent(positionData
-   * -> { Vector2 worldPosition = (Vector2) positionData; //TODO JUST AN EXAMPLE });
+   * Special cases: Vector2: returns a copy of vector, not the actual vector.
    * 
    * @param <T>
    * 
@@ -43,14 +44,18 @@ public class EntityHandler {
    * @param dataType
    * @return Optional<Object>
    */
-  public <T> Optional<T> getDataFrom(String fromID, DataType dataType, Class<T> clazz) {
+  @SuppressWarnings("unchecked")
+  public <T> Optional<T> getDataFrom(String fromID, DataType dataType, Class<T> type) {
     Entity entity =
         entities.parallelStream().filter(e -> e.getID().equals(fromID)).findAny().orElse(null);
     if (entity != null) {
       Optional<Object> data = entity.getData(dataType);
       if (data.isPresent()) {
-        if (data.get().getClass().equals(clazz)) {
-          return Optional.ofNullable(clazz.cast(data.get()));
+        if (data.get().getClass().equals(type)) {
+          if (type.equals(Vector2.class)) {
+            return (Optional<T>) Optional.ofNullable(((Vector2) data.get()).cpy());
+          }
+          return Optional.ofNullable(type.cast(data.get()));
         }
       }
     }

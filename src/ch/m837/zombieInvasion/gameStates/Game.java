@@ -53,6 +53,7 @@ public class Game extends BasicGameState {
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
     World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));
+    World.getModuleHandler().getDebugRendererModules().forEach(m -> m.RENDER(gc, sbg, g));    
     ash.RENDER(gc, sbg, g);
   }
 

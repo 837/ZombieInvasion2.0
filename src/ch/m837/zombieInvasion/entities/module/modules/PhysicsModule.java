@@ -24,7 +24,7 @@ public class PhysicsModule extends Module implements UpdatableModul, RenderableM
   public Object getData(DataType dataType) {
     switch (dataType) {
       case POSITION:
-        return b2Body.getPosition();
+        return b2Body.getPosition().cpy();
       case COLLISION_FIXTURE:
         return b2Body.getFixtureList().first();
     }
