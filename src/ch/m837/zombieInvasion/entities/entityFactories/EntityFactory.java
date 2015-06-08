@@ -15,7 +15,7 @@ import ch.m837.zombieInvasion.entities.module.modules.MovementModule;
 import ch.m837.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.m837.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.m837.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.m837.zombieInvasion.entities.module.modules.debug.DebugRendererModule;
+import ch.m837.zombieInvasion.entities.module.modules.debugModules.DebugRendererModule;
 import ch.m837.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.zombieInvasion.util.Images;
 
