@@ -35,7 +35,6 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
                 area = new Rectangle(position.x, position.y, 0, 0);
                 LogManager.getLogger("zombie").trace("area start pos: " + position.toString());
               });
-
               break;
 
             case LEFT_DRAGGED:

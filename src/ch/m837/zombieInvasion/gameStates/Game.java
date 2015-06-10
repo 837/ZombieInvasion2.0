@@ -29,7 +29,7 @@ public class Game extends BasicGameState {
   private double extrapolation;
 
   private InputHandler inputHandler = null;
-  private Logger logger= LogManager.getLogger(Game.class);
+  private Logger logger = LogManager.getLogger(Game.class);
 
 
   @Override
@@ -51,7 +51,6 @@ public class Game extends BasicGameState {
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
 
     // XXX TEST START
-
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
 
     // XXX DEBUGRENDERER
@@ -75,7 +74,6 @@ public class Game extends BasicGameState {
 
       World.getCamera().UPDATE(gc, sbg);
 
-
       World.getEventDispatcher().getEvents().parallelStream()
           .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
             switch (e.getEvent()) {
@@ -83,17 +81,15 @@ public class Game extends BasicGameState {
                 for (int i = 0; i < 10; i++) {
                   EntityFactory.createEntity(EntityType.PLAYER_TEST);
                 }
-
-                logger.debug("Spawned 10 new Entities");
+                logger.trace("Spawned 10 new Entities");
                 break;
               case K_PRESSED:
                 World.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null, "GAME",
                     "GLOBAL");
-               logger.debug("Removed all Entities");
+                logger.trace("Removed all Entities");
                 break;
             }
           });
-
 
       World.getEntityHandler().UPDATE_ENTITIES();
       World.getModuleHandler().getSelectionModules().forEach(m -> m.UPDATE(gc, sbg));
@@ -103,7 +99,6 @@ public class Game extends BasicGameState {
       // MouseModules
       World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.UPDATE(gc, sbg));
 
-
       World.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
       World.getEventDispatcher().dispatchEvents();
 
@@ -112,9 +107,7 @@ public class Game extends BasicGameState {
       loops++;
     }
 
-    if (next_game_tick < System.currentTimeMillis())
-
-    {
+    if (next_game_tick < System.currentTimeMillis()) {
       next_game_tick = System.currentTimeMillis();
     }
 
