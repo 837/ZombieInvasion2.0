@@ -1,5 +1,7 @@
 package ch.m837.zombieInvasion.gameStates;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -27,6 +29,7 @@ public class Game extends BasicGameState {
   private double extrapolation;
 
   private InputHandler inputHandler = null;
+  private Logger logger= LogManager.getLogger(Game.class);
 
 
   @Override
@@ -34,8 +37,6 @@ public class Game extends BasicGameState {
     EntityFactory.createEntity(EntityType.MOUSE);
 
     EntityFactory.createEntity(EntityType.PLAYER_TEST);
-
-
 
     inputHandler = new InputHandler(gc);
 
@@ -83,12 +84,13 @@ public class Game extends BasicGameState {
                 for (int i = 0; i < 10; i++) {
                   EntityFactory.createEntity(EntityType.PLAYER_TEST);
                 }
-                System.out.println("Spawned 10 new Entities");
+
+                logger.debug("Spawned 10 new Entities");
                 break;
               case K_PRESSED:
                 World.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null, "GAME",
                     "GLOBAL");
-                System.out.println("Removed all Entities");
+               logger.debug("Removed all Entities");
                 break;
             }
           });
