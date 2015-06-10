@@ -1,10 +1,12 @@
 package ch.m837.zombieInvasion.entities.module.modules;
 
+import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
 
+import ch.m837.zombieInvasion.Config;
 import ch.m837.zombieInvasion.World;
 import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 import ch.m837.zombieInvasion.entities.module.Module;
@@ -27,9 +29,9 @@ public class MovementModule extends Module implements UpdatableModul {
               .ifPresent(isSelected -> {
             if (isSelected) {
               event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
-                moveToPos = position.cpy();
-                System.out
-                    .println("Entity: " + getEntityID() + " moveToPos: " + moveToPos.toString());
+                moveToPos = position.scl(Config.PIX2B).cpy();
+                LogManager.getLogger("zombie")
+                    .trace("Entity: " + getEntityID() + " moveToPos: " + moveToPos.toString());
               });
             }
           });
@@ -42,9 +44,11 @@ public class MovementModule extends Module implements UpdatableModul {
   public Object getData(DataType dataType) {
     switch (dataType) {
       case MOVE_TO_POS:
-        return moveToPos;
+        if (moveToPos != null) {
+          return moveToPos.cpy();
+        }
+        break;
     }
     return null;
   }
-
 }

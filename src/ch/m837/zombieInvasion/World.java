@@ -18,7 +18,7 @@ public class World {
 
   // Camera
   private static final Camera CAMERA =
-      new Camera(Config.CAM_VIEWPORT_WIDTH, Config.CAM_VIEWPORT_HEIGHT);;
+      new Camera(Config.CAM_VIEWPORT_WIDTH, Config.CAM_VIEWPORT_HEIGHT);
 
   // EventHandler
   private static final EventDispatcher EVENT_DISPATCHER = new EventDispatcher();
