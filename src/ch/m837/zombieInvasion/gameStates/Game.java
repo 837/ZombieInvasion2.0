@@ -53,7 +53,6 @@ public class Game extends BasicGameState {
     // XXX TEST START
 
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
-    World.getModuleHandler().getPhysicsModules().forEach(m -> m.RENDER(gc, sbg, g));
 
     // XXX DEBUGRENDERER
     World.getModuleHandler().getDebugRendererModules().forEach(m -> m.RENDER(gc, sbg, g));
