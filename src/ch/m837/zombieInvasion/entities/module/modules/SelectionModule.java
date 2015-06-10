@@ -1,5 +1,6 @@
 package ch.m837.zombieInvasion.entities.module.modules;
 
+import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
@@ -36,27 +37,22 @@ public class SelectionModule extends Module implements UpdatableModul {
         case LEFT_CLICK_SELECTION:
           World.getEntityHandler()
               .getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
-              .ifPresent(fixture -> {
-            event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
-              position.scl(Config.PIX2B);
-              isSelected = fixture.testPoint(position);
+              .ifPresent(fixture -> event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+                position.scl(Config.PIX2B);
+                isSelected = fixture.testPoint(position);
 
-              System.out.println("SINGLE: Entity: " + getEntityID() + " isSelected: " + isSelected);
-            });
-          });
+                LogManager.getLogger("zombie").trace("SINGLE: Entity: " + getEntityID() + " isSelected: " + isSelected);
+              }));
           break;
 
         case AREA_SELECTION:
           World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
-              .ifPresent(position -> {
-            event.getAdditionalInfo(Rectangle.class).ifPresent(rectangle -> {
-              position.scl(Config.B2PIX);
-              isSelected = rectangle.contains(position.x, position.y);
-
-              System.out.println("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);
-            });;
-
-          });
+              .ifPresent(position -> event.getAdditionalInfo(Rectangle.class).ifPresent(rectangle -> {
+                position.scl(Config.B2PIX);
+                isSelected = rectangle.contains(position.x, position.y);
+  
+                LogManager.getLogger("zombie").trace("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);
+              }));
           break;
       }
 

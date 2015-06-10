@@ -1,5 +1,6 @@
 package ch.m837.zombieInvasion.entities.module.modules.mouse;
 
+import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -32,7 +33,7 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
               e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
                 position.add(World.getCamera().getPosition());
                 area = new Rectangle(position.x, position.y, 0, 0);
-                System.out.println("area start pos: " + position.toString());
+                LogManager.getLogger("zombie").trace("area start pos: " + position.toString());
               });
 
               break;
@@ -50,7 +51,7 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
               e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
                 position.add(World.getCamera().getPosition());
                 calculateArea(position.cpy());
-                System.out.println("area end pos: " + position);
+                LogManager.getLogger("zombie").trace("area end pos: " + position);
                 if (area.getWidth() > 10 || area.getHeight() > 10 || area.getWidth() < -10
                     || area.getHeight() < -10) {
 
