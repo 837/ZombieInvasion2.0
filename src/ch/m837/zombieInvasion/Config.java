@@ -28,6 +28,4 @@ public class Config {
 
   // Input
   public static final float MOUSE_DRAG_SMOOTHNESS = 0.5f;
- 
-
 }

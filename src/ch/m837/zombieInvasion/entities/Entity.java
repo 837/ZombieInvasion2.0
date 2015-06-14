@@ -35,6 +35,9 @@ public class Entity {
     events.addAll(World.getEventDispatcher().getEvents().parallelStream()
         .filter(event -> event.getReceiverID().equals(ID) || event.getReceiverID().equals("GLOBAL"))
         .collect(Collectors.toList()));
+    
+    
+    
     events.parallelStream().filter(event -> event.getEvent().equals(EventType.KILL_ENTITY))
         .findAny().ifPresent(e -> {
           if (entityStatus.equals(EntityStatus.LIVING)) {
@@ -52,13 +55,12 @@ public class Entity {
   }
 
   public Optional<Object> getData(DataType dataType) {
-    for (Module currentModule : modules) {
-      Object data = currentModule.getData(dataType);
-      if (data != null) {
-        return Optional.ofNullable(data);
-      }
-    }
-    return Optional.empty();
+    return modules
+        .parallelStream()
+        .filter(m -> m.getData(dataType) != null)
+        .map(m -> Optional.ofNullable(m.getData(dataType)))
+        .findAny()
+        .orElse(Optional.empty());
   }
 
   public ArrayList<Event> getEvents() {

@@ -23,14 +23,12 @@ public class Game extends BasicGameState {
     this.ID = ID;
   }
 
-
   private double next_game_tick = System.currentTimeMillis();
   private int loops;
   private double extrapolation;
 
   private InputHandler inputHandler = null;
   private Logger logger = LogManager.getLogger(Game.class);
-
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {

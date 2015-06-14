@@ -1,5 +1,7 @@
 package ch.zombieInvasion.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -9,6 +11,7 @@ import ch.m837.zombieInvasion.entities.entityFactories.EntityType;
 public class ImageWrapper {
   Image img;
   Image b2dScaledImg;
+  private Logger logger = LogManager.getLogger(ImageWrapper.class);
 
   public ImageWrapper(String data, EntityType entity) {
     try {
@@ -16,7 +19,7 @@ public class ImageWrapper {
       b2dScaledImg = img.getScaledCopy((int) (Config.B2PIX * entity.getWidth()),
           (int) (Config.B2PIX * entity.getHeight()));
     } catch (SlickException e) {
-      LOGGER.LOG("Error while creating an ImageWrapper: " + data);
+      logger.error("Error while creating an ImageWrapper: " + data);
     }
   }
 

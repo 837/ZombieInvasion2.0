@@ -25,6 +25,12 @@ public class EntityFactory {
       case PLAYER_TEST:
         createTestEntity1(entityType);
         break;
+//      case HANS:
+//        createTestEntity1(entityType);
+//        break;
+//      case HANS:
+//        createTestEntity1(entityType);
+//        break;
       case MOUSE:
         createMouseEntity(entityType);
         break;

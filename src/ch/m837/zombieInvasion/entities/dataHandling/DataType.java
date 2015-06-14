@@ -20,12 +20,12 @@ public enum DataType {
   MOVE_TO_POS(Vector2.class);
 
   private DataType(final Class<?> clazz) {
-    this.clazz = clazz;
+    // this.clazz = clazz;
   }
 
-  private Class<?> clazz;
-
-  public Class<?> getClazz() {
-    return clazz;
-  }
+  // private Class<?> clazz;
+  //
+  // public Class<?> getClazz() {
+  // return clazz;
+  // }
 }

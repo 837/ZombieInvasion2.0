@@ -1,5 +1,7 @@
 package ch.m837.zombieInvasion;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -7,9 +9,10 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import ch.m837.zombieInvasion.gameStates.Game;
 import ch.m837.zombieInvasion.gameStates.MainMenu;
-import ch.zombieInvasion.util.LOGGER;
 
 public class ZombieInvasion extends StateBasedGame {
+  private static Logger logger = LogManager.getLogger(ZombieInvasion.class);
+
   // Class Constructor
   public ZombieInvasion(String appName) {
     super(appName);
@@ -33,7 +36,7 @@ public class ZombieInvasion extends StateBasedGame {
       app.setClearEachFrame(true);
       app.start();
     } catch (SlickException ex) {
-      LOGGER.LOG(ZombieInvasion.class.getSimpleName() + " : " + ex);
+      logger.error(ZombieInvasion.class.getSimpleName() + " : " + ex);
     }
   }
 }

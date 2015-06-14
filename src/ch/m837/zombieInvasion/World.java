@@ -23,7 +23,7 @@ public class World {
   // EventHandler
   private static final EventDispatcher EVENT_DISPATCHER = new EventDispatcher();
 
-
+  
   public static ModuleHandler getModuleHandler() {
     return MODULE_HANDLER;
   }
