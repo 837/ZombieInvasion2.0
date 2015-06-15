@@ -1,4 +1,4 @@
-package ch.m837.zombieInvasion;
+package ch.redmonkeyass.zombieinvasion;
 
 public class Config {
   // Game state identifiers
@@ -22,7 +22,7 @@ public class Config {
   public static final float B2PIX = WIDTH / 30;
   public static final float PIX2B = 1 / B2PIX;
 
-  // Camera
+  // camera
   public static final int CAM_VIEWPORT_WIDTH = WIDTH;
   public static final int CAM_VIEWPORT_HEIGHT = HEIGHT;
 

@@ -1,4 +1,4 @@
-package ch.zombieInvasion.util;
+package ch.redmonkeyass.zombieinvasion.legacy.util;
 
 public class Timer {
 	private long startTime;

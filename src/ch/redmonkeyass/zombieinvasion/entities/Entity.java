@@ -1,14 +1,14 @@
-package ch.m837.zombieInvasion.entities;
+package ch.redmonkeyass.zombieinvasion.entities;
 
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import ch.m837.zombieInvasion.World;
-import ch.m837.zombieInvasion.entities.dataHandling.DataType;
-import ch.m837.zombieInvasion.entities.module.Module;
-import ch.zombieInvasion.Eventhandling.Event;
-import ch.zombieInvasion.Eventhandling.EventType;
+import ch.redmonkeyass.zombieinvasion.World;
+import ch.redmonkeyass.zombieinvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieinvasion.entities.module.Module;
+import ch.redmonkeyass.zombieinvasion.legacy.eventhandling.Event;
+import ch.redmonkeyass.zombieinvasion.legacy.eventhandling.EventType;
 
 public class Entity {
   public enum EntityStatus {

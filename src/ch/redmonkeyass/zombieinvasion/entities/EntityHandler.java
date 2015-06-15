@@ -1,4 +1,4 @@
-package ch.m837.zombieInvasion.entities;
+package ch.redmonkeyass.zombieinvasion.entities;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import com.badlogic.gdx.math.Vector2;
 
-import ch.m837.zombieInvasion.entities.Entity.EntityStatus;
-import ch.m837.zombieInvasion.entities.dataHandling.DataType;
-import ch.m837.zombieInvasion.entities.module.Module;
-import ch.zombieInvasion.Eventhandling.Event;
+import ch.redmonkeyass.zombieinvasion.entities.Entity.EntityStatus;
+import ch.redmonkeyass.zombieinvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieinvasion.entities.module.Module;
+import ch.redmonkeyass.zombieinvasion.legacy.eventhandling.Event;
 
 public class EntityHandler {
   private ArrayList<Entity> entities = new ArrayList<>();
@@ -81,6 +81,6 @@ public class EntityHandler {
 
   public void UPDATE_ENTITIES() {
     removeDeadEntities();
-    entities.parallelStream().forEach(entity -> entity.UPDATE_ENTITY());
+    entities.parallelStream().forEach(Entity::UPDATE_ENTITY);
   }
 }
