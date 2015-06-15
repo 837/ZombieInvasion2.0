@@ -1,10 +1,5 @@
-package ch.redmonkeyass.zombieinvasion.entities.module.modules;
+package ch.m837.zombieInvasion.entities.module.modules;
 
-import ch.redmonkeyass.zombieinvasion.Config;
-import ch.redmonkeyass.zombieinvasion.World;
-import ch.redmonkeyass.zombieinvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieinvasion.entities.module.UpdatableModul;
-import ch.redmonkeyass.zombieinvasion.legacy.eventhandling.EventType;
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
@@ -13,7 +8,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-import ch.redmonkeyass.zombieinvasion.entities.module.Module;
+import ch.m837.zombieInvasion.Config;
+import ch.m837.zombieInvasion.World;
+import ch.m837.zombieInvasion.entities.dataHandling.DataType;
+import ch.m837.zombieInvasion.entities.module.Module;
+import ch.m837.zombieInvasion.entities.module.UpdatableModul;
 
 public class SelectionModule extends Module implements UpdatableModul {
   private boolean isSelected = false;

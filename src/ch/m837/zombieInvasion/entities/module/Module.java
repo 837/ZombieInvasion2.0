@@ -1,6 +1,6 @@
-package ch.redmonkeyass.zombieinvasion.entities.module;
+package ch.m837.zombieInvasion.entities.module;
 
-import ch.redmonkeyass.zombieinvasion.entities.datahandling.DataType;
+import ch.m837.zombieInvasion.entities.dataHandling.DataType;
 
 public abstract class Module {
   private final String entityID;

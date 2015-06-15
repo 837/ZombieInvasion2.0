@@ -1,7 +1,5 @@
-package ch.redmonkeyass.zombieinvasion.entities.module.modules.mouse;
+package ch.m837.zombieInvasion.entities.module.modules.mouse;
 
-import ch.redmonkeyass.zombieinvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieinvasion.entities.module.UpdatableModul;
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -11,10 +9,12 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
 
-import ch.redmonkeyass.zombieinvasion.World;
-import ch.redmonkeyass.zombieinvasion.entities.module.Module;
-import ch.redmonkeyass.zombieinvasion.entities.module.RenderableModul;
-import ch.redmonkeyass.zombieinvasion.legacy.eventhandling.EventType;
+import ch.m837.zombieInvasion.World;
+import ch.m837.zombieInvasion.entities.dataHandling.DataType;
+import ch.m837.zombieInvasion.entities.module.Module;
+import ch.m837.zombieInvasion.entities.module.RenderableModul;
+import ch.m837.zombieInvasion.entities.module.UpdatableModul;
+import ch.zombieInvasion.Eventhandling.EventType;
 
 public class MouseSelectionModule extends Module implements RenderableModul, UpdatableModul {
   public MouseSelectionModule(String entityID) {

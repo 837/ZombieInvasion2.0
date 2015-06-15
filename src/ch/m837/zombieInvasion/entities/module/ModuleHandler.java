@@ -1,14 +1,14 @@
-package ch.redmonkeyass.zombieinvasion.entities.module;
+package ch.m837.zombieInvasion.entities.module;
 
 import java.util.ArrayList;
 
-import ch.redmonkeyass.zombieinvasion.World;
-import ch.redmonkeyass.zombieinvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.redmonkeyass.zombieinvasion.entities.module.modules.debugmodules.DebugRendererModule;
-import ch.redmonkeyass.zombieinvasion.entities.module.modules.mouse.MouseSelectionModule;
-import ch.redmonkeyass.zombieinvasion.entities.module.modules.MovementModule;
-import ch.redmonkeyass.zombieinvasion.entities.module.modules.PhysicsModule;
-import ch.redmonkeyass.zombieinvasion.entities.module.modules.SelectionModule;
+import ch.m837.zombieInvasion.World;
+import ch.m837.zombieInvasion.entities.module.modules.MovementModule;
+import ch.m837.zombieInvasion.entities.module.modules.PhysicsModule;
+import ch.m837.zombieInvasion.entities.module.modules.SelectionModule;
+import ch.m837.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.m837.zombieInvasion.entities.module.modules.debugModules.DebugRendererModule;
+import ch.m837.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 
 public class ModuleHandler {
   /*
@@ -30,7 +30,8 @@ public class ModuleHandler {
 
 
   public void addModules(Module... modules) {
-    for (Module module : modules) {
+    for (int i = 0; i < modules.length; i++) {
+      Module module = modules[i];
       World.getEntityHandler().addModulToEntity(module);
 
       /*
