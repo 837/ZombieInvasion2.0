@@ -34,7 +34,10 @@ public class Game extends BasicGameState {
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     EntityFactory.createEntity(EntityType.MOUSE);
 
-    EntityFactory.createEntity(EntityType.PLAYER_TEST);
+    EntityFactory.createEntity(EntityType.ADOLF);
+    EntityFactory.createEntity(EntityType.HANS);
+    EntityFactory.createEntity(EntityType.GERHART);
+
 
     inputHandler = new InputHandler(gc);
 
@@ -77,7 +80,7 @@ public class Game extends BasicGameState {
             switch (e.getEvent()) {
               case G_PRESSED:
                 for (int i = 0; i < 10; i++) {
-                  EntityFactory.createEntity(EntityType.PLAYER_TEST);
+                  EntityFactory.createEntity(EntityType.ZOMBIE);
                 }
                 logger.trace("Spawned 10 new Entities");
                 break;

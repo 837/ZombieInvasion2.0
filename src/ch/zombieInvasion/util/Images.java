@@ -12,8 +12,15 @@ public class Images {
   /*
    * Entities
    */
-  public static final ImageWrapper TEST_ENTITY_IMG =
-      new ImageWrapper("res/sprites/entities/testEntity1.png", EntityType.PLAYER_TEST);
+  public static final ImageWrapper ADOLF =
+      new ImageWrapper("res/sprites/entities/testEntity1.png", EntityType.ADOLF);
 
+  public static final ImageWrapper HANS =
+      new ImageWrapper("res/sprites/entities/testEntity2.png", EntityType.HANS);
 
+  public static final ImageWrapper GERHART =
+      new ImageWrapper("res/sprites/entities/testEntity3.png", EntityType.GERHART);
+
+  public static final ImageWrapper ZOMBIE =
+      new ImageWrapper("res/sprites/entities/testEntity4.png", EntityType.ZOMBIE);
 }
