@@ -75,9 +75,10 @@ public class EntityFactory {
       FixtureDef fixtureDef = new FixtureDef();
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
-      fixtureDef.density = 1.00f;
-      fixtureDef.friction = 1.00f;
-
+      fixtureDef.density = 10.0f;
+      fixtureDef.friction = 1.0f;
+      fixtureDef.restitution = 0.0f;
+      body.resetMassData();
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -127,9 +128,10 @@ public class EntityFactory {
       FixtureDef fixtureDef = new FixtureDef();
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
-      fixtureDef.density = 0.5f;
-      fixtureDef.friction = 0.5f;
-
+      fixtureDef.density = 10.0f;
+      fixtureDef.friction = 1.0f;
+      fixtureDef.restitution = 0.0f;
+      body.resetMassData();
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -179,9 +181,10 @@ public class EntityFactory {
       FixtureDef fixtureDef = new FixtureDef();
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
-      fixtureDef.density = 0.25f;
-      fixtureDef.friction = 0.25f;
-
+      fixtureDef.density = 10.0f;
+      fixtureDef.friction = 1.0f;
+      fixtureDef.restitution = 0.0f;
+      body.resetMassData();
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -231,9 +234,10 @@ public class EntityFactory {
       FixtureDef fixtureDef = new FixtureDef();
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
-      fixtureDef.density = 0.05f;
-      fixtureDef.friction = 0.05f;
-
+      fixtureDef.density = 10.0f;
+      fixtureDef.friction = 1.0f;
+      fixtureDef.restitution = 0.0f;
+      body.resetMassData();
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);

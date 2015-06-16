@@ -37,9 +37,11 @@ public class PhysicsModule extends Module implements UpdatableModul {
         .ifPresent(moveToPos -> {
           moveToPos.sub(b2Body.getPosition());
           moveToPos.nor();
-          moveToPos.scl(0.05f);
+          moveToPos.scl(16.5f);
           b2Body.applyForceToCenter(moveToPos, true);
         });
   }
+  
+  
 }
 
