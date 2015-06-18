@@ -42,15 +42,17 @@ public class PhysicsModule extends Module implements UpdatableModul {
   void arrive(Vector2 target) {
     Vector2 desired = target.sub(b2Body.getPosition().cpy());
 
-    float d = desired.len() * Config.B2PIX;
-    int maxSpeed = 10;
-    int maxForce = 10;
+    float d = desired.len();
+    int maxSpeed = 3;
+    int maxForce = 3;
 
     System.out.println(d);
     desired.nor();
-    if (d < 100.0) {
-      float m = MathUtil.map(d, 0, 100, 0, maxSpeed);
+    if (d < 3.5 && d > 0.3) {
+      float m = MathUtil.map(d, 0, 10, 0, maxSpeed);
       desired.scl(m);
+    } else if (d <= 0.3) {
+      desired.scl(0);
     } else {
       desired.scl(maxSpeed);
     }

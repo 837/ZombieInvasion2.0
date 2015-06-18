@@ -48,7 +48,7 @@ public class EntityFactory {
 
   private static void createAdolf(EntityType entityType) {
     String id = "ADOLF: " + UUID.randomUUID();
-    World.getEntityHandler().addEntity(new Entity(id));
+    World.getEntityHandler().addEntity(new Entity(id, EntityStatus.INDESTRUCTIBLE));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
     /*
@@ -76,9 +76,9 @@ public class EntityFactory {
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
       fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.0f;
+      fixtureDef.friction = 0.5f;
       fixtureDef.restitution = 0.0f;
-      body.resetMassData();
+     
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -101,7 +101,7 @@ public class EntityFactory {
 
   private static void createHans(EntityType entityType) {
     String id = "HANS: " + UUID.randomUUID();
-    World.getEntityHandler().addEntity(new Entity(id));
+    World.getEntityHandler().addEntity(new Entity(id, EntityStatus.INDESTRUCTIBLE));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
     /*
@@ -129,9 +129,9 @@ public class EntityFactory {
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
       fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.0f;
+      fixtureDef.friction = 0.5f;
       fixtureDef.restitution = 0.0f;
-      body.resetMassData();
+     
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -154,7 +154,7 @@ public class EntityFactory {
 
   private static void createGerhart(EntityType entityType) {
     String id = "GERHART: " + UUID.randomUUID();
-    World.getEntityHandler().addEntity(new Entity(id));
+    World.getEntityHandler().addEntity(new Entity(id, EntityStatus.INDESTRUCTIBLE));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
     /*
@@ -182,9 +182,9 @@ public class EntityFactory {
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
       fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.0f;
+      fixtureDef.friction = 0.5f;
       fixtureDef.restitution = 0.0f;
-      body.resetMassData();
+     
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -235,9 +235,9 @@ public class EntityFactory {
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
       fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.0f;
+      fixtureDef.friction = 1.0f;
       fixtureDef.restitution = 0.0f;
-      body.resetMassData();
+     
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -252,9 +252,9 @@ public class EntityFactory {
     World.getModuleHandler()
         .addModules(new SimpleImageRenderModule(id, Images.ZOMBIE.getB2DScaled()));
 
-    // World.getModuleHandler().addModules(new MovementModule(id));
+   //  World.getModuleHandler().addModules(new MovementModule(id));
 
     // DebugModules
-    World.getModuleHandler().addModules(new DebugRendererModule(id));
+    //ggWorld.getModuleHandler().addModules(new DebugRendererModule(id));
   }
 }

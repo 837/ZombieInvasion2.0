@@ -19,7 +19,7 @@ public class Config {
   /*
    * temporary, there has to be a more sensible way to define this
    */
-  public static final float B2PIX = WIDTH / 30;
+  public static final float B2PIX = WIDTH / 50;
   public static final float PIX2B = 1 / B2PIX;
 
   // Camera
