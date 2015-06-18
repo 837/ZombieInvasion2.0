@@ -6,6 +6,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
@@ -34,33 +35,31 @@ public class PhysicsModule extends Module implements UpdatableModul {
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    Vector2 target =
-        World.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, Vector2.class)
-            .orElse(b2Body.getPosition());
-    arrive(target);
+    World.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, Vector2.class)
+        .ifPresent(pos -> arrive(pos.scl(Config.PIX2B)));
   }
 
   void arrive(Vector2 target) {
-    Vector2 desired = target.sub(b2Body.getPosition());
+    Vector2 desired = target.sub(b2Body.getPosition().cpy());
 
-    // The distance is the magnitude of the vector pointing from location to target.
-    float d = desired.len();
+    float d = desired.len() * Config.B2PIX;
+    int maxSpeed = 10;
+    int maxForce = 10;
+
+    System.out.println(d);
     desired.nor();
-    // If we are closer than 100 pixels...
-    if (d < 10 && d > 2) {
-      // ...set the magnitude according to how close we are.
-      float m = MathUtil.map(d, 0, 30, 0, 10);
+    if (d < 100.0) {
+      float m = MathUtil.map(d, 0, 100, 0, maxSpeed);
       desired.scl(m);
-    } else if (d <= 2) {
-      desired.scl(0);
     } else {
-      // Otherwise, proceed at maximum speed.
-      desired.scl(10);
+      desired.scl(maxSpeed);
     }
 
-    // The usual steering = desired - velocity
-    Vector2 steer = desired.sub(b2Body.getLinearVelocity());
-    steer.limit(10);
+    System.out.println(b2Body.getLinearVelocity());
+    System.out.println(desired);
+    Vector2 steer = desired.sub(b2Body.getLinearVelocity().cpy());
+    System.out.println(steer);
+    steer.limit(maxForce);
     b2Body.applyForceToCenter(steer, true);
   }
 

@@ -31,18 +31,6 @@ public class Camera {
     World.getEventDispatcher().getEvents().parallelStream()
         .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
           switch (e.getEvent()) {
-            case A_PRESSED:
-              move(new Vector2(-20, 0));
-              break;
-            case D_PRESSED:
-              move(new Vector2(20, 0));
-              break;
-            case S_PRESSED:
-              move(new Vector2(0, 20));
-              break;
-            case W_PRESSED:
-              move(new Vector2(0, -20));
-              break;
             case RIGHT_DRAGGED:
               e.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {
                 Vector2 oldPos = positions[0].scl(Config.MOUSE_DRAG_SMOOTHNESS);

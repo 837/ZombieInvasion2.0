@@ -29,7 +29,7 @@ public class MovementModule extends Module implements UpdatableModul {
               .ifPresent(isSelected -> {
             if (isSelected) {
               event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
-                moveToPos = position.scl(Config.PIX2B).cpy();
+                moveToPos = position.add(World.getCamera().getPosition()).cpy();
                 LogManager.getLogger("zombie")
                     .trace("Entity: " + getEntityID() + " moveToPos: " + moveToPos.toString());
               });
