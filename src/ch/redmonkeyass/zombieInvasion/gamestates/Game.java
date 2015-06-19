@@ -41,8 +41,8 @@ public class Game extends BasicGameState {
 
     inputHandler = new InputHandler(gc);
 
-    World.getCamera().setMapData(Images.MENU_BACKGROUND.get().getWidth(),
-        Images.MENU_BACKGROUND.get().getHeight());
+    World.getCamera().setMapData((int) (Config.WORLDMAP_WIDTH * Config.B2PIX),
+        (int) (Config.WORLDMAP_HEIGHT * Config.B2PIX));
   }
 
   @Override
@@ -50,6 +50,9 @@ public class Game extends BasicGameState {
     g.translate(-World.getCamera().getPosition().x, -World.getCamera().getPosition().y);
 
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
+
+    // WorldMap
+    World.getWorldMap().RENDER(gc, sbg, g);
 
     // XXX TEST START
     World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
@@ -60,8 +63,7 @@ public class Game extends BasicGameState {
     // XXX MouseModules
     World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.RENDER(gc, sbg, g));
 
-    
-    
+
     // XXX TEST END
   }
 
@@ -80,7 +82,7 @@ public class Game extends BasicGameState {
       // EventModule
       World.getModuleHandler().getEventListenerModules().forEach(m -> m.UPDATE(gc, sbg));
 
-      
+
       World.getEventDispatcher().getEvents().parallelStream()
           .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
             switch (e.getEvent()) {

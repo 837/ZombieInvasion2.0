@@ -6,6 +6,7 @@ import ch.redmonkeyass.zombieInvasion.camera.Camera;
 import ch.redmonkeyass.zombieInvasion.entities.EntityHandler;
 import ch.redmonkeyass.zombieInvasion.entities.module.ModuleHandler;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventDispatcher;
+import ch.redmonkeyass.zombieInvasion.worldmap.WorldMap;
 
 public class World {
 
@@ -23,7 +24,12 @@ public class World {
   // EventHandler
   private static final EventDispatcher EVENT_DISPATCHER = new EventDispatcher();
 
-  
+
+  // WorldMap
+  private static final WorldMap WORLD_MAP = new WorldMap();
+
+
+
   public static ModuleHandler getModuleHandler() {
     return MODULE_HANDLER;
   }
@@ -42,5 +48,9 @@ public class World {
 
   public static EventDispatcher getEventDispatcher() {
     return EVENT_DISPATCHER;
+  }
+
+  public static WorldMap getWorldMap() {
+    return WORLD_MAP;
   }
 }
