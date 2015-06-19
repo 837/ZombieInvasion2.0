@@ -60,6 +60,8 @@ public class Game extends BasicGameState {
     // XXX MouseModules
     World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.RENDER(gc, sbg, g));
 
+    
+    
     // XXX TEST END
   }
 
@@ -75,6 +77,10 @@ public class Game extends BasicGameState {
 
       World.getCamera().UPDATE(gc, sbg);
 
+      // EventModule
+      World.getModuleHandler().getEventListenerModules().forEach(m -> m.UPDATE(gc, sbg));
+
+      
       World.getEventDispatcher().getEvents().parallelStream()
           .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
             switch (e.getEvent()) {

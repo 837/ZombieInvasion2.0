@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.entities.Entity.EntityStatus;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
@@ -44,6 +45,9 @@ public class EntityFactory {
     String id = "MOUSE: " + UUID.randomUUID();
     World.getEntityHandler().addEntity(new Entity(id, EntityStatus.INDESTRUCTIBLE));
     World.getModuleHandler().addModules(new MouseSelectionModule(id));
+
+    // EventModule
+    World.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
   private static void createAdolf(EntityType entityType) {
@@ -78,7 +82,7 @@ public class EntityFactory {
       fixtureDef.density = 1.0f;
       fixtureDef.friction = 0.5f;
       fixtureDef.restitution = 0.0f;
-     
+
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -97,6 +101,9 @@ public class EntityFactory {
 
     // DebugModules
     World.getModuleHandler().addModules(new DebugRendererModule(id));
+
+    // EventModule
+    World.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
   private static void createHans(EntityType entityType) {
@@ -131,7 +138,7 @@ public class EntityFactory {
       fixtureDef.density = 1.0f;
       fixtureDef.friction = 0.5f;
       fixtureDef.restitution = 0.0f;
-     
+
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -150,6 +157,9 @@ public class EntityFactory {
 
     // DebugModules
     World.getModuleHandler().addModules(new DebugRendererModule(id));
+
+    // EventModule
+    World.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
   private static void createGerhart(EntityType entityType) {
@@ -184,7 +194,7 @@ public class EntityFactory {
       fixtureDef.density = 1.0f;
       fixtureDef.friction = 0.5f;
       fixtureDef.restitution = 0.0f;
-     
+
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -203,6 +213,9 @@ public class EntityFactory {
 
     // DebugModules
     World.getModuleHandler().addModules(new DebugRendererModule(id));
+
+    // EventModule
+    World.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
   private static void createZombie(EntityType entityType) {
@@ -237,7 +250,7 @@ public class EntityFactory {
       fixtureDef.density = 1.0f;
       fixtureDef.friction = 1.0f;
       fixtureDef.restitution = 0.0f;
-     
+
 
       // Create our fixture and attach it to the body
       body.createFixture(fixtureDef);
@@ -252,9 +265,12 @@ public class EntityFactory {
     World.getModuleHandler()
         .addModules(new SimpleImageRenderModule(id, Images.ZOMBIE.getB2DScaled()));
 
-   //  World.getModuleHandler().addModules(new MovementModule(id));
+    // World.getModuleHandler().addModules(new MovementModule(id));
 
     // DebugModules
-    //ggWorld.getModuleHandler().addModules(new DebugRendererModule(id));
+    // ggWorld.getModuleHandler().addModules(new DebugRendererModule(id));
+
+    // EventModule
+    World.getModuleHandler().addModules(new EventListenerModule(id));
   }
 }

@@ -26,49 +26,50 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
   private final Color areaColor = new Color(96, 96, 96, 80);
 
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEntityHandler().getEventsFrom(getEntityID()).parallelStream()
-        .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
-          switch (e.getEvent()) {
-            case LEFT_DOWN:
-              e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
-                position.add(World.getCamera().getPosition());
-                area = new Rectangle(position.x, position.y, 0, 0);
-                LogManager.getLogger("zombie").trace("area start pos: " + position.toString());
-              });
-              break;
+    World.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
+      events.parallelStream().filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
+        switch (e.getEvent()) {
+          case LEFT_DOWN:
+            e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+              position.add(World.getCamera().getPosition());
+              area = new Rectangle(position.x, position.y, 0, 0);
+              LogManager.getLogger("zombie").trace("area start pos: " + position.toString());
+            });
+            break;
 
-            case LEFT_DRAGGED:
-              e.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {
-                positions[1].add(World.getCamera().getPosition());
-                calculateArea(positions[1].cpy());
-                // EventDispatcher.createEvent(0, EventType.AREA_SELECTION_EVENT, area,
-                // "AreaSelectionHelper", "GLOBAL");
-              });
+          case LEFT_DRAGGED:
+            e.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {
+              positions[1].add(World.getCamera().getPosition());
+              calculateArea(positions[1].cpy());
+              // EventDispatcher.createEvent(0, EventType.AREA_SELECTION_EVENT, area,
+              // "AreaSelectionHelper", "GLOBAL");
+            });
 
-              break;
-            case LEFT_RELEASED:
-              e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
-                position.add(World.getCamera().getPosition());
-                calculateArea(position.cpy());
-                LogManager.getLogger("zombie").trace("area end pos: " + position);
-                if (area.getWidth() > 10 || area.getHeight() > 10 || area.getWidth() < -10
-                    || area.getHeight() < -10) {
+            break;
+          case LEFT_RELEASED:
+            e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+              position.add(World.getCamera().getPosition());
+              calculateArea(position.cpy());
+              LogManager.getLogger("zombie").trace("area end pos: " + position);
+              if (area.getWidth() > 10 || area.getHeight() > 10 || area.getWidth() < -10
+                  || area.getHeight() < -10) {
 
-                  Rectangle areaToCheck = new Rectangle(Math.min(area.getMinX(), area.getMaxX()),
-                      Math.min(area.getMinY(), area.getMaxY()), Math.abs(area.getWidth()),
-                      Math.abs(area.getHeight()));
+                Rectangle areaToCheck = new Rectangle(Math.min(area.getMinX(), area.getMaxX()),
+                    Math.min(area.getMinY(), area.getMaxY()), Math.abs(area.getWidth()),
+                    Math.abs(area.getHeight()));
 
-                  World.getEventDispatcher().createEvent(0, EventType.AREA_SELECTION, areaToCheck,
-                      "AreaSelectionHelper", "GLOBAL");
-                } else {
-                  World.getEventDispatcher().createEvent(0, EventType.LEFT_CLICK_SELECTION, position.cpy(),
-                      "AreaSelectionHelper", "GLOBAL");
-                }
-                area = new Rectangle(0, 0, 0, 0);
-              });
-              break;
-          }
-        });
+                World.getEventDispatcher().createEvent(0, EventType.AREA_SELECTION, areaToCheck,
+                    "AreaSelectionHelper", "GLOBAL");
+              } else {
+                World.getEventDispatcher().createEvent(0, EventType.LEFT_CLICK_SELECTION,
+                    position.cpy(), "AreaSelectionHelper", "GLOBAL");
+              }
+              area = new Rectangle(0, 0, 0, 0);
+            });
+            break;
+        }
+      });
+    });
   }
 
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {

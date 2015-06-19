@@ -3,6 +3,7 @@ package ch.redmonkeyass.zombieInvasion.entities.module;
 import java.util.ArrayList;
 
 import ch.redmonkeyass.zombieInvasion.World;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
@@ -27,6 +28,8 @@ public class ModuleHandler {
   // MouseModules
   private ArrayList<MouseSelectionModule> mouseSelectionModule = new ArrayList<>();
 
+  // EventModule
+  private ArrayList<EventListenerModule> eventListenerModules = new ArrayList<>();
 
 
   public void addModules(Module... modules) {
@@ -50,6 +53,8 @@ public class ModuleHandler {
         debugRendererModules.add((DebugRendererModule) module);
       } else if (module instanceof MouseSelectionModule) { // MouseModules
         mouseSelectionModule.add((MouseSelectionModule) module);
+      } else if (module instanceof EventListenerModule) { // MouseModules
+        eventListenerModules.add((EventListenerModule) module);
       }
     }
 
@@ -67,12 +72,16 @@ public class ModuleHandler {
     allModules.addAll(physicsModules);
     allModules.addAll(simpleImageRenderModules);
     allModules.addAll(movementModules);
-    
-    //MouseModules
+
+    // MouseModules
     allModules.addAll(mouseSelectionModule);
 
     // DebugModules
     allModules.addAll(debugRendererModules);
+
+    // EventModule
+    allModules.addAll(eventListenerModules);
+
     return allModules;
   }
 
@@ -103,5 +112,10 @@ public class ModuleHandler {
   // MouseModules
   public ArrayList<MouseSelectionModule> getMouseSelectionModule() {
     return mouseSelectionModule;
+  }
+
+  // EventModule
+  public ArrayList<EventListenerModule> getEventListenerModules() {
+    return eventListenerModules;
   }
 }

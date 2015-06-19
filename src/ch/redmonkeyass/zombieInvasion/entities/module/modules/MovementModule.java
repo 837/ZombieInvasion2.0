@@ -6,7 +6,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
 
-import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
@@ -22,21 +21,23 @@ public class MovementModule extends Module implements UpdatableModul {
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEntityHandler().getEventsFrom(getEntityID()).parallelStream().forEach(event -> {
-      switch (event.getEvent()) {
-        case RIGHT_CLICK:
-          World.getEntityHandler().getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
-              .ifPresent(isSelected -> {
-            if (isSelected) {
-              event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
-                moveToPos = position.add(World.getCamera().getPosition()).cpy();
-                LogManager.getLogger("zombie")
-                    .trace("Entity: " + getEntityID() + " moveToPos: " + moveToPos.toString());
-              });
-            }
-          });
-          break;
-      }
+    World.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
+      events.parallelStream().forEach(event -> {
+        switch (event.getEvent()) {
+          case RIGHT_CLICK:
+            World.getEntityHandler().getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
+                .ifPresent(isSelected -> {
+              if (isSelected) {
+                event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+                  moveToPos = position.add(World.getCamera().getPosition()).cpy();
+                  LogManager.getLogger("zombie")
+                      .trace("Entity: " + getEntityID() + " moveToPos: " + moveToPos.toString());
+                });
+              }
+            });
+            break;
+        }
+      });
     });
   }
 

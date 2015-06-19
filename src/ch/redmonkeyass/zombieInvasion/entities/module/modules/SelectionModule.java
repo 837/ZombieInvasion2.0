@@ -32,31 +32,35 @@ public class SelectionModule extends Module implements UpdatableModul {
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEntityHandler().getEventsFrom(getEntityID()).parallelStream().forEach(event -> {
-      switch (event.getEvent()) {
-        case LEFT_CLICK_SELECTION:
-          World.getEntityHandler()
-              .getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
-              .ifPresent(fixture -> event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
-                position.scl(Config.PIX2B);
-                isSelected = fixture.testPoint(position);
+    World.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
+      events.parallelStream().forEach(event -> {
+        switch (event.getEvent()) {
+          case LEFT_CLICK_SELECTION:
+            World.getEntityHandler()
+                .getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
+                .ifPresent(fixture -> event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+              position.scl(Config.PIX2B);
+              isSelected = fixture.testPoint(position);
 
-                LogManager.getLogger("zombie").trace("SINGLE: Entity: " + getEntityID() + " isSelected: " + isSelected);
-              }));
-          break;
+              LogManager.getLogger("zombie")
+                  .trace("SINGLE: Entity: " + getEntityID() + " isSelected: " + isSelected);
+            }));
+            break;
 
-        case AREA_SELECTION:
-          World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
-              .ifPresent(position -> event.getAdditionalInfo(Rectangle.class).ifPresent(rectangle -> {
-                position.scl(Config.B2PIX);
-                isSelected = rectangle.contains(position.x, position.y);
-  
-                LogManager.getLogger("zombie").trace("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);
-              }));
-          break;
-      }
+          case AREA_SELECTION:
+            World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
+                .ifPresent(
+                    position -> event.getAdditionalInfo(Rectangle.class).ifPresent(rectangle -> {
+              position.scl(Config.B2PIX);
+              isSelected = rectangle.contains(position.x, position.y);
 
+              LogManager.getLogger("zombie")
+                  .trace("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);
+            }));
+            break;
+        }
+
+      });
     });
-
   }
 }

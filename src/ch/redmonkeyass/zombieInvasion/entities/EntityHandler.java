@@ -44,10 +44,10 @@ public class EntityHandler {
    * @param fromID
    * @return ArrayList<Event> all_Events
    */
-  public ArrayList<Event> getEventsFrom(String fromID) {
+  public Optional<ArrayList<Event>> getEventsFrom(String fromID) {
     Entity entity =
         entities.parallelStream().filter(e -> e.getID().equals(fromID)).findAny().orElse(null);
-    return entity != null ? entity.getEvents() : new ArrayList<>(0);
+    return entity != null ? entity.getEvents() : Optional.empty();
   }
 
   /**
