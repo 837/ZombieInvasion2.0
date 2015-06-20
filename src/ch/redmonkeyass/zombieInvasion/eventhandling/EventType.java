@@ -19,6 +19,6 @@ public enum EventType {
   /*
    * EntityEvents
    */
-  KILL_ENTITY
+  KILL_ENTITY, REMOVE_ENTITY
 
 }

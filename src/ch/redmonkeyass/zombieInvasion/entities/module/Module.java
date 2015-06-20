@@ -16,4 +16,13 @@ public abstract class Module {
   public String getEntityID() {
     return entityID;
   }
+
+  /**
+   * Clean up Module, dispose of shapes or bodies
+   * <p>
+   * Called when you remove the Module
+   */
+  public void prepareModuleForRemoval() {
+    // TODO Override if needed!
+  }
 }

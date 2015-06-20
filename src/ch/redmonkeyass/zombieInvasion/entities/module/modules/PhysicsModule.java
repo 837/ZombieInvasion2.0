@@ -48,7 +48,7 @@ public class PhysicsModule extends Module implements UpdatableModul {
     int maxSpeed = 3;
     int maxForce = 3;
 
-    System.out.println(d);
+    // System.out.println(d);
     desired.nor();
     if (d < 3.5 && d > 0.3) {
       float m = MathUtil.map(d, 0, 10, 0, maxSpeed);
@@ -59,13 +59,17 @@ public class PhysicsModule extends Module implements UpdatableModul {
       desired.scl(maxSpeed);
     }
 
-    System.out.println(b2Body.getLinearVelocity());
-    System.out.println(desired);
+    // System.out.println(b2Body.getLinearVelocity());
+    // System.out.println(desired);
     Vector2 steer = desired.sub(b2Body.getLinearVelocity().cpy());
-    System.out.println(steer);
+    // System.out.println(steer);
     steer.limit(maxForce);
     b2Body.applyForceToCenter(steer, true);
   }
 
+  @Override
+  public void prepareModuleForRemoval() {
+    World.getB2World().destroyBody(b2Body);
+  }
 }
 

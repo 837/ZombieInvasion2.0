@@ -12,6 +12,14 @@ import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityFactory;
 import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 import ch.redmonkeyass.zombieInvasion.input.InputHandler;
 import ch.redmonkeyass.zombieInvasion.util.Images;
@@ -35,8 +43,8 @@ public class Game extends BasicGameState {
     EntityFactory.createEntity(EntityType.MOUSE);
 
     EntityFactory.createEntity(EntityType.ADOLF);
-     EntityFactory.createEntity(EntityType.HANS);
-     EntityFactory.createEntity(EntityType.GERHART);
+    EntityFactory.createEntity(EntityType.HANS);
+    EntityFactory.createEntity(EntityType.GERHART);
 
 
     inputHandler = new InputHandler(gc);
@@ -55,13 +63,18 @@ public class Game extends BasicGameState {
     World.getWorldMap().RENDER(gc, sbg, g);
 
     // XXX TEST START
-    World.getModuleHandler().getSimpleImageRenderModules().forEach(m -> m.RENDER(gc, sbg, g));
+    World.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
+        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     // XXX DEBUGRENDERER
-    World.getModuleHandler().getDebugRendererModules().forEach(m -> m.RENDER(gc, sbg, g));
+    World.getModuleHandler().getModulesOf(DebugRendererModule.class)
+        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+    World.getModuleHandler().getModulesOf(DebugRendererModule.class)
+        .ifPresent(modules -> System.out.println("DebugModuleListSize: " + modules.size()));
 
     // XXX MouseModules
-    World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.RENDER(gc, sbg, g));
+    World.getModuleHandler().getModulesOf(MouseSelectionModule.class)
+        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
 
     // XXX TEST END
@@ -80,11 +93,14 @@ public class Game extends BasicGameState {
       World.getCamera().UPDATE(gc, sbg);
 
       // EventModule
-      World.getModuleHandler().getEventListenerModules().forEach(m -> m.UPDATE(gc, sbg));
+      World.getModuleHandler().getModulesOf(EventListenerModule.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
 
       World.getEventDispatcher().getEvents().parallelStream()
-          .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
+          .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e ->
+
+      {
             switch (e.getEvent()) {
               case G_PRESSED:
                 for (int i = 0; i < 10; i++) {
@@ -100,14 +116,24 @@ public class Game extends BasicGameState {
             }
           });
 
-      World.getEntityHandler().UPDATE_ENTITIES();
-      World.getModuleHandler().getSelectionModules().forEach(m -> m.UPDATE(gc, sbg));
-      World.getModuleHandler().getPhysicsModules().forEach(m -> m.UPDATE(gc, sbg));
-      World.getModuleHandler().getMovementModules().forEach(m -> m.UPDATE(gc, sbg));
-      World.getModuleHandler().getEntityStatusModules().forEach(m -> m.UPDATE(gc, sbg));
+      World.getEntityHandler().UPDATE_ENTITYHANDLER();
+      World.getModuleHandler().UPDATE_MODULEHANDLER();
+
+      World.getModuleHandler().getModulesOf(SelectionModule.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+
+      World.getModuleHandler().getModulesOf(PhysicsModule.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+
+      World.getModuleHandler().getModulesOf(MovementModule.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+
+      World.getModuleHandler().getModulesOf(EntityStatusModule.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
       // MouseModules
-      World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.UPDATE(gc, sbg));
+      World.getModuleHandler().getModulesOf(MouseSelectionModule.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
       World.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
       World.getEventDispatcher().dispatchEvents();
@@ -115,9 +141,12 @@ public class Game extends BasicGameState {
       // XXX TEST END
       next_game_tick += Config.TIME_PER_TICK;
       loops++;
+
     }
 
-    if (next_game_tick < System.currentTimeMillis()) {
+    if (next_game_tick < System.currentTimeMillis())
+
+    {
       next_game_tick = System.currentTimeMillis();
     }
 

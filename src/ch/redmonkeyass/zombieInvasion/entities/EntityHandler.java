@@ -2,14 +2,12 @@ package ch.redmonkeyass.zombieInvasion.entities;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.badlogic.gdx.math.Vector2;
 
 import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule.Entity_Status;
 import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
 
 public class EntityHandler {
@@ -25,15 +23,14 @@ public class EntityHandler {
   }
 
   private void removeDeadEntities() {
-    entities.removeAll(entities.parallelStream().filter(entity -> {
-      if (World.getEntityHandler()
-          .getDataFrom(entity.getID(), DataType.ENTITY_STATUS, Entity_Status.class)
-          .orElse(null) == Entity_Status.DEAD) {
-      
-        return true;
-      }
-      return false;
-    }).collect(Collectors.toList()));
+    World.getEventDispatcher().getEvents().stream().sequential()
+        .filter(event -> event.getReceiverID().equals("ENTITY_HANDLER")).forEach(e -> {
+          switch (e.getEvent()) {
+            case REMOVE_ENTITY:
+              entities.removeIf(entity -> entity.getID().equals(e.getSenderID()));
+              break;
+          }
+        });
   }
 
   /**
@@ -86,8 +83,8 @@ public class EntityHandler {
     return Optional.empty();
   }
 
-  public void UPDATE_ENTITIES() {
+  public void UPDATE_ENTITYHANDLER() {
     removeDeadEntities();
-    entities.parallelStream().forEach(entity -> entity.UPDATE_ENTITY());
+    entities.stream().forEach(entity -> entity.UPDATE_ENTITY());
   }
 }
