@@ -12,8 +12,6 @@ import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 
 public class Entity {
-
-
   private final String ID;
 
   private ArrayList<Module> modules = new ArrayList<>();
