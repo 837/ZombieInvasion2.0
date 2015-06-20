@@ -239,6 +239,4 @@ proguard/
 .gradletasknamecache
 .gradle/
 
-
-log4j2.xml
 /ZombieInvasion2.0.iml

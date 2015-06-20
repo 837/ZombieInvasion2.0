@@ -7,17 +7,23 @@ import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import org.apache.logging.log4j.LogManager;
+import org.lwjgl.util.vector.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /** A point-light (shines in all directions)
@@ -29,6 +35,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   World b2World = ch.redmonkeyass.zombieInvasion.World.getB2World();
   ArrayList<Vector2> line = new ArrayList<>() ;
   ArrayList<Vector2> intersectionPoints = new ArrayList<>();
+  Vector2 mPosition;
 
   public LightEmitter(String entityID) {
     super(entityID);
@@ -41,8 +48,15 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
+    try {
+      mPosition = ch.redmonkeyass.zombieInvasion.World.getEntityHandler().getDataFrom(getEntityID(),DataType.POSITION,Vector2.class).get();
+    }catch (NoSuchElementException e){
+      LogManager.getLogger().error(e);
+    }
+
+
     intersectionPoints.clear();
-    emit();
+    emitToAllFixtures();
 
   }
 
@@ -52,10 +66,10 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     for debugging
      */
 
-    g.setColor(Color.red);
+    g.setColor(Color.yellow);
 
     ch.redmonkeyass.zombieInvasion.World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(mPos -> {
-      LogManager.getLogger().debug("nIntersectionPoints: "+intersectionPoints.size());
+      LogManager.getLogger().error("nIntersectionPoints: "+intersectionPoints.size());
       final float b2pix = Config.B2PIX;
       for (Vector2 p : intersectionPoints) {
         g.drawLine(mPos.x*b2pix, mPos.y*b2pix, p.x*b2pix, p.y*b2pix);
@@ -92,6 +106,63 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     });
   }
 
+  /**
+   * //TODO make more efficient by using AABB query first
+   */
+  private void emitToAllFixtures(){
+    Array<Body> bodies = new Array<>();
+    b2World.getBodies(bodies);
+
+    ArrayList<Vector2> vertices = new ArrayList<>();
+
+   bodies.forEach(b -> {
+     b.getFixtureList().forEach(f -> {
+       switch (f.getType()) {
+         case Circle:
+           break;
+         case Edge:
+           break;
+         case Polygon:
+           PolygonShape p = (PolygonShape)f.getShape();
+           Vector2 tmp = new Vector2();
+           for (int i = 0; i < p.getVertexCount(); i++) {
+             p.getVertex(i,tmp);
+             vertices.add(tmp); //without cpy() -- make sure not to change stuffs
+             // TODO adjust precision maybe?
+             vertices.add(createPointAt(0.001f,tmp));
+             vertices.add(createPointAt(-0.001f,tmp));
+         }
+           break;
+         case Chain:
+           break;
+       }
+     });
+   });
+
+    vertices.forEach(v ->{
+      LightCallBack b = new LightCallBack();
+      b2World.rayCast(b, mPosition, v);
+      if (b.hasIntersection) {
+        intersectionPoints.add(b.closestIntersectionPoint);
+      }
+    });
+
+
+
+  }
+  private Vector2 createPointAt(float offsetinRadians,Vector2 point){
+    final  float o = offsetinRadians;
+    final Vector2 c = mPosition;
+    final Vector2 p = point;
+
+    Vector2 line = new Vector2(
+        (float) ((p.x - c.x) * Math.cos(o) + (p.y - c.y) * Math.sin(o)) + c.x,
+        (float) (-(p.x - c.x) * Math.sin(o) + (p.y - c.y) * Math.cos(o)) + c.y
+    );
+
+    return line;
+  }
+
   private class LightCallBack implements RayCastCallback {
     boolean hasIntersection = false;
     Vector2 closestIntersectionPoint;
@@ -108,7 +179,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
       Fixture mFixture =  ch.redmonkeyass.zombieInvasion.World.getEntityHandler().getDataFrom(getEntityID(),DataType.COLLISION_FIXTURE,Fixture.class).get();
 
-      if (mFixture == fixture) {
+      if (false) { //mFixture == fixture
         return -1.f;
       } else {
         hasIntersection = true;
