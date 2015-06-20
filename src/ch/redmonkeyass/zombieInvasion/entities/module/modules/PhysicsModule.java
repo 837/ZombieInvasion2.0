@@ -1,5 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
+import java.util.Optional;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -23,14 +25,14 @@ public class PhysicsModule extends Module implements UpdatableModul {
   }
 
   @Override
-  public Object getData(DataType dataType) {
+  public Optional<Object> getData(DataType dataType) {
     switch (dataType) {
       case POSITION:
-        return b2Body.getPosition().cpy();
+        return Optional.ofNullable(b2Body.getPosition().cpy());
       case COLLISION_FIXTURE:
-        return b2Body.getFixtureList().first();
+        return Optional.ofNullable(b2Body.getFixtureList().first());
     }
-    return null;
+    return Optional.empty();
   }
 
   @Override

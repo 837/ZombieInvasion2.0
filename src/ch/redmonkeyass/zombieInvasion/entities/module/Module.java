@@ -1,5 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module;
 
+import java.util.Optional;
+
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 
 public abstract class Module {
@@ -9,7 +11,7 @@ public abstract class Module {
     this.entityID = entityID;
   }
 
-  abstract public Object getData(DataType dataType);
+  abstract public Optional<Object> getData(DataType dataType);
 
   public String getEntityID() {
     return entityID;

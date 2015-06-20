@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
-import ch.redmonkeyass.zombieInvasion.entities.Entity.EntityStatus;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
@@ -43,7 +43,7 @@ public class EntityFactory {
 
   private static void createMouseEntity(EntityType entityType) {
     String id = "MOUSE: " + UUID.randomUUID();
-    World.getEntityHandler().addEntity(new Entity(id, EntityStatus.INDESTRUCTIBLE));
+    World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new MouseSelectionModule(id));
 
     // EventModule
@@ -52,9 +52,11 @@ public class EntityFactory {
 
   private static void createAdolf(EntityType entityType) {
     String id = "ADOLF: " + UUID.randomUUID();
-    World.getEntityHandler().addEntity(new Entity(id, EntityStatus.INDESTRUCTIBLE));
+    World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
+   // World.getModuleHandler().addModules(new EntityStatusModule(id));
+    
     /*
      * Add Physics for testentity
      */
@@ -108,9 +110,10 @@ public class EntityFactory {
 
   private static void createHans(EntityType entityType) {
     String id = "HANS: " + UUID.randomUUID();
-    World.getEntityHandler().addEntity(new Entity(id, EntityStatus.INDESTRUCTIBLE));
+    World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
+    //World.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
      * Add Physics for testentity
      */
@@ -164,9 +167,10 @@ public class EntityFactory {
 
   private static void createGerhart(EntityType entityType) {
     String id = "GERHART: " + UUID.randomUUID();
-    World.getEntityHandler().addEntity(new Entity(id, EntityStatus.INDESTRUCTIBLE));
+    World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
+  //  World.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
      * Add Physics for testentity
      */
@@ -222,6 +226,7 @@ public class EntityFactory {
     String id = "ZOMBIE: " + UUID.randomUUID();
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
+    World.getModuleHandler().addModules(new EntityStatusModule(id));
 
     /*
      * Add Physics for testentity
@@ -268,7 +273,7 @@ public class EntityFactory {
     // World.getModuleHandler().addModules(new MovementModule(id));
 
     // DebugModules
-    // ggWorld.getModuleHandler().addModules(new DebugRendererModule(id));
+    World.getModuleHandler().addModules(new DebugRendererModule(id));
 
     // EventModule
     World.getModuleHandler().addModules(new EventListenerModule(id));

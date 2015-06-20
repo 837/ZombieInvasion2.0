@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule.Entity_Status;
+
 public enum DataType {
   /*
    * generic
@@ -19,7 +21,12 @@ public enum DataType {
   /*
    * Movement
    */
-  MOVE_TO_POS(Vector2.class);
+  MOVE_TO_POS(Vector2.class),
+
+  /*
+   * Entity Stati
+   */
+  ENTITY_STATUS(Entity_Status.class);
 
   private DataType(final Class<?> clazz) {
     // this.clazz = clazz;

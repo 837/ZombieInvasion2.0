@@ -35,8 +35,8 @@ public class Game extends BasicGameState {
     EntityFactory.createEntity(EntityType.MOUSE);
 
     EntityFactory.createEntity(EntityType.ADOLF);
-    EntityFactory.createEntity(EntityType.HANS);
-    EntityFactory.createEntity(EntityType.GERHART);
+     EntityFactory.createEntity(EntityType.HANS);
+     EntityFactory.createEntity(EntityType.GERHART);
 
 
     inputHandler = new InputHandler(gc);
@@ -104,6 +104,7 @@ public class Game extends BasicGameState {
       World.getModuleHandler().getSelectionModules().forEach(m -> m.UPDATE(gc, sbg));
       World.getModuleHandler().getPhysicsModules().forEach(m -> m.UPDATE(gc, sbg));
       World.getModuleHandler().getMovementModules().forEach(m -> m.UPDATE(gc, sbg));
+      World.getModuleHandler().getEntityStatusModules().forEach(m -> m.UPDATE(gc, sbg));
 
       // MouseModules
       World.getModuleHandler().getMouseSelectionModule().forEach(m -> m.UPDATE(gc, sbg));

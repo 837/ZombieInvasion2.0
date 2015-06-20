@@ -1,5 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -83,8 +85,8 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
   }
 
   @Override
-  public Object getData(DataType dataType) {
+  public Optional<Object> getData(DataType dataType) {
     // TODO Auto-generated method stub
-    return null;
+    return Optional.empty();
   }
 }

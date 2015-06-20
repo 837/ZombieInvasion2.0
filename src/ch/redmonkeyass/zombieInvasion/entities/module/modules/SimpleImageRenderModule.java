@@ -1,5 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
+import java.util.Optional;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -40,9 +42,9 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
   }
 
   @Override
-  public Object getData(DataType dataType) {
+  public Optional<Object> getData(DataType dataType) {
     // TODO Auto-generated method stub
-    return null;
+    return Optional.empty();
   }
 
 }

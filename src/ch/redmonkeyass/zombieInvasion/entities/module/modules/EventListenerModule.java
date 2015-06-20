@@ -1,6 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.newdawn.slick.GameContainer;
@@ -31,11 +32,11 @@ public class EventListenerModule extends Module implements UpdatableModul {
   }
 
   @Override
-  public Object getData(DataType dataType) {
+  public Optional<Object> getData(DataType dataType) {
     switch (dataType) {
       case EVENTS:
-        return events;
+        return Optional.ofNullable(events);
     }
-    return null;
+    return Optional.empty();
   }
 }

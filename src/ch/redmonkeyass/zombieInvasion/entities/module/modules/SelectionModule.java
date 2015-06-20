@@ -1,5 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
@@ -23,11 +25,11 @@ public class SelectionModule extends Module implements UpdatableModul {
   }
 
   @Override
-  public Object getData(DataType dataType) {
+  public Optional<Object> getData(DataType dataType) {
     if (dataType == DataType.IS_SELECTED) {
-      return isSelected;
+      return Optional.ofNullable(isSelected);
     }
-    return null;
+    return Optional.empty();
   }
 
   @Override

@@ -1,5 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
@@ -42,14 +44,14 @@ public class MovementModule extends Module implements UpdatableModul {
   }
 
   @Override
-  public Object getData(DataType dataType) {
+  public Optional<Object> getData(DataType dataType) {
     switch (dataType) {
       case MOVE_TO_POS:
         if (moveToPos != null) {
-          return moveToPos.cpy();
+          return Optional.ofNullable(moveToPos.cpy());
         }
         break;
     }
-    return null;
+    return Optional.empty();
   }
 }
