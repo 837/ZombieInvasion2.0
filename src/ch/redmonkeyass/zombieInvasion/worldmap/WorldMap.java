@@ -28,37 +28,37 @@ public class WorldMap implements RenderableModul {
   final float FIELD_SIZE = 1f;
 
   public WorldMap() {
-    for (int x = 0; x < map.length; x++) {
-      for (int y = 0; y < map[x].length; y++) {
-        Body b;
-        if (new Random().nextInt(10) == 0) {
-          b = createBody(FieldType.WALL, x, y);
-          map[x][y] = new Field(FIELD_SIZE, x, y, b, FieldType.WALL);
-        } else {
-          b = createBody(FieldType.NOT_WALL, x, y);
-          map[x][y] = new Field(FIELD_SIZE, x, y, b, FieldType.NOT_WALL);
-        }
-      }
-    }
+//    for (int x = 0; x < map.length; x++) {
+//      for (int y = 0; y < map[x].length; y++) {
+//        Body b;
+//        if (new Random().nextInt(10) == 0) {
+//          b = createBody(FieldType.WALL, x, y);
+//          map[x][y] = new Field(FIELD_SIZE, x, y, b, FieldType.WALL);
+//        } else {
+//          b = createBody(FieldType.NOT_WALL, x, y);
+//          map[x][y] = new Field(FIELD_SIZE, x, y, b, FieldType.NOT_WALL);
+//        }
+//      }
+//    }
   }
 
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-    for (int x = 0; x < map.length; x++) {
-      for (int y = 0; y < map[x].length; y++) {
-        if (map[x][y].getType().equals(FieldType.WALL)) {
-          g.setColor(Color.black);
-
-          g.fillRect((map[x][y].getBody().getPosition().x - FIELD_SIZE / 2) * Config.B2PIX,
-              (map[x][y].getBody().getPosition().y - FIELD_SIZE / 2) * Config.B2PIX,
-              FIELD_SIZE * Config.B2PIX, FIELD_SIZE * Config.B2PIX);
-
-        } else {
-          g.setColor(Color.gray);
-        }
-      }
-    }
+//    for (int x = 0; x < map.length; x++) {
+//      for (int y = 0; y < map[x].length; y++) {
+//        if (map[x][y].getType().equals(FieldType.WALL)) {
+//          g.setColor(Color.black);
+//
+//          g.fillRect((map[x][y].getBody().getPosition().x - FIELD_SIZE / 2) * Config.B2PIX,
+//              (map[x][y].getBody().getPosition().y - FIELD_SIZE / 2) * Config.B2PIX,
+//              FIELD_SIZE * Config.B2PIX, FIELD_SIZE * Config.B2PIX);
+//
+//        } else {
+//          g.setColor(Color.gray);
+//        }
+//      }
+//    }
   }
 
 
