@@ -12,6 +12,7 @@ import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
@@ -99,13 +100,11 @@ public class EntityFactory {
     World.getModuleHandler()
         .addModules(new SimpleImageRenderModule(id, Images.ADOLF.getB2DScaled()));
 
-    World.getModuleHandler().addModules(new MovementModule(id));
-
-    // DebugModules
-    World.getModuleHandler().addModules(new DebugRendererModule(id));
-
-    // EventModule
-    World.getModuleHandler().addModules(new EventListenerModule(id));
+    World.getModuleHandler().addModules(
+        new MovementModule(id),
+        new LightEmitter(id),
+        new DebugRendererModule(id),
+        new EventListenerModule(id));
   }
 
   private static void createHans(EntityType entityType) {

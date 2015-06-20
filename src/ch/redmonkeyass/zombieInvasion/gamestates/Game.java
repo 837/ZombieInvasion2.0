@@ -14,6 +14,7 @@ import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityFactory;
 import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
@@ -76,6 +77,9 @@ public class Game extends BasicGameState {
     World.getModuleHandler().getModulesOf(MouseSelectionModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
+    World.getModuleHandler().getModulesOf(LightEmitter.class)
+        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc,sbg,g)));
+
 
     // XXX TEST END
   }
@@ -95,7 +99,6 @@ public class Game extends BasicGameState {
       // EventModule
       World.getModuleHandler().getModulesOf(EventListenerModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
-
 
       World.getEventDispatcher().getEvents().parallelStream()
           .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e ->
@@ -134,6 +137,9 @@ public class Game extends BasicGameState {
       // MouseModules
       World.getModuleHandler().getModulesOf(MouseSelectionModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+
+      World.getModuleHandler().getModulesOf(LightEmitter.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc,sbg)));
 
       World.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
       World.getEventDispatcher().dispatchEvents();
