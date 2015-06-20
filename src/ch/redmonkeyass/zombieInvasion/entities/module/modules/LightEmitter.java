@@ -35,7 +35,9 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   World b2World = ch.redmonkeyass.zombieInvasion.World.getB2World();
   ArrayList<Vector2> line = new ArrayList<>() ;
   ArrayList<Vector2> intersectionPoints = new ArrayList<>();
+  ArrayList<Vector2> vertices = new ArrayList<>();
   Vector2 mPosition;
+  Fixture mFixture;
 
   public LightEmitter(String entityID) {
     super(entityID);
@@ -49,13 +51,16 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     try {
-      mPosition = ch.redmonkeyass.zombieInvasion.World.getEntityHandler().getDataFrom(getEntityID(),DataType.POSITION,Vector2.class).get();
+      mPosition = ch.redmonkeyass.zombieInvasion.World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).get();
+      mFixture = ch.redmonkeyass.zombieInvasion.World.getEntityHandler().getDataFrom(getEntityID(),DataType.COLLISION_FIXTURE,Fixture.class).get();
     }catch (NoSuchElementException e){
       LogManager.getLogger().error(e);
     }
 
 
     intersectionPoints.clear();
+    vertices.clear();
+    vertices.ensureCapacity(b2World.getBodyCount()*5);
     emitToAllFixtures();
 
   }
@@ -68,13 +73,12 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
     g.setColor(Color.yellow);
 
-    ch.redmonkeyass.zombieInvasion.World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(mPos -> {
-      LogManager.getLogger().error("nIntersectionPoints: "+intersectionPoints.size());
-      final float b2pix = Config.B2PIX;
-      for (Vector2 p : intersectionPoints) {
-        g.drawLine(mPos.x*b2pix, mPos.y*b2pix, p.x*b2pix, p.y*b2pix);
-      }
-    });
+    LogManager.getLogger().error("nIntersectionPoints: "+intersectionPoints.size());
+    final float b2pix = Config.B2PIX;
+    for (Vector2 p : intersectionPoints) {
+        g.drawLine(mPosition.x * b2pix, mPosition.y * b2pix, p.x * b2pix, p.y * b2pix);
+    }
+
 
 
   }
@@ -113,37 +117,43 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     Array<Body> bodies = new Array<>();
     b2World.getBodies(bodies);
 
-    ArrayList<Vector2> vertices = new ArrayList<>();
+
 
    bodies.forEach(b -> {
      b.getFixtureList().forEach(f -> {
-       switch (f.getType()) {
-         case Circle:
-           break;
-         case Edge:
-           break;
-         case Polygon:
-           PolygonShape p = (PolygonShape)f.getShape();
-           Vector2 tmp = new Vector2();
-           for (int i = 0; i < p.getVertexCount(); i++) {
-             p.getVertex(i,tmp);
-             vertices.add(tmp); //without cpy() -- make sure not to change stuffs
-             // TODO adjust precision maybe?
-             vertices.add(createPointAt(0.001f,tmp));
-             vertices.add(createPointAt(-0.001f,tmp));
+       if (f != mFixture) {
+         switch (f.getType()) {
+           case Circle:
+             break;
+           case Edge:
+             break;
+           case Polygon:
+             PolygonShape p = (PolygonShape)f.getShape();
+             Vector2 tmp = new Vector2();
+             for (int i = 0; i < p.getVertexCount(); i++) {
+               p.getVertex(i,tmp);
+               tmp = tmp.cpy();//make le copy for not change shiat
+               tmp.add(b.getPosition());
+               vertices.add(tmp);
+               // TODO adjust precision maybe?
+               vertices.add(createPointAt(0.001f,tmp));
+               vertices.add(createPointAt(-0.001f,tmp));
+           }
+             break;
+           case Chain:
+             break;
          }
-           break;
-         case Chain:
-           break;
        }
      });
    });
 
     vertices.forEach(v ->{
+      LogManager.getLogger().error("vertice " + v);
       LightCallBack b = new LightCallBack();
       b2World.rayCast(b, mPosition, v);
       if (b.hasIntersection) {
-        intersectionPoints.add(b.closestIntersectionPoint);
+        LogManager.getLogger().error("ClosesIntersectionPoint x:"+b.closestIntersectionPoint.x+"\t"+"y:"+b.closestIntersectionPoint.y);
+        intersectionPoints.add(b.closestIntersectionPoint.cpy());
       }
     });
 
@@ -176,10 +186,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
             the very last callback will contain the closest fixture
              */
 
-
-      Fixture mFixture =  ch.redmonkeyass.zombieInvasion.World.getEntityHandler().getDataFrom(getEntityID(),DataType.COLLISION_FIXTURE,Fixture.class).get();
-
-      if (false) { //mFixture == fixture
+      if (mFixture == fixture) { //
         return -1.f;
       } else {
         hasIntersection = true;
