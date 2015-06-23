@@ -9,10 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import org.lwjgl.util.vector.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.ShapeFill;
+import org.newdawn.slick.fills.GradientFill;
 import org.newdawn.slick.geom.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -40,15 +41,19 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
         BodyDef walls = new BodyDef();
         walls.type = BodyDef.BodyType.KinematicBody;
-        walls.position.set(new Vector2()); // top
+       // walls.position.set(new Vector2()); // top
+        walls.position.set(ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()*0.5f*Config.PIX2B,
+                0);
 
         FixtureDef f = new FixtureDef();
         f.isSensor = true;
         f.density = 1;
-        EdgeShape tltr = new EdgeShape();
+        /*EdgeShape tltr = new EdgeShape();
         tltr.set(new Vector2(),new Vector2(
                 ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()* Config.PIX2B
-                ,0));
+                ,0));*/
+        PolygonShape tltr = new PolygonShape();
+        tltr.setAsBox(ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()*0.5f*Config.PIX2B,2);
         f.shape = tltr;
 
         topWall = b2World.createBody(walls);
@@ -87,13 +92,22 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     /*
     for debugging
      */
-
         g.setColor(Color.yellow);
 
         final float b2pix = Config.B2PIX;
         for (Vector2 p : intersectionPoints) {
-            g.drawLine(mPosition.x * b2pix, mPosition.y * b2pix, p.x * b2pix, p.y * b2pix);
+  //          g.drawLine(mPosition.x * b2pix, mPosition.y * b2pix, p.x * b2pix, p.y * b2pix);
         }
+        intersectionPoints.add(new Vector2(ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X(), ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_Y()));
+        intersectionPoints.add(new Vector2(0, ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_Y()));
+        intersectionPoints.sort((v0,v1) -> {
+            return Double.compare(
+                    Math.atan2(mFixture.getBody().getLocalPoint(v1.cpy()).y,
+                            mFixture.getBody().getLocalPoint(v1.cpy()).x),
+                    Math.atan2(mFixture.getBody().getLocalPoint(v0.cpy()).y,
+                            mFixture.getBody().getLocalPoint(v0.cpy()).x));
+        });
+
         for (int i = 0; i < intersectionPoints.size() -1; i++) {
             Polygon points= new Polygon();
             points.addPoint(mPosition.x *b2pix,
@@ -103,8 +117,22 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
             points.addPoint(intersectionPoints.get(i+1).x*b2pix,
                     intersectionPoints.get(i+1).y*b2pix);
 
-            g.draw(points);
+            GradientFill fill = new GradientFill(
+                    (intersectionPoints.get(i).x + (intersectionPoints.get(i+1).x-intersectionPoints.get(i).x)/2)*b2pix
+                    ,(intersectionPoints.get(i).y + (intersectionPoints.get(i+1).y-intersectionPoints.get(i).y)/2)*b2pix
+                    ,Color.transparent
+                    ,mPosition.x*b2pix,mPosition.y*b2pix, Color.white);
+            g.fill(points);
         }
+
+
+
+        Polygon p = new Polygon();
+        intersectionPoints.forEach( ip ->{
+                    p.addPoint(ip.x*b2pix,ip.y*b2pix);
+        });
+        GradientFill filler = new GradientFill(mPosition.x*b2pix,mPosition.y*b2pix,Color.white,p.getCenterX(),p.getCenterY(),Color.transparent);
+        //g.fill(p,filler);
 
     }
 
@@ -141,16 +169,17 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     private void emitToAllFixtures() {
         Array<Body> bodies = new Array<>();
         b2World.getBodies(bodies);
-
+        bodies.removeValue(mFixture.getBody(),true);
 
         bodies.forEach(b -> {
+            Vector2 bWorldPos = new Vector2();
             b.getFixtureList().forEach(f -> {
-                if (f != mFixture) {
+                if (f.getBody() != mFixture.getBody()) {
                     switch (f.getType()) {
                         case Circle:
                             break;
                         case Edge:
-                            EdgeShape e = (EdgeShape)f.getShape();
+/*                            EdgeShape e = (EdgeShape)f.getShape();
                             Vector2 tmp1 = new Vector2();
                             e.getVertex1(tmp1);
                             vertices.add(tmp1.cpy());
@@ -159,19 +188,20 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
                             e.getVertex2(tmp1);
                             vertices.add(tmp1.cpy());
                             vertices.add(createPointAt(0.001f,tmp1));
-                            vertices.add(createPointAt(-0.001f,tmp1));
+                            vertices.add(createPointAt(-0.001f,tmp1));*/
                             break;
                         case Polygon:
                             PolygonShape p = (PolygonShape) f.getShape();
-                            Vector2 tmp = new Vector2();
+                            Vector2 vertice = new Vector2();
+                            Vector2 worldpoint = new Vector2();
                             for (int i = 0; i < p.getVertexCount(); i++) {
-                                p.getVertex(i, tmp);
-                                tmp = tmp.cpy();//make le copy for not change shiat
-                                tmp.add(b.getPosition());
-                                vertices.add(tmp);
+                                p.getVertex(i, vertice);
+                                worldpoint = b.getWorldPoint(vertice).cpy();
+                                vertices.add(worldpoint.cpy());
                                 // TODO adjust precision maybe?
-                                vertices.add(createPointAt(0.001f, tmp));
-                                vertices.add(createPointAt(-0.001f, tmp));
+                                float camwidth = ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()*Config.PIX2B;
+                               vertices.add(createPointAt(0.000001f,worldpoint).cpy().sub(mPosition).scl(camwidth).add(mPosition));
+                               vertices.add(createPointAt(-0.000001f, worldpoint).cpy().sub(mPosition).scl(camwidth).add(mPosition));
                             }
                             break;
                         case Chain:
@@ -183,9 +213,11 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
         vertices.forEach(v -> {
             LightCallBack b = new LightCallBack();
-            b2World.rayCast(b, mPosition, v);
+            b2World.rayCast(b, mPosition,v);
             if (b.hasIntersection) {
                 intersectionPoints.add(b.closestIntersectionPoint.cpy());
+            }else {
+               intersectionPoints.add(v);
             }
         });
 
@@ -194,12 +226,12 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
     private Vector2 createPointAt(float offsetinRadians, Vector2 point) {
         final float o = offsetinRadians;
-        final Vector2 c = mPosition;
+        final Vector2 center = mPosition;
         final Vector2 p = point;
 
         Vector2 line = new Vector2(
-                (float) ((p.x - c.x) * Math.cos(o) + (p.y - c.y) * Math.sin(o)) + c.x,
-                (float) (-(p.x - c.x) * Math.sin(o) + (p.y - c.y) * Math.cos(o)) + c.y
+                (float) ((p.x - center.x) * Math.cos(o) + (p.y - center.y) * Math.sin(o)) + center.x,
+                (float) (-(p.x - center.x) * Math.sin(o) + (p.y - center.y) * Math.cos(o)) + center.y
         );
 
         return line;
@@ -217,15 +249,10 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
             else return the length of the ray (v) =>
             the very last callback will contain the closest fixture
              */
-
-            if (mFixture == fixture) { //
-                return -1.f;
-            } else {
                 hasIntersection = true;
                 closestFixture = fixture;
                 closestIntersectionPoint = intersectionPoint;
                 return fraction;
-            }
         }
     }
 
