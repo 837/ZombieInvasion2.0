@@ -162,7 +162,6 @@ public class EntityFactory {
 
     // EventModule
     World.getModuleHandler().addModules(new EventListenerModule(id));
-    //World.getModuleHandler().addModules(new LightEmitter(id));
   }
 
   private static void createGerhart(EntityType entityType) {
