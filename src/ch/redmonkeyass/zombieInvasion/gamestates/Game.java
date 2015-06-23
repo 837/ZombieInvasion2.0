@@ -70,8 +70,6 @@ public class Game extends BasicGameState {
     // XXX DEBUGRENDERER
     World.getModuleHandler().getModulesOf(DebugRendererModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-    World.getModuleHandler().getModulesOf(DebugRendererModule.class)
-        .ifPresent(modules -> System.out.println("DebugModuleListSize: " + modules.size()));
 
     // XXX MouseModules
     World.getModuleHandler().getModulesOf(MouseSelectionModule.class)
