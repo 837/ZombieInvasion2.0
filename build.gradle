@@ -13,6 +13,11 @@ apply plugin: "idea"
 apply plugin: "application"
 
 
+def gdxVersion = "1.6.2"
+def log4jVersion = "2.3"
+def lwjglVersion = "2.9.3"
+
+
 //GLOBAL VARS
 mainClassName = 'ch.redmonkeyass.zombieInvasion.ZombieInvasion'
 
@@ -36,16 +41,17 @@ run {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-   compile 'com.badlogicgames.gdx:gdx-box2d:1.6.2'
-   compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.3'
-   compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.3'
-   compile 'org.lwjgl.lwjgl:lwjgl:2.9.3'
-   compile 'org.jbox2d:jbox2d:2.1.2.2'
+   compile "com.badlogicgames.gdx:gdx-box2d:${gdxVersion}"
+  compile "com.badlogicgames.gdx:gdx-box2d-platform:${gdxVersion}:natives-desktop"
    
-   compile files('libs/JBTCore.jar')
-   compile files('libs/gdx-box2d-natives.jar')
-   compile files('libs/lwjgl-natives.jar')
-   compile files('libs/slick.jar')
+   compile group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
+   compile group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
+   compile "org.lwjgl.lwjgl:lwjgl:${lwjglVersion}"
+   compile "org.jbox2d:jbox2d:2.1.2.2"
+   
+   compile files("libs/JBTCore.jar")
+  // compile files("libs/lwjgl-natives.jar")
+   compile files("libs/slick.jar")
 }
 
 def listNativePaths() {
