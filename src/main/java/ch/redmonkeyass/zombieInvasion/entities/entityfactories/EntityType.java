@@ -1,7 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.entityfactories;
 
 public enum EntityType {
-  ZERO(0, 0), MOUSE(0, 0), ADOLF(2, 2), HANS(1, 1), GERHART(1, 1), ZOMBIE(1, 1);
+  ZERO(0, 0), MOUSE(0, 0), ADOLF(1, 1), HANS(1, 1), GERHART(1, 1), ZOMBIE(1, 1);
 
   private float width, height;
 
