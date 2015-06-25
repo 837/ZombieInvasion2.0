@@ -7,6 +7,10 @@ buildscript {
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
+  compileJava {
+  sourceCompatibility = '1.8'
+  targetCompatibility = '1.8'
+}
 apply plugin: 'maven'
 apply plugin: "eclipse"
 apply plugin: "idea"
@@ -20,12 +24,6 @@ def lwjglVersion = "2.9.3"
 
 //GLOBAL VARS
 mainClassName = 'ch.redmonkeyass.zombieInvasion.ZombieInvasion'
-
-compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-}
-
 
 // In this section you declare where to find the dependencies of your project
 repositories {
