@@ -35,7 +35,7 @@ public class ZombieInvasion extends StateBasedGame {
       app.setShowFPS(true);
       app.setClearEachFrame(true);
       app.start();
-    } catch (SlickException ex) {
+    } catch (Exception ex) {
       logger.error(ZombieInvasion.class.getSimpleName() + " : " + ex);
     }
   }
