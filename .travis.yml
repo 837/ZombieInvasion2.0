@@ -4,5 +4,5 @@ jdk:
 before_install:
  - chmod +x gradlew
  
- notifications:
-  slack: redmonkeyass:5t4ldHPfncUc4joM1d78DQZz
+notifications:
+ slack: -redmonkeyass:5t4ldHPfncUc4joM1d78DQZz
