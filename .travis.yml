@@ -3,3 +3,6 @@ jdk:
   - oraclejdk8
 before_install:
  - chmod +x gradlew
+ 
+ notifications:
+  slack: redmonkeyass:5t4ldHPfncUc4joM1d78DQZz
