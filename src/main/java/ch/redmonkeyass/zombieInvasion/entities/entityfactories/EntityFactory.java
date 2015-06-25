@@ -46,7 +46,7 @@ public class EntityFactory {
     String id = "MOUSE: " + UUID.randomUUID();
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new MouseSelectionModule(id));
-
+   
     // EventModule
     World.getModuleHandler().addModules(new EventListenerModule(id));
   }
@@ -56,8 +56,8 @@ public class EntityFactory {
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
-   // World.getModuleHandler().addModules(new EntityStatusModule(id));
-    
+    // World.getModuleHandler().addModules(new EntityStatusModule(id));
+
     /*
      * Add Physics for testentity
      */
@@ -100,11 +100,9 @@ public class EntityFactory {
     World.getModuleHandler()
         .addModules(new SimpleImageRenderModule(id, Images.ADOLF.getB2DScaled()));
 
-    World.getModuleHandler().addModules(
-        new MovementModule(id),
+    World.getModuleHandler().addModules(new MovementModule(id),
         new LightEmitter(id),
-        new DebugRendererModule(id),
-        new EventListenerModule(id));
+        new DebugRendererModule(id), new EventListenerModule(id));
   }
 
   private static void createHans(EntityType entityType) {
@@ -112,7 +110,7 @@ public class EntityFactory {
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
-    //World.getModuleHandler().addModules(new EntityStatusModule(id));
+    // World.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
      * Add Physics for testentity
      */
@@ -162,7 +160,7 @@ public class EntityFactory {
 
     // EventModule
     World.getModuleHandler().addModules(new EventListenerModule(id));
-    //World.getModuleHandler().addModules(new LightEmitter(id));
+    // World.getModuleHandler().addModules(new LightEmitter(id));
   }
 
   private static void createGerhart(EntityType entityType) {
@@ -170,7 +168,7 @@ public class EntityFactory {
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
-  //  World.getModuleHandler().addModules(new EntityStatusModule(id));
+    // World.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
      * Add Physics for testentity
      */

@@ -37,6 +37,7 @@ public class ZombieInvasion extends StateBasedGame {
       app.start();
     } catch (Exception ex) {
       logger.error(ZombieInvasion.class.getSimpleName() + " : " + ex);
+      ex.printStackTrace();
     }
   }
 }

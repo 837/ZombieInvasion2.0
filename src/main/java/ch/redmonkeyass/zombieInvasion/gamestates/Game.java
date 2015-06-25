@@ -19,7 +19,6 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 import ch.redmonkeyass.zombieInvasion.input.InputHandler;
@@ -59,7 +58,7 @@ public class Game extends BasicGameState {
     g.translate(-World.getCamera().getPosition().x, -World.getCamera().getPosition().y);
 
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
-
+    
     // WorldMap
     World.getWorldMap().RENDER(gc, sbg, g);
 
@@ -68,16 +67,15 @@ public class Game extends BasicGameState {
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     // XXX DEBUGRENDERER
-    World.getModuleHandler().getModulesOf(DebugRendererModule.class)
-        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+//    World.getModuleHandler().getModulesOf(DebugRendererModule.class)
+//        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     // XXX MouseModules
     World.getModuleHandler().getModulesOf(MouseSelectionModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     World.getModuleHandler().getModulesOf(LightEmitter.class)
-        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc,sbg,g)));
-
+        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     // XXX TEST END
   }
@@ -137,7 +135,7 @@ public class Game extends BasicGameState {
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
       World.getModuleHandler().getModulesOf(LightEmitter.class)
-          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc,sbg)));
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
       World.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
       World.getEventDispatcher().dispatchEvents();

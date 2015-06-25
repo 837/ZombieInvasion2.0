@@ -20,7 +20,7 @@ apply plugin: "application"
 def gdxVersion = "1.6.2"
 def log4jVersion = "2.3"
 def lwjglVersion = "2.9.3"
-
+def box2dLightsVersion = "1.3"
 
 //GLOBAL VARS
 mainClassName = 'ch.redmonkeyass.zombieInvasion.ZombieInvasion'
@@ -40,7 +40,11 @@ run {
 // In this section you declare the dependencies for your production and test code
 dependencies {
    compile "com.badlogicgames.gdx:gdx-box2d:${gdxVersion}"
-  compile "com.badlogicgames.gdx:gdx-box2d-platform:${gdxVersion}:natives-desktop"
+   compile "com.badlogicgames.gdx:gdx-box2d-platform:${gdxVersion}:natives-desktop"
+   
+   compile "com.badlogicgames.gdx:gdx-backend-lwjgl:${gdxVersion}"
+   compile "com.badlogicgames.gdx:gdx-platform:${gdxVersion}:natives-desktop"
+   compile "com.badlogicgames.box2dlights:box2dlights:${box2dLightsVersion}"
    
    compile group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
    compile group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
