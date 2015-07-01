@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -86,6 +87,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
       mFixture = ch.redmonkeyass.zombieInvasion.World.getEntityHandler()
           .getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class).get();
     } catch (NoSuchElementException e) {
+      LogManager.getLogger("es").error("couldn't get data: "+e);
     }
 
 
@@ -110,8 +112,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
         .add(new Vector2(0, ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_Y()));
 
 
-    debugDrawNotVisibleArea(g);
-
+    debugDrawVisibilityLines(g,Color.red);
   }
 
   /**
@@ -125,9 +126,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     sortByAngleFromBodysPerspecive();
 
     Polygon p = new Polygon();
-    intersectionPoints.forEach(ip -> {
-      p.addPoint(ip.x * Config.B2PIX, ip.y * Config.B2PIX);
-    });
+    intersectionPoints.forEach(ip -> p.addPoint(ip.x * Config.B2PIX, ip.y * Config.B2PIX));
 
     // GradientFill filler = new GradientFill(mPosition.x * b2pix, mPosition.y * b2pix, Color.white,
     // p.getCenterX(), p.getCenterY(), Color.transparent);
@@ -159,13 +158,11 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   private void sortByAngleFromBodysPerspecive(){
     //sort by angle from the emitting body
     // uses this formula to account for 360 degree view: (x > 0 ? x : (2*PI + x))
-    intersectionPoints.sort((v0, v1) -> {
-      return Double.compare(
-              Math.atan2(mFixture.getBody().getLocalPoint(v1.cpy()).y,
-                      mFixture.getBody().getLocalPoint(v1.cpy()).x),
-              Math.atan2(mFixture.getBody().getLocalPoint(v0.cpy()).y,
-                      mFixture.getBody().getLocalPoint(v0.cpy()).x));
-    });
+    intersectionPoints.sort((v0, v1) -> Double.compare(
+            Math.atan2(mFixture.getBody().getLocalPoint(v1.cpy()).y,
+                    mFixture.getBody().getLocalPoint(v1.cpy()).x),
+            Math.atan2(mFixture.getBody().getLocalPoint(v0.cpy()).y,
+                    mFixture.getBody().getLocalPoint(v0.cpy()).x)));
   }
   private void emit() {
     ch.redmonkeyass.zombieInvasion.World.getEntityHandler()

@@ -1,5 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -26,7 +28,7 @@ public class Entity {
     World.getEntityHandler().getDataFrom(ID, DataType.ENTITY_STATUS, Entity_Status.class)
         .ifPresent(status -> {
           if (status == Entity_Status.DEAD) {
-            modules.forEach(m -> m.prepareModuleForRemoval());
+            modules.forEach(Module::prepareModuleForRemoval);
             World.getEventDispatcher().createEvent(0, EventType.REMOVE_ENTITY, null, ID,
                 "ENTITY_HANDLER", "MODULE_HANDLER");
           }
@@ -46,7 +48,7 @@ public class Entity {
         Object data = modules.get(i).getData(dataType).orElse(null);
         if (data != null) {
           moduleValueMap.put(dataType, i);
-          return Optional.ofNullable(data);
+          return Optional.of(data);
         }
       }
     }
@@ -54,7 +56,7 @@ public class Entity {
   }
 
 
-  public void addModul(Module module) {
+  public void addModule(Module module) {
     modules.add(module);
     moduleValueMap.clear();
   }
@@ -65,9 +67,12 @@ public class Entity {
     moduleValueMap.clear();
   }
 
-  @SuppressWarnings("unchecked")
   public Optional<ArrayList<Event>> getEvents() {
-    return Optional.ofNullable(
-        World.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class).orElse(null));
+    /* TODO this is a bit stupid...
+     for some reason Optional.ofNullable(World.....getDataFrom(...).orElse(null) seems to work...? wtf
+     also method reference cast => bad return type ???
+     */
+    return  World.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class)
+        .map(e -> ArrayList.class.cast(e));
   }
 }
