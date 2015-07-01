@@ -28,9 +28,11 @@ public class PhysicsModule extends Module implements UpdatableModul {
   public Optional<Object> getData(DataType dataType) {
     switch (dataType) {
       case POSITION:
-        return Optional.ofNullable(b2Body.getPosition().cpy());
+        return Optional.of(b2Body.getPosition().cpy());
       case COLLISION_FIXTURE:
         return Optional.ofNullable(b2Body.getFixtureList().first());
+      case ROTATIONRAD:
+        return Optional.of(b2Body.getAngle());
     }
     return Optional.empty();
   }
@@ -39,6 +41,7 @@ public class PhysicsModule extends Module implements UpdatableModul {
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     World.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, Vector2.class)
         .ifPresent(pos -> arrive(pos.scl(Config.PIX2B)));
+
   }
 
   void arrive(Vector2 target) {

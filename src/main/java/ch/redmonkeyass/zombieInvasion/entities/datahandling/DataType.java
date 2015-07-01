@@ -17,6 +17,7 @@ public enum DataType {
    * physics
    */
   COLLISION_FIXTURE(Fixture.class), POSITION(Vector2.class),
+  ROTATIONRAD(Float.class),
 
   /*
    * Movement

@@ -96,67 +96,77 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
   }
 
+  /*
+ * for debugging
+ */
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-    /*
-     * for debugging
-     */
-    // g.setColor(Color.yellow);
 
-    final float b2pix = Config.B2PIX;
-    // for (Vector2 p : intersectionPoints) {
-    // // g.drawLine(mPosition.x * b2pix, mPosition.y * b2pix, p.x * b2pix, p.y * b2pix);
-    // }
+    //add the bottom left/right to the intersectionpoints
     intersectionPoints
         .add(new Vector2(ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X(),
-            ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_Y()));
+                ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_Y()));
     intersectionPoints
         .add(new Vector2(0, ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_Y()));
-    intersectionPoints.sort((v0, v1) -> {
-      return Double.compare(
-          Math.atan2(mFixture.getBody().getLocalPoint(v1.cpy()).y,
-              mFixture.getBody().getLocalPoint(v1.cpy()).x),
-          Math.atan2(mFixture.getBody().getLocalPoint(v0.cpy()).y,
-              mFixture.getBody().getLocalPoint(v0.cpy()).x));
-    });
 
-    // for (int i = 0; i < intersectionPoints.size() - 1; i++) {
-    // Polygon points = new Polygon();
-    // points.addPoint(mPosition.x * b2pix, mPosition.y * b2pix);
-    // points.addPoint(intersectionPoints.get(i).x * b2pix, intersectionPoints.get(i).y * b2pix);
-    // points.addPoint(intersectionPoints.get(i + 1).x * b2pix,
-    // intersectionPoints.get(i + 1).y * b2pix);
-    //
-    // GradientFill fill = new GradientFill(
-    // (intersectionPoints.get(i).x
-    // + (intersectionPoints.get(i + 1).x - intersectionPoints.get(i).x) / 2) * b2pix,
-    // (intersectionPoints.get(i).y
-    // + (intersectionPoints.get(i + 1).y - intersectionPoints.get(i).y) / 2) * b2pix,
-    // Color.transparent, mPosition.x * b2pix, mPosition.y * b2pix, Color.white);
-    // g.fill(points);
-    // }
-    //
 
+    debugDrawNotVisibleArea(g);
+
+  }
+
+  /**
+   * requires intersectionpoints to be sorted by angle from the body's perspective!!!
+   * colors non-visible areas black
+   *
+   * @param g jwgl Graphics context
+   */
+  private void debugDrawNotVisibleArea(Graphics g){
+
+    sortByAngleFromBodysPerspecive();
 
     Polygon p = new Polygon();
     intersectionPoints.forEach(ip -> {
-      p.addPoint(ip.x * b2pix, ip.y * b2pix);
+      p.addPoint(ip.x * Config.B2PIX, ip.y * Config.B2PIX);
     });
+
     // GradientFill filler = new GradientFill(mPosition.x * b2pix, mPosition.y * b2pix, Color.white,
     // p.getCenterX(), p.getCenterY(), Color.transparent);
     // g.fill(p,filler);
 
     ch.redmonkeyass.zombieInvasion.World.getEntityHandler()
-        .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(position -> {
-          g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-          g.clearAlphaMap();
-          g.setColor(Color.white);
-          g.fill(p);
-          g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
-        });
-
+            .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(position -> {
+      g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+      g.clearAlphaMap();
+      g.setColor(Color.white);
+      g.fill(p);
+      g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
+    });
   }
 
+  /**
+   * draws the lines as conmputed by the emitToall function, useful for debugging
+   *
+   * @param g jwgl Graphics context
+   */
+  private void debugDrawVisibilityLines(Graphics g, Color color){
+    Color previousColor = g.getColor();
+    g.setColor(color);
+    for (Vector2 p : intersectionPoints) {
+      g.drawLine(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX, p.x * Config.B2PIX, p.y * Config.B2PIX);
+    }
+    g.setColor(previousColor);
+  }
+  private void sortByAngleFromBodysPerspecive(){
+    //sort by angle from the emitting body
+    // uses this formula to account for 360 degree view: (x > 0 ? x : (2*PI + x))
+    intersectionPoints.sort((v0, v1) -> {
+      return Double.compare(
+              Math.atan2(mFixture.getBody().getLocalPoint(v1.cpy()).y,
+                      mFixture.getBody().getLocalPoint(v1.cpy()).x),
+              Math.atan2(mFixture.getBody().getLocalPoint(v0.cpy()).y,
+                      mFixture.getBody().getLocalPoint(v0.cpy()).x));
+    });
+  }
   private void emit() {
     ch.redmonkeyass.zombieInvasion.World.getEntityHandler()
         .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(c -> {
@@ -219,13 +229,13 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
                 worldpoint = b.getWorldPoint(vertice).cpy();
                 vertices.add(worldpoint.cpy());
                 // TODO adjust precision maybe?
-                float camwidth =
+                float maxDistVisibleOnScreen =
                     ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()
                         * Config.PIX2B;
-                vertices.add(createPointAt(0.000001f, worldpoint).cpy().sub(mPosition).scl(camwidth)
+                vertices.add(createPointAt(0.000001f, worldpoint).cpy().sub(mPosition).scl(maxDistVisibleOnScreen)
                     .add(mPosition));
                 vertices.add(createPointAt(-0.000001f, worldpoint).cpy().sub(mPosition)
-                    .scl(camwidth).add(mPosition));
+                    .scl(maxDistVisibleOnScreen).add(mPosition));
               }
               break;
             case Chain:

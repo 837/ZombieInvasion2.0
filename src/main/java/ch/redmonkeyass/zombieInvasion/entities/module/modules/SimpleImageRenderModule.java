@@ -34,10 +34,16 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
         .ifPresent(position -> {
-          position.scl(Config.B2PIX); // transform to world
-                                      // coordinates
-          g.drawImage(imageToRender, position.x - imageToRender.getWidth() / 2,
-              position.y - imageToRender.getHeight() / 2);
+          World.getEntityHandler().getDataFrom(getEntityID(),DataType.ROTATIONRAD,Float.class)
+                  .ifPresent(rot -> {
+                    g.pushTransform();
+                    position.scl(Config.B2PIX); // transform to world
+                    // coordinates
+                    g.rotate(position.x, position.y,rot*180/(float)Math.PI );
+                    g.drawImage(imageToRender, position.x - imageToRender.getWidth() / 2,
+                            position.y - imageToRender.getHeight() / 2);
+                    g.popTransform();
+                  });
         });
   }
 
