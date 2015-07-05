@@ -10,7 +10,7 @@ public class Config {
   public static final int WIDTH = 1366;
   public static final int HEIGHT = 768;
   public static final int FPS = 60;
-  public static final double VERSION = 1.1;
+  public static final double VERSION = 1.2;
   public static final float TICKS_PER_SECOND = 30;
   public static final double TIME_PER_TICK = 1000 / TICKS_PER_SECOND;
   public static final int MAX_FRAMESKIP = 5;
@@ -19,7 +19,7 @@ public class Config {
   /*
    * temporary, there has to be a more sensible way to define this
    */
-  public static final float B2PIX = WIDTH / 50;
+  public static final float B2PIX = WIDTH / 42;
   public static final float PIX2B = 1 / B2PIX;
 
   // Camera
@@ -31,6 +31,6 @@ public class Config {
 
 
   // WorldMap
-  public static final int WORLDMAP_WIDTH = 100;
+  public static final int WORLDMAP_WIDTH =  100;
   public static final int WORLDMAP_HEIGHT = 100;
 }

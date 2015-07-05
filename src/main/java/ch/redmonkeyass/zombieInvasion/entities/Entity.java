@@ -1,7 +1,5 @@
 package ch.redmonkeyass.zombieInvasion.entities;
 
-import com.badlogic.gdx.math.Vector2;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -68,11 +66,16 @@ public class Entity {
   }
 
   public Optional<ArrayList<Event>> getEvents() {
-    /* TODO this is a bit stupid...
-     for some reason Optional.ofNullable(World.....getDataFrom(...).orElse(null) seems to work...? wtf
-     also method reference cast => bad return type ???
+    /*
+     * TODO this is a bit stupid... for some reason
+     * Optional.ofNullable(World.....getDataFrom(...).orElse(null) seems to work...? wtf also method
+     * reference cast => bad return type ???
      */
-    return  World.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class)
-        .map(e -> ArrayList.class.cast(e));
+
+    // return World.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class);
+
+
+    return World.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class)
+        .map(e -> e);
   }
 }

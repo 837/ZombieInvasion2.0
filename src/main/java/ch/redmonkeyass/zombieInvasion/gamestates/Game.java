@@ -58,7 +58,7 @@ public class Game extends BasicGameState {
     g.translate(-World.getCamera().getPosition().x, -World.getCamera().getPosition().y);
 
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
-    
+
     // WorldMap
     World.getWorldMap().RENDER(gc, sbg, g);
 
@@ -67,8 +67,8 @@ public class Game extends BasicGameState {
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     // XXX DEBUGRENDERER
-//    World.getModuleHandler().getModulesOf(DebugRendererModule.class)
-//        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+    // World.getModuleHandler().getModulesOf(DebugRendererModule.class)
+    // .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     // XXX MouseModules
     World.getModuleHandler().getModulesOf(MouseSelectionModule.class)

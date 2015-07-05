@@ -2,7 +2,9 @@ package ch.redmonkeyass.zombieInvasion.worldmap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.tiled.TiledMap;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,46 +18,45 @@ import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.worldmap.WorldMap.FieldType;
 
 public class WorldMap implements RenderableModul {
+  private TiledMap tileMap;
+  private int tileSize = 32;
+
   enum FieldType {
     WALL, NOT_WALL
   }
 
-  Field[][] map = new Field[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
+  Node[][] map = new Node[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
 
-  final float FIELD_SIZE = 1f;
+  final float NODE_SIZE_BOX2D = 1f;
 
   public WorldMap() {
-//    for (int x = 0; x < map.length; x++) {
-//      for (int y = 0; y < map[x].length; y++) {
-//        Body b;
-//        if (new Random().nextInt(10) == 0) {
-//          b = createBody(FieldType.WALL, x, y);
-//          map[x][y] = new Field(FIELD_SIZE, x, y, b, FieldType.WALL);
-//        } else {
-//          b = createBody(FieldType.NOT_WALL, x, y);
-//          map[x][y] = new Field(FIELD_SIZE, x, y, b, FieldType.NOT_WALL);
-//        }
-//      }
-//    }
+    try {
+      tileMap = new TiledMap("res/tiledMap/mapTest.tmx");
+
+      for (int x = 0; x < map.length; x++) {
+        for (int y = 0; y < map[x].length; y++) {
+          switch (tileMap.getTileId(x, y, 1)) {
+            case 0:
+
+              break;
+            default:
+              map[x][y] = new Node(tileSize, x, y, createBody(FieldType.WALL, x + 1, y + 1),
+                  FieldType.WALL);
+              break;
+          }
+        }
+      }
+
+    } catch (SlickException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-//    for (int x = 0; x < map.length; x++) {
-//      for (int y = 0; y < map[x].length; y++) {
-//        if (map[x][y].getType().equals(FieldType.WALL)) {
-//          g.setColor(Color.black);
-//
-//          g.fillRect((map[x][y].getBody().getPosition().x - FIELD_SIZE / 2) * Config.B2PIX,
-//              (map[x][y].getBody().getPosition().y - FIELD_SIZE / 2) * Config.B2PIX,
-//              FIELD_SIZE * Config.B2PIX, FIELD_SIZE * Config.B2PIX);
-//
-//        } else {
-//          g.setColor(Color.gray);
-//        }
-//      }
-//    }
+    tileMap.render(0, 0);
   }
 
 
@@ -69,10 +70,12 @@ public class WorldMap implements RenderableModul {
         // StaticBody
         bodyDef1.type = BodyType.StaticBody;
         // Set our body's starting position in object space (meters)
-        bodyDef1.position.set(x - (FIELD_SIZE / 2), y - (FIELD_SIZE / 2));
+        bodyDef1.position.set(x - (NODE_SIZE_BOX2D / 2), y - (NODE_SIZE_BOX2D / 2));
 
         // Create our body in the world using our body definition
         Body body1 = World.getB2World().createBody(bodyDef1);
+
+
 
         return body1;
       case WALL:
@@ -83,7 +86,7 @@ public class WorldMap implements RenderableModul {
         // StaticBody
         bodyDef2.type = BodyType.StaticBody;
         // Set our body's starting position in object space (meters)
-        bodyDef2.position.set(x - (FIELD_SIZE / 2), y - (FIELD_SIZE / 2));
+        bodyDef2.position.set(x - (NODE_SIZE_BOX2D / 2), y - (NODE_SIZE_BOX2D / 2));
 
         // Create our body in the world using our body definition
         Body body2 = World.getB2World().createBody(bodyDef2);
@@ -92,7 +95,7 @@ public class WorldMap implements RenderableModul {
         // PolygonShape shape = new PolygonShape();
         // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
         PolygonShape shape2 = new PolygonShape();
-        shape2.setAsBox(FIELD_SIZE / 2, FIELD_SIZE / 2);
+        shape2.setAsBox(NODE_SIZE_BOX2D / 2, NODE_SIZE_BOX2D / 2);
         // CircleShape shape2 = new CircleShape();
         // shape2.setRadius(FIELD_SIZE / 2);
 
@@ -100,8 +103,6 @@ public class WorldMap implements RenderableModul {
         // Create a fixture definition to apply our shape to
         fixtureDef.shape = shape2;
         fixtureDef.density = 1.0f;
-        fixtureDef.friction = 1.0f;
-        fixtureDef.restitution = 0.0f;
 
         // Create our fixture and attach it to the body
         body2.createFixture(fixtureDef);
@@ -112,15 +113,14 @@ public class WorldMap implements RenderableModul {
     }
 
   }
-
 }
 
 
-class Field {
+class Node {
   private final Body body;
   private final FieldType type;
 
-  public Field(float width, float x, float y, Body body, FieldType type) {
+  public Node(float width, float x, float y, Body body, FieldType type) {
     this.body = body;
     this.type = type;
   }

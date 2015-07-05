@@ -36,7 +36,8 @@ public class Camera {
                 Vector2 oldPos = positions[0].scl(Config.MOUSE_DRAG_SMOOTHNESS);
                 Vector2 newPos = positions[1].scl(Config.MOUSE_DRAG_SMOOTHNESS);
                 Vector2 movement = newPos.sub(oldPos);
-
+                movement.x = (int) movement.x;
+                movement.y = (int) movement.y;
                 move(movement);
               });
               break;

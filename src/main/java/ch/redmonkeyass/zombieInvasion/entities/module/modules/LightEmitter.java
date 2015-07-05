@@ -13,9 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
@@ -44,28 +42,28 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   public LightEmitter(String entityID) {
     super(entityID);
 
-    BodyDef walls = new BodyDef();
-    walls.type = BodyDef.BodyType.KinematicBody;
-    // walls.position.set(new Vector2()); // top
-    walls.position.set(
-        ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X() * 0.5f * Config.PIX2B,
-        0);
-
-    FixtureDef f = new FixtureDef();
-    f.isSensor = true;
-    f.density = 1;
-    /*
-     * EdgeShape tltr = new EdgeShape(); tltr.set(new Vector2(),new Vector2(
-     * ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()* Config.PIX2B ,0));
-     */
-    PolygonShape tltr = new PolygonShape();
-    tltr.setAsBox(
-        ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X() * 0.5f * Config.PIX2B,
-        2);
-    f.shape = tltr;
-
-    topWall = b2World.createBody(walls);
-    topWall.createFixture(f);
+//    BodyDef walls = new BodyDef();
+//    walls.type = BodyDef.BodyType.KinematicBody;
+//    // walls.position.set(new Vector2()); // top
+//    walls.position.set(
+//        ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X() * 0.5f * Config.PIX2B,
+//        0);
+//
+//    FixtureDef f = new FixtureDef();
+//    f.isSensor = true;
+//    f.density = 1;
+//    /*
+//     * EdgeShape tltr = new EdgeShape(); tltr.set(new Vector2(),new Vector2(
+//     * ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()* Config.PIX2B ,0));
+//     */
+//    PolygonShape tltr = new PolygonShape();
+//    tltr.setAsBox(
+//        ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X() * 0.5f * Config.PIX2B,
+//        2);
+//    f.shape = tltr;
+//
+//    topWall = b2World.createBody(walls);
+//    topWall.createFixture(f);
   }
 
   @Override
@@ -87,7 +85,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
       mFixture = ch.redmonkeyass.zombieInvasion.World.getEntityHandler()
           .getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class).get();
     } catch (NoSuchElementException e) {
-      LogManager.getLogger("es").error("couldn't get data: "+e);
+      LogManager.getLogger("es").error("couldn't get data: " + e);
     }
 
 
@@ -99,29 +97,29 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   }
 
   /*
- * for debugging
- */
+   * for debugging
+   */
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
 
-    //add the bottom left/right to the intersectionpoints
+    // add the bottom left/right to the intersectionpoints
     intersectionPoints
         .add(new Vector2(ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X(),
-                ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_Y()));
+            ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_Y()));
     intersectionPoints
         .add(new Vector2(0, ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_Y()));
 
 
-    debugDrawVisibilityLines(g,Color.red);
+    debugDrawVisibilityLines(g, Color.red);
   }
 
   /**
-   * requires intersectionpoints to be sorted by angle from the body's perspective!!!
-   * colors non-visible areas black
+   * requires intersectionpoints to be sorted by angle from the body's perspective!!! colors
+   * non-visible areas black
    *
    * @param g jwgl Graphics context
    */
-  private void debugDrawNotVisibleArea(Graphics g){
+  private void debugDrawNotVisibleArea(Graphics g) {
 
     sortByAngleFromBodysPerspecive();
 
@@ -133,13 +131,13 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     // g.fill(p,filler);
 
     ch.redmonkeyass.zombieInvasion.World.getEntityHandler()
-            .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(position -> {
-      g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-      g.clearAlphaMap();
-      g.setColor(Color.white);
-      g.fill(p);
-      g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
-    });
+        .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(position -> {
+          g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+          g.clearAlphaMap();
+          g.setColor(Color.white);
+          g.fill(p);
+          g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
+        });
   }
 
   /**
@@ -147,23 +145,26 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
    *
    * @param g jwgl Graphics context
    */
-  private void debugDrawVisibilityLines(Graphics g, Color color){
+  private void debugDrawVisibilityLines(Graphics g, Color color) {
     Color previousColor = g.getColor();
     g.setColor(color);
     for (Vector2 p : intersectionPoints) {
-      g.drawLine(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX, p.x * Config.B2PIX, p.y * Config.B2PIX);
+      g.drawLine(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX, p.x * Config.B2PIX,
+          p.y * Config.B2PIX);
     }
     g.setColor(previousColor);
   }
-  private void sortByAngleFromBodysPerspecive(){
-    //sort by angle from the emitting body
+
+  private void sortByAngleFromBodysPerspecive() {
+    // sort by angle from the emitting body
     // uses this formula to account for 360 degree view: (x > 0 ? x : (2*PI + x))
     intersectionPoints.sort((v0, v1) -> Double.compare(
-            Math.atan2(mFixture.getBody().getLocalPoint(v1.cpy()).y,
-                    mFixture.getBody().getLocalPoint(v1.cpy()).x),
-            Math.atan2(mFixture.getBody().getLocalPoint(v0.cpy()).y,
-                    mFixture.getBody().getLocalPoint(v0.cpy()).x)));
+        Math.atan2(mFixture.getBody().getLocalPoint(v1.cpy()).y,
+            mFixture.getBody().getLocalPoint(v1.cpy()).x),
+        Math.atan2(mFixture.getBody().getLocalPoint(v0.cpy()).y,
+            mFixture.getBody().getLocalPoint(v0.cpy()).x)));
   }
+
   private void emit() {
     ch.redmonkeyass.zombieInvasion.World.getEntityHandler()
         .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(c -> {
@@ -229,8 +230,8 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
                 float maxDistVisibleOnScreen =
                     ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()
                         * Config.PIX2B;
-                vertices.add(createPointAt(0.000001f, worldpoint).cpy().sub(mPosition).scl(maxDistVisibleOnScreen)
-                    .add(mPosition));
+                vertices.add(createPointAt(0.000001f, worldpoint).cpy().sub(mPosition)
+                    .scl(maxDistVisibleOnScreen).add(mPosition));
                 vertices.add(createPointAt(-0.000001f, worldpoint).cpy().sub(mPosition)
                     .scl(maxDistVisibleOnScreen).add(mPosition));
               }

@@ -68,7 +68,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(10, 10);
+      bodyDef.position.set(12, 12);
 
       // Create our body in the world using our body definition
       Body body = World.getB2World().createBody(bodyDef);
@@ -121,7 +121,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(10, 10);
+      bodyDef.position.set(12, 12);
 
       // Create our body in the world using our body definition
       Body body = World.getB2World().createBody(bodyDef);
@@ -179,7 +179,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(10, 10);
+      bodyDef.position.set(12, 12);
 
       // Create our body in the world using our body definition
       Body body = World.getB2World().createBody(bodyDef);
@@ -236,7 +236,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(10, 10);
+      bodyDef.position.set(12, 12);
 
       // Create our body in the world using our body definition
       Body body = World.getB2World().createBody(bodyDef);
