@@ -15,7 +15,7 @@ public enum EventType {
   /*
    * Keyboard
    */
-  W_PRESSED, A_PRESSED, S_PRESSED, D_PRESSED, G_PRESSED, K_PRESSED, 
+  W_PRESSED, A_PRESSED, S_PRESSED, D_PRESSED, G_PRESSED, K_PRESSED, DEBUG_CONSOLE_KEY_F1_PRESSED,
   /*
    * EntityEvents
    */

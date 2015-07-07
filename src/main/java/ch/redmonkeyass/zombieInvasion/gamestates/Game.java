@@ -19,6 +19,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 import ch.redmonkeyass.zombieInvasion.input.InputHandler;
@@ -41,7 +42,9 @@ public class Game extends BasicGameState {
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     EntityFactory.createEntity(EntityType.MOUSE);
-
+    EntityFactory.createEntity(EntityType.GAME);
+    
+    
     EntityFactory.createEntity(EntityType.ADOLF);
     EntityFactory.createEntity(EntityType.HANS);
     EntityFactory.createEntity(EntityType.GERHART);
@@ -76,7 +79,10 @@ public class Game extends BasicGameState {
 
     World.getModuleHandler().getModulesOf(LightEmitter.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-
+    
+    World.getModuleHandler().getModulesOf(DebugConsoleModule.class)
+    .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+    
     // XXX TEST END
   }
 
@@ -137,6 +143,9 @@ public class Game extends BasicGameState {
       World.getModuleHandler().getModulesOf(LightEmitter.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
+      World.getModuleHandler().getModulesOf(DebugConsoleModule.class)
+      .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+      
       World.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
       World.getEventDispatcher().dispatchEvents();
 

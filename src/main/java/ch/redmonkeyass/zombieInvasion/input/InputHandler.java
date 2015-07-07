@@ -115,6 +115,10 @@ public class InputHandler {
             World.getEventDispatcher().createEvent(0, EventType.K_PRESSED, null, "INPUT_LISTENER",
                 "GLOBAL");
             break;
+          case Input.KEY_F1:
+            World.getEventDispatcher().createEvent(0, EventType.DEBUG_CONSOLE_KEY_F1_PRESSED, null, "INPUT_LISTENER",
+                "DEBUG_CONSOLE");
+            break;
         }
       }
 

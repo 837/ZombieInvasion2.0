@@ -1,6 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -42,28 +43,28 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   public LightEmitter(String entityID) {
     super(entityID);
 
-//    BodyDef walls = new BodyDef();
-//    walls.type = BodyDef.BodyType.KinematicBody;
-//    // walls.position.set(new Vector2()); // top
-//    walls.position.set(
-//        ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X() * 0.5f * Config.PIX2B,
-//        0);
-//
-//    FixtureDef f = new FixtureDef();
-//    f.isSensor = true;
-//    f.density = 1;
-//    /*
-//     * EdgeShape tltr = new EdgeShape(); tltr.set(new Vector2(),new Vector2(
-//     * ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()* Config.PIX2B ,0));
-//     */
-//    PolygonShape tltr = new PolygonShape();
-//    tltr.setAsBox(
-//        ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X() * 0.5f * Config.PIX2B,
-//        2);
-//    f.shape = tltr;
-//
-//    topWall = b2World.createBody(walls);
-//    topWall.createFixture(f);
+    // BodyDef walls = new BodyDef();
+    // walls.type = BodyDef.BodyType.KinematicBody;
+    // // walls.position.set(new Vector2()); // top
+    // walls.position.set(
+    // ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X() * 0.5f * Config.PIX2B,
+    // 0);
+    //
+    // FixtureDef f = new FixtureDef();
+    // f.isSensor = true;
+    // f.density = 1;
+    // /*
+    // * EdgeShape tltr = new EdgeShape(); tltr.set(new Vector2(),new Vector2(
+    // * ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X()* Config.PIX2B ,0));
+    // */
+    // PolygonShape tltr = new PolygonShape();
+    // tltr.setAsBox(
+    // ch.redmonkeyass.zombieInvasion.World.getCamera().getViewport_size_X() * 0.5f * Config.PIX2B,
+    // 2);
+    // f.shape = tltr;
+    //
+    // topWall = b2World.createBody(walls);
+    // topWall.createFixture(f);
   }
 
   @Override
@@ -198,12 +199,18 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
    * //TODO make more efficient by using AABB query first
    */
   private void emitToAllFixtures() {
-    Array<Body> bodies = new Array<>();
-    b2World.getBodies(bodies);
-    bodies.removeValue(mFixture.getBody(), true);
+    Array<Body> bodiesFromWorld = new Array<>();
 
-    bodies.forEach(b -> {
+    b2World.getBodies(bodiesFromWorld);
+    bodiesFromWorld.removeValue(mFixture.getBody(), true);
+    
+
+    ArrayList<Body> bodies = new ArrayList<Body>(Arrays.asList(bodiesFromWorld.toArray()));
+    
+    
+    bodies.stream().filter(e -> mPosition.cpy().sub(e.getPosition()).len() < 10).forEach(b -> {
       Vector2 bWorldPos = new Vector2();
+
       b.getFixtureList().forEach(f -> {
         if (f.getBody() != mFixture.getBody()) {
           switch (f.getType()) {
