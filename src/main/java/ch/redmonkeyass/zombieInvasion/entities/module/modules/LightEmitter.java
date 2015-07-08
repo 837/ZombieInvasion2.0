@@ -205,7 +205,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     bodiesFromWorld.removeValue(mFixture.getBody(), true);
     
 
-    ArrayList<Body> bodies = new ArrayList<Body>(Arrays.asList(bodiesFromWorld.toArray()));
+    ArrayList<Body> bodies = new ArrayList<>(Arrays.asList(bodiesFromWorld.toArray()));
     
     
     bodies.stream().filter(e -> mPosition.cpy().sub(e.getPosition()).len() < 10).forEach(b -> {
@@ -256,7 +256,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
       if (b.hasIntersection) {
         intersectionPoints.add(b.closestIntersectionPoint.cpy());
       } else {
-        intersectionPoints.add(v);
+        //intersectionPoints.add(v);
       }
     });
 

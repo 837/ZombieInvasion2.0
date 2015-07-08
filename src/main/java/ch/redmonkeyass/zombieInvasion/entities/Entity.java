@@ -59,10 +59,18 @@ public class Entity {
     moduleValueMap.clear();
   }
 
-  public void removeModul(Module module) {
+  public void removeModule(Module module) {
     modules.remove(module);
     module.prepareModuleForRemoval();
     moduleValueMap.clear();
+  }
+
+  public <T> void removeModule (Class<T> module){
+    modules.parallelStream()
+        .filter(e -> e.getClass() == module)
+        .findAny()
+        .ifPresent(this::removeModule);
+
   }
 
   public Optional<ArrayList<Event>> getEvents() {

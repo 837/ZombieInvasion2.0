@@ -15,22 +15,30 @@ public class EntityHandler {
     entities.add(entity);
   }
 
-  public void addModulToEntity(Module module) {
+  public void addModuleToEntity(Module module) {
     entities.parallelStream()
         .filter(entity -> entity.getID().equals(module.getEntityID()))
         .findAny()
         .ifPresent(foundEntity -> foundEntity.addModule(module));
   }
 
+  public <T> void removeModuleFromEntity(Class<T> concreteModuleClazz,String entityID){
+    entities.parallelStream()
+        .filter(entity -> entity.getID().equals(entityID))
+        .findAny()
+        .ifPresent(foundEntity -> foundEntity.removeModule(concreteModuleClazz));
+  }
+
   private void removeDeadEntities() {
     World.getEventDispatcher().getEvents().stream().sequential()
-        .filter(event -> event.getReceiverID().equals("ENTITY_HANDLER")).forEach(e -> {
-      switch (e.getEvent()) {
-        case REMOVE_ENTITY:
-          entities.removeIf(entity -> entity.getID().equals(e.getSenderID()));
-          break;
-      }
-    });
+        .filter(event -> event.getReceiverID().equals("ENTITY_HANDLER"))
+        .forEach(e -> {
+          switch (e.getEvent()) {
+            case REMOVE_ENTITY:
+              entities.removeIf(entity -> entity.getID().equals(e.getSenderID()));
+              break;
+          }
+        });
   }
 
   /**

@@ -6,14 +6,22 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import ch.redmonkeyass.zombieInvasion.World;
+import ch.redmonkeyass.zombieInvasion.entities.Entity;
 
 public class ModuleHandler {
   private HashMap<Class<?>, ArrayList<? extends Module>> modulesMap = new HashMap<>();
 
   public void addModules(Module... modules) {
     Arrays.stream(modules).forEach(module -> {
-      World.getEntityHandler().addModulToEntity(module);
+      World.getEntityHandler().addModuleToEntity(module);
       addModuleToList(module.getClass(), module);
+    });
+  }
+
+  public <T> void removeModulesFrom(String entityID,Class<T>... concreteModuleClazzes){
+    Arrays.stream(concreteModuleClazzes).forEach(module -> {
+      World.getEntityHandler().removeModuleFromEntity(module, entityID);
+      //FIXME removeModuleFromList(module,entityID);
     });
   }
 
@@ -23,6 +31,13 @@ public class ModuleHandler {
       modulesMap.put(listType, (ArrayList<? extends Module>) new ArrayList<T>());
     }
     ((ArrayList<T>) modulesMap.get(listType)).add((T) module);
+  }
+
+  public <T> void removeModuleFromList(Class<T> listType, String entityID){
+    ArrayList<Module> t = (ArrayList<Module>) modulesMap.get(listType);
+    if(t != null){
+      t.removeIf(module -> module.getEntityID().equals(entityID));
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -35,9 +50,7 @@ public class ModuleHandler {
         .filter(event -> event.getReceiverID().equals("MODULE_HANDLER")).forEach(e -> {
           switch (e.getEvent()) {
             case REMOVE_ENTITY:
-              modulesMap.forEach((clazz, list) -> {
-                list.removeIf(module -> module.getEntityID().equals(e.getSenderID()));
-              });
+              modulesMap.forEach((clazz, list) -> list.removeIf(module -> module.getEntityID().equals(e.getSenderID())));
               break;
           }
         });
