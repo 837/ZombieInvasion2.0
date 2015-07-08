@@ -20,7 +20,6 @@ import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 
 public class DebugConsoleModule extends Module implements UpdatableModul, RenderableModul {
   private TextField consoleInputField = null;

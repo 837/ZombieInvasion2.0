@@ -15,7 +15,6 @@ apply plugin: 'maven'
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "application"
-apply plugin: 'findbugs'
 
 def gdxVersion = "1.6.2"
 def log4jVersion = "2.3"
