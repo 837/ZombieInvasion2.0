@@ -47,7 +47,7 @@ public class EntityFactory {
   }
 
   private static void createMouseEntity(EntityType entityType) {
-    String id = "MOUSE: " + UUID.randomUUID();
+    String id = "MOUSE";
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new MouseSelectionModule(id));
 
@@ -56,17 +56,17 @@ public class EntityFactory {
   }
 
   private static void createGameEntity(EntityType entityType) {
-    String id = "GAME: " + UUID.randomUUID();
+    String id = "GAME";
     World.getEntityHandler().addEntity(new Entity(id));
-    
+
     World.getModuleHandler().addModules(new DebugConsoleModule(id));
-    
+
     // EventModule
     World.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
   private static void createAdolf(EntityType entityType) {
-    String id = "ADOLF: " + UUID.randomUUID();
+    String id = "ADOLF";
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
@@ -119,7 +119,7 @@ public class EntityFactory {
   }
 
   private static void createHans(EntityType entityType) {
-    String id = "HANS: " + UUID.randomUUID();
+    String id = "HANS";
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
@@ -177,7 +177,7 @@ public class EntityFactory {
   }
 
   private static void createGerhart(EntityType entityType) {
-    String id = "GERHART: " + UUID.randomUUID();
+    String id = "GERHART";
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
 
@@ -234,7 +234,7 @@ public class EntityFactory {
   }
 
   private static void createZombie(EntityType entityType) {
-    String id = "ZOMBIE: " + UUID.randomUUID();
+    String id = "ZOMBIE" + World.getEntityHandler().getAllEntities().size() + 1;
     World.getEntityHandler().addEntity(new Entity(id));
     World.getModuleHandler().addModules(new SelectionModule(id));
     World.getModuleHandler().addModules(new EntityStatusModule(id));
