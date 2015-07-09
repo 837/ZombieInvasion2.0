@@ -70,7 +70,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   @Override
   public void prepareModuleForRemoval() {
     super.prepareModuleForRemoval();
-    b2World.destroyBody(topWall);
+    //b2World.destroyBody(topWall);
   }
 
   @Override
