@@ -28,8 +28,9 @@ public class Camera {
   }
 
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEventDispatcher().getEvents().parallelStream()
-        .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
+    World.getEventDispatcher().getEvents().parallelStream().filter(
+        event -> event.getReceiverID().equals("GLOBAL") || event.getReceiverID().equals("MOUSE"))
+        .forEach(e -> {
           switch (e.getEvent()) {
             case RIGHT_DRAGGED:
               e.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {

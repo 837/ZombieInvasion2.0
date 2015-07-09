@@ -27,7 +27,8 @@ public class EventListenerModule extends Module implements UpdatableModul {
 
     events.addAll(World.getEventDispatcher().getEvents().parallelStream()
         .filter(event -> event.getReceiverID().equals(getEntityID())
-            || event.getReceiverID().equals("GLOBAL"))
+            || event.getReceiverID().equals("GLOBAL")
+            || getEntityID().startsWith(event.getReceiverID()))
         .collect(Collectors.toList()));
   }
 

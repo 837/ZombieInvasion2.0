@@ -29,7 +29,7 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
 
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     World.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
-      events.parallelStream().filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e -> {
+      events.forEach(e -> {
         switch (e.getEvent()) {
           case LEFT_DOWN:
             e.getAdditionalInfo(Vector2.class).ifPresent(position -> {

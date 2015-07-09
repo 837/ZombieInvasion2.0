@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule.Entity_Status;
+import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 public enum DataType {
   /*
@@ -16,8 +17,7 @@ public enum DataType {
   /*
    * physics
    */
-  COLLISION_FIXTURE(Fixture.class), POSITION(Vector2.class),
-  ROTATIONRAD(Float.class),
+  COLLISION_FIXTURE(Fixture.class), POSITION(Vector2.class), ROTATIONRAD(Float.class),
 
   /*
    * Movement
@@ -27,8 +27,12 @@ public enum DataType {
   /*
    * Entity Stati
    */
-  ENTITY_STATUS(Entity_Status.class);
+  ENTITY_STATUS(Entity_Status.class),
 
+  /*
+   * MouseThings
+   */
+  MOUSE_SELECTED_NODE(Node.class);
   private DataType(final Class<?> clazz) {
     // this.clazz = clazz;
   }

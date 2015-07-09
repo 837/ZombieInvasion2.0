@@ -160,10 +160,10 @@ public class InputHandler {
 
         if (arg0 == 0/* 0=LeftButton */) {
           World.getEventDispatcher().createEvent(0, EventType.LEFT_RELEASED, position.cpy(),
-              "INPUT_LISTENER", "GLOBAL");
+              "INPUT_LISTENER", "MOUSE");
         } else if (arg0 == 1/* 1=RightButton */) {
           World.getEventDispatcher().createEvent(0, EventType.RIGHT_RELEASED, position.cpy(),
-              "INPUT_LISTENER", "GLOBAL");
+              "INPUT_LISTENER", "MOUSE");
         }
       }
 
@@ -173,16 +173,22 @@ public class InputHandler {
 
         if (arg0 == 0/* 0=LeftButton */) {
           World.getEventDispatcher().createEvent(0, EventType.LEFT_DOWN, position.cpy(),
-              "INPUT_LISTENER", "GLOBAL");
+              "INPUT_LISTENER", "MOUSE");
         } else if (arg0 == 1/* 1=RightButton */) {
           World.getEventDispatcher().createEvent(0, EventType.RIGHT_DOWN, position.cpy(),
-              "INPUT_LISTENER", "GLOBAL");
+              "INPUT_LISTENER", "MOUSE");
         }
       }
 
       @Override
       public void mouseMoved(int arg0, int arg1, int arg2, int arg3) {
+        Vector2 oldPos = new Vector2(arg2, arg3);
+        Vector2 newPos = new Vector2(arg0, arg1);
+        Vector2[] positions = {oldPos.cpy(), newPos.cpy()};
 
+          World.getEventDispatcher().createEvent(0, EventType.MOUSE_MOVED, positions,
+              "INPUT_LISTENER", "MOUSE");
+        
       }
 
       @Override
@@ -193,10 +199,10 @@ public class InputHandler {
 
         if (input.isMouseButtonDown(0)/* 0=LeftButton */) {
           World.getEventDispatcher().createEvent(0, EventType.LEFT_DRAGGED, positions,
-              "INPUT_LISTENER", "GLOBAL");
+              "INPUT_LISTENER", "MOUSE");
         } else if (input.isMouseButtonDown(1)/* 0=LeftButton */) {
           World.getEventDispatcher().createEvent(0, EventType.RIGHT_DRAGGED, positions,
-              "INPUT_LISTENER", "GLOBAL");
+              "INPUT_LISTENER", "MOUSE");
         }
       }
 

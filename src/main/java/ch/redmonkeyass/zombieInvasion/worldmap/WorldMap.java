@@ -15,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.worldmap.WorldMap.FieldType;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;
@@ -25,7 +24,11 @@ public class WorldMap implements RenderableModul {
     WALL, NOT_WALL
   }
 
-  Node[][] map = new Node[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
+  private Node[][] map = new Node[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
+
+  public Node[][] getMap() {
+    return map;
+  }
 
   final float NODE_SIZE_BOX2D = 1f;
 
@@ -35,13 +38,21 @@ public class WorldMap implements RenderableModul {
 
       for (int x = 0; x < map.length; x++) {
         for (int y = 0; y < map[x].length; y++) {
+          switch (tileMap.getTileId(x, y, 0)) {
+            case 0:
+              break;
+            default:
+              map[x][y] = new Node(tileSize, tileSize, x, y,
+                  createBody(FieldType.NOT_WALL, x + 1, y + 1), FieldType.NOT_WALL);
+              break;
+          }
           switch (tileMap.getTileId(x, y, 1)) {
             case 0:
 
               break;
             default:
-              map[x][y] = new Node(tileSize, x, y, createBody(FieldType.WALL, x + 1, y + 1),
-                  FieldType.WALL);
+              map[x][y] = new Node(tileSize, tileSize, x, y,
+                  createBody(FieldType.WALL, x + 1, y + 1), FieldType.WALL);
               break;
           }
         }
@@ -64,20 +75,20 @@ public class WorldMap implements RenderableModul {
     switch (type) {
       case NOT_WALL:
         // First we create a body definition
-        BodyDef bodyDef1 = new BodyDef();
+        // BodyDef bodyDef1 = new BodyDef();
         // We set our body to dynamic, for something like ground which doesn't move we would set it
         // to
         // StaticBody
-        bodyDef1.type = BodyType.StaticBody;
+        // bodyDef1.type = BodyType.StaticBody;
         // Set our body's starting position in object space (meters)
-        bodyDef1.position.set(x - (NODE_SIZE_BOX2D / 2), y - (NODE_SIZE_BOX2D / 2));
+        // bodyDef1.position.set(x - (NODE_SIZE_BOX2D / 2), y - (NODE_SIZE_BOX2D / 2));
 
         // Create our body in the world using our body definition
-        Body body1 = World.getB2World().createBody(bodyDef1);
+        // Body body1 = World.getB2World().createBody(bodyDef1);
 
 
 
-        return body1;
+        return null;
       case WALL:
         // First we create a body definition
         BodyDef bodyDef2 = new BodyDef();
@@ -112,24 +123,5 @@ public class WorldMap implements RenderableModul {
         return null;
     }
 
-  }
-}
-
-
-class Node {
-  private final Body body;
-  private final FieldType type;
-
-  public Node(float width, float x, float y, Body body, FieldType type) {
-    this.body = body;
-    this.type = type;
-  }
-
-  public Body getBody() {
-    return body;
-  }
-
-  public FieldType getType() {
-    return type;
   }
 }

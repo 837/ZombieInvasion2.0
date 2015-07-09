@@ -18,6 +18,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderM
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
 import ch.redmonkeyass.zombieInvasion.util.Images;
 
 public class EntityFactory {
@@ -47,7 +48,8 @@ public class EntityFactory {
   private static void createMouseEntity(EntityType entityType) {
     String id = "MOUSE";
     World.getEntityHandler().addEntity(new Entity(id));
-    World.getModuleHandler().addModules(new MouseSelectionModule(id));
+    World.getModuleHandler().addModules(new MouseSelectionModule(id),
+        new MouseTileSelectionModule(id));
 
     // EventModule
     World.getModuleHandler().addModules(new EventListenerModule(id));
