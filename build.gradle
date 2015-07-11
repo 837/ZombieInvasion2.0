@@ -55,6 +55,9 @@ dependencies {
   // compile files("libs/slick.jar")
    
     compile "org.slick2d:slick2d-core:1.0.1"
+    
+    //pathfinding
+    compile "com.github.xaguzman:pathfinding:0.2.5"
 }
 
 def listNativePaths() {
