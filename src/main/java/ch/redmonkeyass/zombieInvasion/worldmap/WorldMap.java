@@ -1,10 +1,13 @@
 package ch.redmonkeyass.zombieInvasion.worldmap;
 
+import java.util.Arrays;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.xguzm.pathfinding.grid.GridCell;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -22,6 +25,13 @@ public class WorldMap implements RenderableModul {
 
   enum FieldType {
     WALL, NOT_WALL
+  }
+
+  // these should be stored as [x][y]
+  private GridCell[][] cells = new GridCell[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
+
+  public GridCell[][] getCells() {
+    return Arrays.copyOf(cells, cells.length);
   }
 
   private Node[][] map = new Node[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
@@ -44,6 +54,8 @@ public class WorldMap implements RenderableModul {
             default:
               map[x][y] = new Node(tileSize, tileSize, x, y,
                   createBody(FieldType.NOT_WALL, x + 1, y + 1), FieldType.NOT_WALL);
+
+              cells[x][y] = new GridCell(x, y, true);
               break;
           }
           switch (tileMap.getTileId(x, y, 1)) {
@@ -53,6 +65,8 @@ public class WorldMap implements RenderableModul {
             default:
               map[x][y] = new Node(tileSize, tileSize, x, y,
                   createBody(FieldType.WALL, x + 1, y + 1), FieldType.WALL);
+
+              cells[x][y] = new GridCell(x, y, false);
               break;
           }
         }
@@ -62,6 +76,7 @@ public class WorldMap implements RenderableModul {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+
   }
 
 

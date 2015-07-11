@@ -1,19 +1,19 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
+import org.xguzm.pathfinding.grid.GridCell;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.util.MathUtil;
 
 
 public class PhysicsModule extends Module implements UpdatableModul {
@@ -39,8 +39,30 @@ public class PhysicsModule extends Module implements UpdatableModul {
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, Vector2.class)
-        .ifPresent(pos -> arrive(pos.scl(Config.PIX2B)));
+    World.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
+        .ifPresent(path -> {
+          List<GridCell> pathToGoal = (List<GridCell>) path;
+          GridCell actualPos, goalPos;
+
+          if (!pathToGoal.isEmpty()) {
+            actualPos = World.getWorldMap()
+                .getCells()[(int) b2Body.getPosition().x][(int) b2Body.getPosition().y];
+            goalPos = pathToGoal.get(0);
+
+
+            if (actualPos == goalPos) {
+              pathToGoal.remove(0);
+            } else {
+              arrive(new Vector2(pathToGoal.get(0).getX(), pathToGoal.get(0).getY()));
+              // System.out.println(b2Body.getPosition());
+            }
+          }
+          if (!pathToGoal.isEmpty()) {
+            // System.out.println(
+            // "MoveTo: " + new Vector2(pathToGoal.get(0).getX(), pathToGoal.get(0).getY()));
+          }
+          // arrive(pos..scl(Config.PIX2B));
+        });
 
   }
 
@@ -53,14 +75,14 @@ public class PhysicsModule extends Module implements UpdatableModul {
 
     // System.out.println(d);
     desired.nor();
-    if (d < 3.5 && d > 0.3) {
-      float m = MathUtil.map(d, 0, 10, 0, maxSpeed);
-      desired.scl(m);
-    } else if (d <= 0.3) {
-      desired.scl(0);
-    } else {
+//    if (d < 3.5 && d > 0.3) {
+//      float m = MathUtil.map(d, 0, 10, 0, maxSpeed);
+//      desired.scl(m);
+//    } else if (d <= 0.3) {
+//      desired.scl(0);
+//    } else {
       desired.scl(maxSpeed);
-    }
+//    }
 
     // System.out.println(b2Body.getLinearVelocity());
     // System.out.println(desired);

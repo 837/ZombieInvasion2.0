@@ -10,7 +10,6 @@ import ch.redmonkeyass.zombieInvasion.World;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
@@ -82,7 +81,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(12, 12);
+      bodyDef.position.set(11, 11);
 
       // Create our body in the world using our body definition
       Body body = World.getB2World().createBody(bodyDef);
@@ -112,9 +111,9 @@ public class EntityFactory {
     }
 
     World.getModuleHandler()
-        .addModules(new SimpleImageRenderModule(id, Images.ADOLF.getB2DScaled()));
+        .addModules(new SimpleImageRenderModule(id, Images.ADOLF));
 
-    World.getModuleHandler().addModules(new MovementModule(id), new LightEmitter(id),
+    World.getModuleHandler().addModules(new MovementModule(id),// new LightEmitter(id),
         new DebugRendererModule(id), new EventListenerModule(id));
   }
 
@@ -164,7 +163,7 @@ public class EntityFactory {
     }
 
     World.getModuleHandler()
-        .addModules(new SimpleImageRenderModule(id, Images.HANS.getB2DScaled()));
+        .addModules(new SimpleImageRenderModule(id, Images.HANS));
 
     World.getModuleHandler().addModules(new MovementModule(id));
 
@@ -192,7 +191,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(12, 12);
+      bodyDef.position.set(13, 13);
 
       // Create our body in the world using our body definition
       Body body = World.getB2World().createBody(bodyDef);
@@ -222,7 +221,7 @@ public class EntityFactory {
     }
 
     World.getModuleHandler()
-        .addModules(new SimpleImageRenderModule(id, Images.GERHART.getB2DScaled()));
+        .addModules(new SimpleImageRenderModule(id, Images.GERHART));
 
     World.getModuleHandler().addModules(new MovementModule(id));
 
@@ -279,7 +278,7 @@ public class EntityFactory {
     }
 
     World.getModuleHandler()
-        .addModules(new SimpleImageRenderModule(id, Images.ZOMBIE.getB2DScaled()));
+        .addModules(new SimpleImageRenderModule(id, Images.ZOMBIE));
 
     // World.getModuleHandler().addModules(new MovementModule(id));
 
