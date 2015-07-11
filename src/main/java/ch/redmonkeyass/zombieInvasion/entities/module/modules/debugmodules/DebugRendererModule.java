@@ -1,19 +1,17 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules;
 
-import java.util.Optional;
-
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.entities.module.Module;
+import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import com.badlogic.gdx.math.Vector2;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.badlogic.gdx.math.Vector2;
-
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.World;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import java.util.Optional;
 
 public class DebugRendererModule extends Module implements RenderableModul {
 
@@ -24,7 +22,7 @@ public class DebugRendererModule extends Module implements RenderableModul {
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-    World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
+    WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
         .ifPresent(position -> {
           position.scl(Config.B2PIX); // transform to world
                                       // coordinates

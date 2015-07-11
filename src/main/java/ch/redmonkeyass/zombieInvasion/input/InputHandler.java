@@ -1,14 +1,12 @@
 package ch.redmonkeyass.zombieInvasion.input;
 
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import com.badlogic.gdx.math.Vector2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.InputListener;
 import org.newdawn.slick.state.StateBasedGame;
-
-import com.badlogic.gdx.math.Vector2;
-
-import ch.redmonkeyass.zombieInvasion.World;
-import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 
 public class InputHandler {
   public InputHandler(GameContainer gc) {
@@ -92,31 +90,31 @@ public class InputHandler {
       public void keyPressed(int arg0, char arg1) {
         switch (arg0) {
           case Input.KEY_W:
-            World.getEventDispatcher().createEvent(0, EventType.W_PRESSED, null, "INPUT_LISTENER",
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.W_PRESSED, null, "INPUT_LISTENER",
                 "GLOBAL");
             break;
           case Input.KEY_A:
-            World.getEventDispatcher().createEvent(0, EventType.A_PRESSED, null, "INPUT_LISTENER",
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.A_PRESSED, null, "INPUT_LISTENER",
                 "GLOBAL");
             break;
           case Input.KEY_S:
-            World.getEventDispatcher().createEvent(0, EventType.S_PRESSED, null, "INPUT_LISTENER",
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.S_PRESSED, null, "INPUT_LISTENER",
                 "GLOBAL");
             break;
           case Input.KEY_D:
-            World.getEventDispatcher().createEvent(0, EventType.D_PRESSED, null, "INPUT_LISTENER",
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.D_PRESSED, null, "INPUT_LISTENER",
                 "GLOBAL");
             break;
           case Input.KEY_G:
-            World.getEventDispatcher().createEvent(0, EventType.G_PRESSED, null, "INPUT_LISTENER",
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.G_PRESSED, null, "INPUT_LISTENER",
                 "GLOBAL");
             break;
           case Input.KEY_K:
-            World.getEventDispatcher().createEvent(0, EventType.K_PRESSED, null, "INPUT_LISTENER",
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.K_PRESSED, null, "INPUT_LISTENER",
                 "GLOBAL");
             break;
           case Input.KEY_F1:
-            World.getEventDispatcher().createEvent(0, EventType.DEBUG_CONSOLE_KEY_F1_PRESSED, null, "INPUT_LISTENER",
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.DEBUG_CONSOLE_KEY_F1_PRESSED, null, "INPUT_LISTENER",
                 "GLOBAL");
             break;
         }
@@ -159,10 +157,10 @@ public class InputHandler {
         Vector2 position = new Vector2(arg1, arg2);
 
         if (arg0 == 0/* 0=LeftButton */) {
-          World.getEventDispatcher().createEvent(0, EventType.LEFT_RELEASED, position.cpy(),
+          WorldHandler.getEventDispatcher().createEvent(0, EventType.LEFT_RELEASED, position.cpy(),
               "INPUT_LISTENER", "MOUSE");
         } else if (arg0 == 1/* 1=RightButton */) {
-          World.getEventDispatcher().createEvent(0, EventType.RIGHT_RELEASED, position.cpy(),
+          WorldHandler.getEventDispatcher().createEvent(0, EventType.RIGHT_RELEASED, position.cpy(),
               "INPUT_LISTENER", "MOUSE");
         }
       }
@@ -172,10 +170,10 @@ public class InputHandler {
         Vector2 position = new Vector2(arg1, arg2);
 
         if (arg0 == 0/* 0=LeftButton */) {
-          World.getEventDispatcher().createEvent(0, EventType.LEFT_DOWN, position.cpy(),
+          WorldHandler.getEventDispatcher().createEvent(0, EventType.LEFT_DOWN, position.cpy(),
               "INPUT_LISTENER", "MOUSE");
         } else if (arg0 == 1/* 1=RightButton */) {
-          World.getEventDispatcher().createEvent(0, EventType.RIGHT_DOWN, position.cpy(),
+          WorldHandler.getEventDispatcher().createEvent(0, EventType.RIGHT_DOWN, position.cpy(),
               "INPUT_LISTENER", "MOUSE");
         }
       }
@@ -186,7 +184,7 @@ public class InputHandler {
         Vector2 newPos = new Vector2(arg0, arg1);
         Vector2[] positions = {oldPos.cpy(), newPos.cpy()};
 
-          World.getEventDispatcher().createEvent(0, EventType.MOUSE_MOVED, positions,
+        WorldHandler.getEventDispatcher().createEvent(0, EventType.MOUSE_MOVED, positions,
               "INPUT_LISTENER", "MOUSE");
         
       }
@@ -198,10 +196,10 @@ public class InputHandler {
         Vector2[] positions = {oldPos.cpy(), newPos.cpy()};
 
         if (input.isMouseButtonDown(0)/* 0=LeftButton */) {
-          World.getEventDispatcher().createEvent(0, EventType.LEFT_DRAGGED, positions,
+          WorldHandler.getEventDispatcher().createEvent(0, EventType.LEFT_DRAGGED, positions,
               "INPUT_LISTENER", "MOUSE");
         } else if (input.isMouseButtonDown(1)/* 0=LeftButton */) {
-          World.getEventDispatcher().createEvent(0, EventType.RIGHT_DRAGGED, positions,
+          WorldHandler.getEventDispatcher().createEvent(0, EventType.RIGHT_DRAGGED, positions,
               "INPUT_LISTENER", "MOUSE");
         }
       }
@@ -211,10 +209,10 @@ public class InputHandler {
         Vector2 position = new Vector2(arg1, arg2);
 
         if (arg0 == 0/* 0=LeftButton */) {
-          World.getEventDispatcher().createEvent(0, EventType.LEFT_CLICK, position.cpy(),
+          WorldHandler.getEventDispatcher().createEvent(0, EventType.LEFT_CLICK, position.cpy(),
               "INPUT_LISTENER", "GLOBAL");
         } else if (arg0 == 1/* 1=RightButton */) {
-          World.getEventDispatcher().createEvent(0, EventType.RIGHT_CLICK, position.cpy(),
+          WorldHandler.getEventDispatcher().createEvent(0, EventType.RIGHT_CLICK, position.cpy(),
               "INPUT_LISTENER", "GLOBAL");
         }
       }

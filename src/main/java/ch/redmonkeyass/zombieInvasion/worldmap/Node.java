@@ -1,8 +1,8 @@
 package ch.redmonkeyass.zombieInvasion.worldmap;
 
-import com.badlogic.gdx.physics.box2d.Body;
-
 import ch.redmonkeyass.zombieInvasion.worldmap.WorldMap.FieldType;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.sun.istack.internal.NotNull;
 
 public class Node implements Comparable {
   private final Body body;
@@ -72,7 +72,7 @@ public class Node implements Comparable {
   }
 
   @Override
-  public int compareTo(Object other) {
+  public int compareTo(@NotNull Object other) {
     Node o = (Node) other;
 
     float f = heuristic + cost;

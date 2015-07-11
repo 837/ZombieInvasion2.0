@@ -1,21 +1,19 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse;
 
-import java.util.Optional;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
-
-import com.badlogic.gdx.math.Vector2;
-
 import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.World;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
+import com.badlogic.gdx.math.Vector2;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.state.StateBasedGame;
+
+import java.util.Optional;
 
 public class MouseTileSelectionModule extends Module implements UpdatableModul, RenderableModul {
   Node selectedNode = null;
@@ -36,13 +34,13 @@ public class MouseTileSelectionModule extends Module implements UpdatableModul, 
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEntityHandler().getEventsFrom(getEntityID())
+    WorldHandler.getEntityHandler().getEventsFrom(getEntityID())
         .ifPresent(events -> events.forEach(event -> {
           switch (event.getEvent()) {
             case MOUSE_MOVED:
               event.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {
-                positions[1].add(World.getCamera().getPosition()).scl(Config.PIX2B);
-                Node[][] map = World.getWorldMap().getMap();
+                positions[1].add(WorldHandler.getCamera().getPosition()).scl(Config.PIX2B);
+                Node[][] map = WorldHandler.getWorldMap().getMap();
                 selectedNode = map[(int) positions[1].x][(int) positions[1].y];
               });
               break;

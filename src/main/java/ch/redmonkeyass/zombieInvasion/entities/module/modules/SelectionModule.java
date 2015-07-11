@@ -1,20 +1,18 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
-import java.util.Optional;
-
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.entities.module.Module;
+import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.World;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+import java.util.Optional;
 
 public class SelectionModule extends Module implements UpdatableModul {
   private boolean isSelected = false;
@@ -34,11 +32,11 @@ public class SelectionModule extends Module implements UpdatableModul {
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
+    WorldHandler.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
       events.parallelStream().forEach(event -> {
         switch (event.getEvent()) {
           case LEFT_CLICK_SELECTION:
-            World.getEntityHandler()
+            WorldHandler.getEntityHandler()
                 .getDataFrom(getEntityID(), DataType.COLLISION_FIXTURE, Fixture.class)
                 .ifPresent(fixture -> event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
               position.scl(Config.PIX2B);
@@ -50,7 +48,7 @@ public class SelectionModule extends Module implements UpdatableModul {
             break;
 
           case AREA_SELECTION:
-            World.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
+            WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
                 .ifPresent(
                     position -> event.getAdditionalInfo(Rectangle.class).ifPresent(rectangle -> {
               position.scl(Config.B2PIX);

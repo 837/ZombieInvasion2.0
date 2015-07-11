@@ -1,8 +1,8 @@
 package ch.redmonkeyass.zombieInvasion.eventhandling;
 
-import java.util.Optional;
-
 import com.badlogic.gdx.math.Vector2;
+
+import java.util.Optional;
 
 public class Event {
   private EventType event;
@@ -37,16 +37,24 @@ public class Event {
     return delayMillis;
   }
 
+  public void setDelayMillis(long delayMillis) {
+    this.delayMillis = delayMillis;
+  }
+
   public boolean isPersistent() {
     return persistent;
   }
 
+  public void setPersistent(boolean persistent) {
+    this.persistent = persistent;
+  }
+
   /**
    * Return the additional Info from an Event
-   * 
+   *
    * Special cases: Vector2: returns a copy of vector, not the actual vector.
-   * 
-   * @param the type you want
+   *
+   * @param type the type you want
    * @return Optional<type> or an empty Optional if the type does not match the found object
    */
   @SuppressWarnings("unchecked")
@@ -58,14 +66,6 @@ public class Event {
       return Optional.ofNullable(type.cast(additionalInfo));
     }
     return Optional.empty();
-  }
-
-  public void setDelayMillis(long delayMillis) {
-    this.delayMillis = delayMillis;
-  }
-
-  public void setPersistent(boolean persistent) {
-    this.persistent = persistent;
   }
 
 

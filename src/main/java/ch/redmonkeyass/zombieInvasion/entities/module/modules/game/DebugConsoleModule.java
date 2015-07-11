@@ -1,9 +1,11 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules.game;
 
-import java.awt.Font;
-import java.lang.reflect.Constructor;
-import java.util.Optional;
-
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.entities.module.Module;
+import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -12,12 +14,9 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.World;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+import java.awt.*;
+import java.lang.reflect.Constructor;
+import java.util.Optional;
 
 public class DebugConsoleModule extends Module implements UpdatableModul, RenderableModul {
   private TextField consoleInputField = null;
@@ -32,13 +31,13 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     if (consoleInputField != null) {
       g.setColor(new Color(0, 0, 0, 80));
-      g.fillRect(World.getCamera().getPosition().x, World.getCamera().getPosition().y, Config.WIDTH,
+      g.fillRect(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y, Config.WIDTH,
           Config.HEIGHT);
       g.setColor(Color.white);
-      g.drawString(outPut, World.getCamera().getPosition().x + 20,
-          World.getCamera().getPosition().y + 90);
-      consoleInputField.setLocation((int) World.getCamera().getPosition().x + 5,
-          (int) World.getCamera().getPosition().y + 30);
+      g.drawString(outPut, WorldHandler.getCamera().getPosition().x + 20,
+              WorldHandler.getCamera().getPosition().y + 90);
+      consoleInputField.setLocation((int) WorldHandler.getCamera().getPosition().x + 5,
+              (int) WorldHandler.getCamera().getPosition().y + 30);
       consoleInputField.render(gc, g);
     }
   }
@@ -46,7 +45,7 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
   @SuppressWarnings({"unchecked"})
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEntityHandler().getEventsFrom(getEntityID())
+    WorldHandler.getEntityHandler().getEventsFrom(getEntityID())
         .ifPresent(events -> events.parallelStream().forEach(e -> {
           switch (e.getEvent()) {
             case DEBUG_CONSOLE_KEY_F1_PRESSED:
@@ -54,8 +53,8 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                 Font font = new Font("Verdana", Font.BOLD, 15);
                 TrueTypeFont ttf = new TrueTypeFont(font, true);
                 consoleInputField =
-                    new TextField(gc, ttf, (int) World.getCamera().getPosition().x + 5,
-                        (int) World.getCamera().getPosition().y + 30, Config.WIDTH - 10, 60,
+                        new TextField(gc, ttf, (int) WorldHandler.getCamera().getPosition().x + 5,
+                                (int) WorldHandler.getCamera().getPosition().y + 30, Config.WIDTH - 10, 60,
                         componentListener -> {
 
 
@@ -92,7 +91,7 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                        * ch.redmonkeyass.zombieInvasion.entities.module.modules and Constructor must
                        * have exactly one Parameter of tpye String example: add HANS LightEmitter
                        */
-                      World.getEntityHandler().getAllEntities().stream()
+                      WorldHandler.getEntityHandler().getAllEntities().stream()
                           .filter(e1 -> e1.getID().equals(message[1])).findAny()
                           .ifPresent(entity -> {
                         try {
@@ -107,13 +106,13 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                               case "/add":
                                 constructtoni = clazz.getConstructor(String.class);
 
-                                World.getModuleHandler()
+                                WorldHandler.getModuleHandler()
                                     .addModules(constructtoni.newInstance(entity.getID()));
                                 outPut +=
                                     "added to: " + entity.getID() + " the module: " + message[2];
                                 break;
                               case "/remove":
-                                World.getModuleHandler().removeModulesFrom(entity.getID(), clazz);
+                                WorldHandler.getModuleHandler().removeModulesFrom(entity.getID(), clazz);
                                 outPut += "removed from: " + entity.getID() + " the module: "
                                     + message[2];
                                 break;

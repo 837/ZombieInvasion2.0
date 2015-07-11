@@ -1,15 +1,15 @@
 package ch.redmonkeyass.zombieInvasion.entities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-
-import ch.redmonkeyass.zombieInvasion.World;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule.Entity_Status;
 import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
 
 public class Entity {
   private final String ID;
@@ -23,11 +23,11 @@ public class Entity {
   }
 
   public void UPDATE_ENTITY() {
-    World.getEntityHandler().getDataFrom(ID, DataType.ENTITY_STATUS, Entity_Status.class)
+    WorldHandler.getEntityHandler().getDataFrom(ID, DataType.ENTITY_STATUS, Entity_Status.class)
         .ifPresent(status -> {
           if (status == Entity_Status.DEAD) {
             modules.forEach(Module::prepareModuleForRemoval);
-            World.getEventDispatcher().createEvent(0, EventType.REMOVE_ENTITY, null, ID,
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.REMOVE_ENTITY, null, ID,
                 "ENTITY_HANDLER", "MODULE_HANDLER");
           }
         });
@@ -76,14 +76,14 @@ public class Entity {
   public Optional<ArrayList<Event>> getEvents() {
     /*
      * TODO this is a bit stupid... for some reason
-     * Optional.ofNullable(World.....getDataFrom(...).orElse(null) seems to work...? wtf also method
+     * Optional.ofNullable(WorldHandler.....getDataFrom(...).orElse(null) seems to work...? wtf also method
      * reference cast => bad return type ???
      */
 
-    // return World.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class);
+    // return WorldHandler.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class);
 
 
-    return World.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class)
+    return WorldHandler.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class)
         .map(e -> e);
   }
 }
