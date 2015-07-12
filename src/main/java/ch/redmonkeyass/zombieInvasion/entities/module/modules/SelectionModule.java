@@ -16,6 +16,18 @@ import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 
+/**
+ * SelectionModule gives an entity the ability to get selected.
+ * <p>
+ * <b>Needs:</b> <br>
+ * EventType.AREA_SELECTION,<br>
+ * EventType.LEFT_CLICK_SELECTION,<br>
+ * DataType.COLLISION_FIXTURE,<br>
+ * DataType.POSITION<br>
+ * 
+ * @author Matthias
+ *
+ */
 public class SelectionModule extends Module implements UpdatableModul {
   private boolean isSelected = false;
 
@@ -50,8 +62,8 @@ public class SelectionModule extends Module implements UpdatableModul {
             break;
 
           case AREA_SELECTION:
-            WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
-                .ifPresent(
+            WorldHandler.getEntityHandler()
+                .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(
                     position -> event.getAdditionalInfo(Rectangle.class).ifPresent(rectangle -> {
               position.scl(Config.B2PIX);
               isSelected = rectangle.contains(position.x, position.y);

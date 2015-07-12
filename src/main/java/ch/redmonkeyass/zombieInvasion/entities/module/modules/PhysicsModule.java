@@ -79,7 +79,7 @@ public class PhysicsModule extends Module implements UpdatableModul {
     } else {
       desired.scl(maxSpeed);
     }
-    
+
     Vector2 steer = desired.sub(b2Body.getLinearVelocity().cpy());
     steer.limit(maxForce);
     b2Body.applyForceToCenter(steer, true);

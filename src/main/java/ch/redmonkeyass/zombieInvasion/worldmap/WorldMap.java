@@ -102,8 +102,6 @@ public class WorldMap implements RenderableModul {
         // Create our body in the WorldHandler using our body definition
         // Body body1 = WorldHandler.getB2World().createBody(bodyDef1);
 
-
-
         return null;
       case WALL:
         // First we create a body definition

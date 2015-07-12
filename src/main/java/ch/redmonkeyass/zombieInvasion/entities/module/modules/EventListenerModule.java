@@ -13,6 +13,17 @@ import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
 
+/**
+ * EventListenerModule gives an Entity the ability to listen to events.
+ * <p>
+ * <b>All Events with the IDs:</b><br>
+ * GLOBAL,<br>
+ * ENTITY_ID,<br>
+ * or when the ENTITY_ID starts with the EVENT_ID
+ * 
+ * @author Matthias
+ *
+ */
 public class EventListenerModule extends Module implements UpdatableModul {
   private ArrayList<Event> events = new ArrayList<>();
 

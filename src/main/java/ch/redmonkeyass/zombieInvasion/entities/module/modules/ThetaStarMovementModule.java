@@ -27,7 +27,9 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.heuristics.Eucli
  * Used path finding algorithm is <b>ThetaStarGridFinder</b>
  * <p>
  * <b>Needs:</b> <br>
- * DataType.IS_SELECTED, DataType.POSITION, EventType.RIGHT_CLICK
+ * DataType.IS_SELECTED,<br>
+ * DataType.POSITION,<br>
+ * EventType.RIGHT_CLICK<br>
  * 
  * @author Matthias
  *
@@ -39,12 +41,12 @@ public class ThetaStarMovementModule extends Module implements UpdatableModul {
 
   public ThetaStarMovementModule(String entityID) {
     super(entityID);
-    //Creating custom GridFinderOptions. For standard options, hover "GridFinderOptions()".
+    // Creating custom GridFinderOptions. For standard options, hover "GridFinderOptions()".
     GridFinderOptions opt = new GridFinderOptions();
     opt.allowDiagonal = true;
     opt.dontCrossCorners = true;
     opt.heuristic = new EuclideanDistance();
-    
+
     finder = new ThetaStarGridFinder<GridCell>(GridCell.class, opt);
     navGrid = new NavigationGrid<GridCell>(WorldHandler.getWorldMap().getCells(), true);
   }

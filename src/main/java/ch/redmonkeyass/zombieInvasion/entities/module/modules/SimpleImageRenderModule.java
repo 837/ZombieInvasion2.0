@@ -18,6 +18,16 @@ import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.util.ImageWrapper;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
 
+/**
+ * Gives the Entity the ability to render a simple image.
+ * <p>
+ * <b>Needs:</b><br>
+ * DataType.POSITION,<br>
+ * DataType.ROTATIONRAD,<br>
+ * 
+ * @author Matthias
+ *
+ */
 public class SimpleImageRenderModule extends Module implements RenderableModul {
   private final ImageWrapper imageToRenderWrapper;
 
@@ -37,8 +47,8 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
         .ifPresent(position -> {
-          WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.ROTATIONRAD, Float.class)
-              .ifPresent(rot -> {
+          WorldHandler.getEntityHandler()
+              .getDataFrom(getEntityID(), DataType.ROTATIONRAD, Float.class).ifPresent(rot -> {
             g.pushTransform();
             position.scl(Config.B2PIX); // transform to WorldHandler
             // coordinates
@@ -51,11 +61,12 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
           });
         });
 
-    //XXX DEBUG PATHFINDING
+    // XXX DEBUG PATHFINDING
     WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
         .ifPresent(path -> {
           g.setColor(Color.yellow);
-          ((List<GridCell>) path).forEach(c -> g.drawRect(c.getX()*Config.B2PIX, c.getY()*Config.B2PIX, 32, 32));
+          ((List<GridCell>) path)
+              .forEach(c -> g.drawRect(c.getX() * Config.B2PIX, c.getY() * Config.B2PIX, 32, 32));
         });
   }
 

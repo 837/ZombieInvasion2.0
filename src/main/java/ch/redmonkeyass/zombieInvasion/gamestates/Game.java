@@ -34,9 +34,9 @@ public class Game extends BasicGameState {
   private InputHandler inputHandler = null;
   private Logger logger = LogManager.getLogger(Game.class);
 
-    public Game(int ID) {
-        this.ID = ID;
-    }
+  public Game(int ID) {
+    this.ID = ID;
+  }
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -55,32 +55,33 @@ public class Game extends BasicGameState {
 
   @Override
   public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-      g.translate(-WorldHandler.getCamera().getPosition().x, -WorldHandler.getCamera().getPosition().y);
+    g.translate(-WorldHandler.getCamera().getPosition().x,
+        -WorldHandler.getCamera().getPosition().y);
 
     g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
 
     // WorldMap
-      WorldHandler.getWorldMap().RENDER(gc, sbg, g);
+    WorldHandler.getWorldMap().RENDER(gc, sbg, g);
 
     // XXX TEST START
-      WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
+    WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     // XXX DEBUGRENDERER
-      // WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
+    // WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
     // .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     // XXX MouseModules
-      WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
+    WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-      WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
+    WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-      WorldHandler.getModuleHandler().getModulesOf(MouseTileSelectionModule.class)
+    WorldHandler.getModuleHandler().getModulesOf(MouseTileSelectionModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-      WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
+    WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     // XXX TEST END
@@ -96,13 +97,13 @@ public class Game extends BasicGameState {
 
       // XXX TEST START
 
-        WorldHandler.getCamera().UPDATE(gc, sbg);
+      WorldHandler.getCamera().UPDATE(gc, sbg);
 
       // EventModule
-        WorldHandler.getModuleHandler().getModulesOf(EventListenerModule.class)
+      WorldHandler.getModuleHandler().getModulesOf(EventListenerModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-        WorldHandler.getEventDispatcher().getEvents().parallelStream()
+      WorldHandler.getEventDispatcher().getEvents().parallelStream()
           .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e ->
 
       {
@@ -114,43 +115,43 @@ public class Game extends BasicGameState {
                 logger.trace("Spawned 10 new Entities");
                 break;
               case K_PRESSED:
-                  WorldHandler.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null, "GAME",
-                    "GLOBAL");
+                WorldHandler.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null,
+                    "GAME", "GLOBAL");
                 logger.trace("Removed all Entities");
                 break;
             }
           });
 
-        WorldHandler.getEntityHandler().UPDATE_ENTITYHANDLER();
-        WorldHandler.getModuleHandler().UPDATE_MODULEHANDLER();
+      WorldHandler.getEntityHandler().UPDATE_ENTITYHANDLER();
+      WorldHandler.getModuleHandler().UPDATE_MODULEHANDLER();
 
-        WorldHandler.getModuleHandler().getModulesOf(SelectionModule.class)
+      WorldHandler.getModuleHandler().getModulesOf(SelectionModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-        WorldHandler.getModuleHandler().getModulesOf(PhysicsModule.class)
+      WorldHandler.getModuleHandler().getModulesOf(PhysicsModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-        WorldHandler.getModuleHandler().getModulesOf(ThetaStarMovementModule.class)
+      WorldHandler.getModuleHandler().getModulesOf(ThetaStarMovementModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-        WorldHandler.getModuleHandler().getModulesOf(EntityStatusModule.class)
+      WorldHandler.getModuleHandler().getModulesOf(EntityStatusModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
       // MouseModules
-        WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
+      WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-        WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
+      WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-        WorldHandler.getModuleHandler().getModulesOf(MouseTileSelectionModule.class)
+      WorldHandler.getModuleHandler().getModulesOf(MouseTileSelectionModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-        WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
+      WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-        WorldHandler.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
-        WorldHandler.getEventDispatcher().dispatchEvents();
+      WorldHandler.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
+      WorldHandler.getEventDispatcher().dispatchEvents();
 
       // XXX TEST END
       next_game_tick += Config.TIME_PER_TICK;
