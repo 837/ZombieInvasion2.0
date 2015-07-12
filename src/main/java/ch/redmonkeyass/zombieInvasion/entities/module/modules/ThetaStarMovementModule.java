@@ -15,7 +15,7 @@ import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
+import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGrid;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.GridFinderOptions;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.ThetaStarGridFinder;
@@ -35,9 +35,9 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.heuristics.Eucli
  *
  */
 public class ThetaStarMovementModule extends Module implements UpdatableModul {
-  List<GridCell> pathToEnd = null;
-  ThetaStarGridFinder<GridCell> finder = null;
-  NavigationGrid<GridCell> navGrid = null;
+  List<Node> pathToEnd = null;
+  ThetaStarGridFinder<Node> finder = null;
+  NavigationGrid<Node> navGrid = null;
 
   public ThetaStarMovementModule(String entityID) {
     super(entityID);
@@ -47,8 +47,8 @@ public class ThetaStarMovementModule extends Module implements UpdatableModul {
     opt.dontCrossCorners = true;
     opt.heuristic = new EuclideanDistance();
 
-    finder = new ThetaStarGridFinder<GridCell>(GridCell.class, opt);
-    navGrid = new NavigationGrid<GridCell>(WorldHandler.getWorldMap().getCells(), true);
+    finder = new ThetaStarGridFinder<Node>(Node.class, opt);
+    navGrid = new NavigationGrid<Node>(WorldHandler.getWorldMap().getMap(), true);
   }
 
   @Override
@@ -75,13 +75,13 @@ public class ThetaStarMovementModule extends Module implements UpdatableModul {
                       .ifPresent(entityPos -> {
 
                     // Calculating the GridCells on which the Entity and where to move to
-                    GridCell[][] cells = WorldHandler.getWorldMap().getCells();
-                    GridCell actualPos, goalPos;
+                    Node[][] cells = WorldHandler.getWorldMap().getMap();
+                    Node actualPos, goalPos;
                     actualPos = cells[(int) entityPos.x][(int) entityPos.y];
                     goalPos = cells[(int) moveToPos.x][(int) moveToPos.y];
 
                     // Calculating a path
-                    List<GridCell> path = finder.findPath(actualPos, goalPos, navGrid);
+                    List<Node> path = finder.findPath(actualPos, goalPos, navGrid);
 
                     // FIXME Copying the path to a new List, if you don't do that, some bad magic
                     // happens... can't explain it...

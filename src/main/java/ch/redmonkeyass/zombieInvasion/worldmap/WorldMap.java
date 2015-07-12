@@ -15,24 +15,24 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;
-  private int tileSize = 32;
 
   enum FieldType {
-    WALL, NOT_WALL
-  }
+    WALL(false), NOT_WALL;
 
-  // these should be stored as [x][y]
-  private GridCell[][] cells = new GridCell[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
+    private FieldType() {}
 
-  public GridCell[][] getCells() {
-    // return Arrays.copyOf(cells, cells.length);
-    // GridCell[][] newCells = new GridCell[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
-    // System.arraycopy(cells, 0, newCells, 0, cells.length);
-    return cells;
+    private FieldType(boolean isWalkable) {
+      this.isWalkable = isWalkable;
+    }
+
+    private boolean isWalkable = true;
+
+    public boolean isWalkable() {
+      return isWalkable;
+    }
   }
 
   private Node[][] map = new Node[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
@@ -41,11 +41,11 @@ public class WorldMap implements RenderableModul {
     return map;
   }
 
-  final float NODE_SIZE_BOX2D = 1f;
-
   public WorldMap() {
     try {
       tileMap = new TiledMap("res/tiledMap/mapTest.tmx");
+      int tileSize = tileMap.getTileHeight();
+      int NODE_SIZE_BOX2D = (int) (tileSize / Config.B2PIX);
 
       for (int x = 0; x < map.length; x++) {
         for (int y = 0; y < map[x].length; y++) {
@@ -53,33 +53,26 @@ public class WorldMap implements RenderableModul {
             case 0:
               break;
             default:
-              map[x][y] = new Node(tileSize, tileSize, x, y,
-                  createBody(FieldType.NOT_WALL, x + 1, y + 1), FieldType.NOT_WALL);
-
-              cells[x][y] = new GridCell(x, y, true);
+              map[x][y] =
+                  new Node(x, y, createBody(FieldType.NOT_WALL, x + 1, y + 1, NODE_SIZE_BOX2D),
+                      FieldType.NOT_WALL, tileSize);
               break;
           }
           switch (tileMap.getTileId(x, y, 1)) {
             case 0:
-
               break;
             default:
-              map[x][y] = new Node(tileSize, tileSize, x, y,
-                  createBody(FieldType.WALL, x + 1, y + 1), FieldType.WALL);
-
-              cells[x][y] = new GridCell(x, y, false);
+              map[x][y] = new Node(x, y, createBody(FieldType.WALL, x + 1, y + 1, NODE_SIZE_BOX2D),
+                  FieldType.WALL, tileSize);
               break;
           }
         }
       }
-
     } catch (SlickException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
   }
-
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
@@ -87,7 +80,7 @@ public class WorldMap implements RenderableModul {
   }
 
 
-  private Body createBody(FieldType type, int x, int y) {
+  private Body createBody(FieldType type, int x, int y, final float NODE_SIZE_BOX2D) {
     switch (type) {
       case NOT_WALL:
         // First we create a body definition

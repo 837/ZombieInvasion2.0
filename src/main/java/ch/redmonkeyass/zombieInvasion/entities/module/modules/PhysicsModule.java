@@ -47,7 +47,7 @@ public class PhysicsModule extends Module implements UpdatableModul {
 
           if (!pathToGoal.isEmpty()) {
             actualPos = WorldHandler.getWorldMap()
-                .getCells()[(int) (b2Body.getPosition().x)][(int) (b2Body.getPosition().y)];
+                .getMap()[(int) (b2Body.getPosition().x)][(int) (b2Body.getPosition().y)];
             goalPos = pathToGoal.get(0);
 
 

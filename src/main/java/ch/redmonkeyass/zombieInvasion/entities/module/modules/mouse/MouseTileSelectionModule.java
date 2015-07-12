@@ -30,7 +30,7 @@ public class MouseTileSelectionModule extends Module implements UpdatableModul, 
     if (selectedNode != null) {
       g.setColor(Color.white);
       g.drawRect(selectedNode.getX() * Config.B2PIX, selectedNode.getY() * Config.B2PIX,
-          selectedNode.getWidth(), selectedNode.getHeight());
+          selectedNode.getTileSize(),  selectedNode.getTileSize());
     }
   }
 
