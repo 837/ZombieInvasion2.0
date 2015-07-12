@@ -1,11 +1,11 @@
 package ch.redmonkeyass.zombieInvasion.entities.module;
 
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
+
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
 
 public class ModuleHandler {
   private HashMap<Class<?>, ArrayList<? extends Module>> modulesMap = new HashMap<>();

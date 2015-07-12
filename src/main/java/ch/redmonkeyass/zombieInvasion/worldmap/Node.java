@@ -1,8 +1,9 @@
 package ch.redmonkeyass.zombieInvasion.worldmap;
 
-import ch.redmonkeyass.zombieInvasion.worldmap.WorldMap.FieldType;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.sun.istack.internal.NotNull;
+
+import ch.redmonkeyass.zombieInvasion.worldmap.WorldMap.FieldType;
 
 public class Node implements Comparable {
   private final Body body;

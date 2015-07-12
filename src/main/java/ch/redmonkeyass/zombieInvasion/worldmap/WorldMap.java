@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.World;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 
 public class WorldMap implements RenderableModul {
@@ -98,8 +98,8 @@ public class WorldMap implements RenderableModul {
         // Set our body's starting position in object space (meters)
         // bodyDef1.position.set(x - (NODE_SIZE_BOX2D / 2), y - (NODE_SIZE_BOX2D / 2));
 
-        // Create our body in the world using our body definition
-        // Body body1 = World.getB2World().createBody(bodyDef1);
+        // Create our body in the WorldHandler using our body definition
+        // Body body1 = WorldHandler.getB2World().createBody(bodyDef1);
 
 
 
@@ -114,8 +114,8 @@ public class WorldMap implements RenderableModul {
         // Set our body's starting position in object space (meters)
         bodyDef2.position.set(x - (NODE_SIZE_BOX2D / 2), y - (NODE_SIZE_BOX2D / 2));
 
-        // Create our body in the world using our body definition
-        Body body2 = World.getB2World().createBody(bodyDef2);
+        // Create our body in the WorldHandler using our body definition
+        Body body2 = WorldHandler.getB2World().createBody(bodyDef2);
 
         // Create a circle shape and set its radius to 6
         // PolygonShape shape = new PolygonShape();

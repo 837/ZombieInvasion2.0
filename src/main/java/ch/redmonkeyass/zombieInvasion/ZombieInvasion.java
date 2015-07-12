@@ -1,13 +1,14 @@
 package ch.redmonkeyass.zombieInvasion;
 
-import ch.redmonkeyass.zombieInvasion.gamestates.Game;
-import ch.redmonkeyass.zombieInvasion.gamestates.MainMenu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import ch.redmonkeyass.zombieInvasion.gamestates.Game;
+import ch.redmonkeyass.zombieInvasion.gamestates.MainMenu;
 
 public class ZombieInvasion extends StateBasedGame {
   private static Logger logger = LogManager.getLogger(ZombieInvasion.class);

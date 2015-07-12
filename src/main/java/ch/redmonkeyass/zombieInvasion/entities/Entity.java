@@ -1,15 +1,15 @@
 package ch.redmonkeyass.zombieInvasion.entities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
+
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule.Entity_Status;
 import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
 
 public class Entity {
   private final String ID;

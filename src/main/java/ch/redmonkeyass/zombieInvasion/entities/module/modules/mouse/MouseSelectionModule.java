@@ -1,12 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse;
 
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
-import com.badlogic.gdx.math.Vector2;
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -14,7 +9,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.util.Optional;
+import com.badlogic.gdx.math.Vector2;
+
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.entities.module.Module;
+import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 
 public class MouseSelectionModule extends Module implements RenderableModul, UpdatableModul {
   private final Color areaColor = new Color(96, 96, 96, 80);

@@ -1,11 +1,9 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules.game;
 
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+import java.awt.Font;
+import java.lang.reflect.Constructor;
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -14,9 +12,12 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.awt.*;
-import java.lang.reflect.Constructor;
-import java.util.Optional;
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.entities.module.Module;
+import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 
 public class DebugConsoleModule extends Module implements UpdatableModul, RenderableModul {
   private TextField consoleInputField = null;

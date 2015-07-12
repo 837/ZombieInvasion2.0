@@ -1,16 +1,17 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.state.StateBasedGame;
+
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.state.StateBasedGame;
-
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class EventListenerModule extends Module implements UpdatableModul {
   private ArrayList<Event> events = new ArrayList<>();

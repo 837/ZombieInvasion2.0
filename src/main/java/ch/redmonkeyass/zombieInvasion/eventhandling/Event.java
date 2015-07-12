@@ -1,8 +1,8 @@
 package ch.redmonkeyass.zombieInvasion.eventhandling;
 
-import com.badlogic.gdx.math.Vector2;
-
 import java.util.Optional;
+
+import com.badlogic.gdx.math.Vector2;
 
 public class Event {
   private EventType event;

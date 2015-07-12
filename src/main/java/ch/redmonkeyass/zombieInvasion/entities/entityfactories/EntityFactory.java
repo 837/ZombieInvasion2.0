@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
-import ch.redmonkeyass.zombieInvasion.World;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
@@ -46,30 +46,30 @@ public class EntityFactory {
 
   private static void createMouseEntity(EntityType entityType) {
     String id = "MOUSE";
-    World.getEntityHandler().addEntity(new Entity(id));
-    World.getModuleHandler().addModules(new MouseSelectionModule(id),
+    WorldHandler.getEntityHandler().addEntity(new Entity(id));
+    WorldHandler.getModuleHandler().addModules(new MouseSelectionModule(id),
         new MouseTileSelectionModule(id));
 
     // EventModule
-    World.getModuleHandler().addModules(new EventListenerModule(id));
+    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
   private static void createGameEntity(EntityType entityType) {
     String id = "GAME";
-    World.getEntityHandler().addEntity(new Entity(id));
+    WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
-    World.getModuleHandler().addModules(new DebugConsoleModule(id));
+    WorldHandler.getModuleHandler().addModules(new DebugConsoleModule(id));
 
     // EventModule
-    World.getModuleHandler().addModules(new EventListenerModule(id));
+    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
   private static void createAdolf(EntityType entityType) {
     String id = "ADOLF";
-    World.getEntityHandler().addEntity(new Entity(id));
-    World.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getEntityHandler().addEntity(new Entity(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
 
-    // World.getModuleHandler().addModules(new EntityStatusModule(id));
+    // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
 
     /*
      * Add Physics for testentity
@@ -83,8 +83,8 @@ public class EntityFactory {
       // Set our body's starting position in object space (meters)
       bodyDef.position.set(11, 11);
 
-      // Create our body in the world using our body definition
-      Body body = World.getB2World().createBody(bodyDef);
+      // Create our body in the WorldHandler using our body definition
+      Body body = WorldHandler.getB2World().createBody(bodyDef);
 
       // Create a circle shape and set its radius to 6
       // PolygonShape shape = new PolygonShape();
@@ -107,22 +107,22 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      World.getModuleHandler().addModules(new PhysicsModule(id, body));
+      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
-    World.getModuleHandler()
+    WorldHandler.getModuleHandler()
         .addModules(new SimpleImageRenderModule(id, Images.ADOLF));
 
-    World.getModuleHandler().addModules(new MovementModule(id),// new LightEmitter(id),
+    WorldHandler.getModuleHandler().addModules(new MovementModule(id),// new LightEmitter(id),
         new DebugRendererModule(id), new EventListenerModule(id));
   }
 
   private static void createHans(EntityType entityType) {
     String id = "HANS";
-    World.getEntityHandler().addEntity(new Entity(id));
-    World.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getEntityHandler().addEntity(new Entity(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
 
-    // World.getModuleHandler().addModules(new EntityStatusModule(id));
+    // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
      * Add Physics for testentity
      */
@@ -135,8 +135,8 @@ public class EntityFactory {
       // Set our body's starting position in object space (meters)
       bodyDef.position.set(12, 12);
 
-      // Create our body in the world using our body definition
-      Body body = World.getB2World().createBody(bodyDef);
+      // Create our body in the WorldHandler using our body definition
+      Body body = WorldHandler.getB2World().createBody(bodyDef);
 
       // Create a circle shape and set its radius to 6
       // PolygonShape shape = new PolygonShape();
@@ -159,28 +159,28 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      World.getModuleHandler().addModules(new PhysicsModule(id, body));
+      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
-    World.getModuleHandler()
+    WorldHandler.getModuleHandler()
         .addModules(new SimpleImageRenderModule(id, Images.HANS));
 
-    World.getModuleHandler().addModules(new MovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new MovementModule(id));
 
     // DebugModules
-    World.getModuleHandler().addModules(new DebugRendererModule(id));
+    WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
 
     // EventModule
-    World.getModuleHandler().addModules(new EventListenerModule(id));
-    // World.getModuleHandler().addModules(new LightEmitter(id));
+    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
+    // WorldHandler.getModuleHandler().addModules(new LightEmitter(id));
   }
 
   private static void createGerhart(EntityType entityType) {
     String id = "GERHART";
-    World.getEntityHandler().addEntity(new Entity(id));
-    World.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getEntityHandler().addEntity(new Entity(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
 
-    // World.getModuleHandler().addModules(new EntityStatusModule(id));
+    // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
      * Add Physics for testentity
      */
@@ -193,8 +193,8 @@ public class EntityFactory {
       // Set our body's starting position in object space (meters)
       bodyDef.position.set(13, 13);
 
-      // Create our body in the world using our body definition
-      Body body = World.getB2World().createBody(bodyDef);
+      // Create our body in the WorldHandler using our body definition
+      Body body = WorldHandler.getB2World().createBody(bodyDef);
 
       // Create a circle shape and set its radius to 6
       // PolygonShape shape = new PolygonShape();
@@ -217,26 +217,26 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      World.getModuleHandler().addModules(new PhysicsModule(id, body));
+      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
-    World.getModuleHandler()
+    WorldHandler.getModuleHandler()
         .addModules(new SimpleImageRenderModule(id, Images.GERHART));
 
-    World.getModuleHandler().addModules(new MovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new MovementModule(id));
 
     // DebugModules
-    World.getModuleHandler().addModules(new DebugRendererModule(id));
+    WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
 
     // EventModule
-    World.getModuleHandler().addModules(new EventListenerModule(id));
+    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
   private static void createZombie(EntityType entityType) {
-    String id = "ZOMBIE" + World.getEntityHandler().getAllEntities().size() + 1;
-    World.getEntityHandler().addEntity(new Entity(id));
-    World.getModuleHandler().addModules(new SelectionModule(id));
-    World.getModuleHandler().addModules(new EntityStatusModule(id));
+    String id = "ZOMBIE" + WorldHandler.getEntityHandler().getAllEntities().size() + 1;
+    WorldHandler.getEntityHandler().addEntity(new Entity(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
 
     /*
      * Add Physics for testentity
@@ -250,8 +250,8 @@ public class EntityFactory {
       // Set our body's starting position in object space (meters)
       bodyDef.position.set(12, 12);
 
-      // Create our body in the world using our body definition
-      Body body = World.getB2World().createBody(bodyDef);
+      // Create our body in the WorldHandler using our body definition
+      Body body = WorldHandler.getB2World().createBody(bodyDef);
 
       // Create a circle shape and set its radius to 6
       // PolygonShape shape = new PolygonShape();
@@ -274,18 +274,18 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      World.getModuleHandler().addModules(new PhysicsModule(id, body));
+      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
-    World.getModuleHandler()
+    WorldHandler.getModuleHandler()
         .addModules(new SimpleImageRenderModule(id, Images.ZOMBIE));
 
-    // World.getModuleHandler().addModules(new MovementModule(id));
+    // WorldHandler.getModuleHandler().addModules(new MovementModule(id));
 
     // DebugModules
-    World.getModuleHandler().addModules(new DebugRendererModule(id));
+    WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
 
     // EventModule
-    World.getModuleHandler().addModules(new EventListenerModule(id));
+    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
   }
 }

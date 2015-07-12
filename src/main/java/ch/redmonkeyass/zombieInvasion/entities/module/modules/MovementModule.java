@@ -14,7 +14,7 @@ import org.xguzm.pathfinding.grid.finders.GridFinderOptions;
 import com.badlogic.gdx.math.Vector2;
 
 import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.World;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
@@ -32,30 +32,30 @@ public class MovementModule extends Module implements UpdatableModul {
     opt.allowDiagonal = true;
     opt.dontCrossCorners = true;
     finder = new AStarGridFinder<GridCell>(GridCell.class, opt);
-    navGrid = new NavigationGrid<GridCell>(World.getWorldMap().getCells(), false);
+    navGrid = new NavigationGrid<GridCell>(WorldHandler.getWorldMap().getCells(), false);
   }
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
+    WorldHandler.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
       events.parallelStream().forEach(event -> {
         switch (event.getEvent()) {
           case RIGHT_CLICK:
-            World.getEntityHandler().getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
+            WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
                 .ifPresent(isSelected -> {
               if (isSelected) {
                 event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
                   Vector2 moveToPos =
-                      position.add(World.getCamera().getPosition()).scl(Config.PIX2B).cpy();
+                      position.add(WorldHandler.getCamera().getPosition()).scl(Config.PIX2B).cpy();
                   System.out.println("TargetPos: " + moveToPos);
-                  World.getEntityHandler()
+                  WorldHandler.getEntityHandler()
                       .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
                       .ifPresent(pos -> {
                     Vector2 entityPos = pos.cpy();
                     System.out.println("PlayerPos: " + entityPos);
 
 
-                    // GridCell[][] cells = World.getWorldMap().getCells();
+                    // GridCell[][] cells = WorldHandler.getWorldMap().getCells();
                     //
                     // GridCell actualPos, goalPos;
                     // actualPos = cells[(int) entityPos.x][(int) entityPos.y];

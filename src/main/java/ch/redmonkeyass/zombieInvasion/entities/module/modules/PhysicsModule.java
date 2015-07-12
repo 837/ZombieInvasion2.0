@@ -10,7 +10,7 @@ import org.xguzm.pathfinding.grid.GridCell;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import ch.redmonkeyass.zombieInvasion.World;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
@@ -39,13 +39,13 @@ public class PhysicsModule extends Module implements UpdatableModul {
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    World.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
+    WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
         .ifPresent(path -> {
           List<GridCell> pathToGoal = (List<GridCell>) path;
           GridCell actualPos, goalPos;
 
           if (!pathToGoal.isEmpty()) {
-            actualPos = World.getWorldMap()
+            actualPos = WorldHandler.getWorldMap()
                 .getCells()[(int) b2Body.getPosition().x][(int) b2Body.getPosition().y];
             goalPos = pathToGoal.get(0);
 
@@ -94,7 +94,7 @@ public class PhysicsModule extends Module implements UpdatableModul {
 
   @Override
   public void prepareModuleForRemoval() {
-    World.getB2World().destroyBody(b2Body);
+    WorldHandler.getB2World().destroyBody(b2Body);
   }
 }
 

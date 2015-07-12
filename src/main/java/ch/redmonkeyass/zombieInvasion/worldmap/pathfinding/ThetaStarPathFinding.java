@@ -1,10 +1,10 @@
 package ch.redmonkeyass.zombieInvasion.worldmap.pathfinding;
 
-import ch.redmonkeyass.zombieInvasion.util.SortedList;
-import ch.redmonkeyass.zombieInvasion.worldmap.Node;
-
 import java.util.ArrayList;
 import java.util.Optional;
+
+import ch.redmonkeyass.zombieInvasion.util.SortedList;
+import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 public class ThetaStarPathFinding {
 

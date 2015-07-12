@@ -1,17 +1,19 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules;
 
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
-import com.badlogic.gdx.math.Vector2;
+import java.util.Optional;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.util.Optional;
+import com.badlogic.gdx.math.Vector2;
+
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.entities.module.Module;
+import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 
 public class DebugRendererModule extends Module implements RenderableModul {
 

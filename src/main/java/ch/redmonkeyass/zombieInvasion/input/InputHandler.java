@@ -1,12 +1,14 @@
 package ch.redmonkeyass.zombieInvasion.input;
 
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
-import com.badlogic.gdx.math.Vector2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.InputListener;
 import org.newdawn.slick.state.StateBasedGame;
+
+import com.badlogic.gdx.math.Vector2;
+
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 
 public class InputHandler {
   public InputHandler(GameContainer gc) {
