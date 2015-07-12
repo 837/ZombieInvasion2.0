@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
-import org.xguzm.pathfinding.grid.GridCell;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -14,6 +13,8 @@ import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+import ch.redmonkeyass.zombieInvasion.util.MathUtil;
+import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
 
 
 public class PhysicsModule extends Module implements UpdatableModul {
@@ -46,22 +47,18 @@ public class PhysicsModule extends Module implements UpdatableModul {
 
           if (!pathToGoal.isEmpty()) {
             actualPos = WorldHandler.getWorldMap()
-                .getCells()[(int) b2Body.getPosition().x][(int) b2Body.getPosition().y];
+                .getCells()[(int) (b2Body.getPosition().x)][(int) (b2Body.getPosition().y)];
             goalPos = pathToGoal.get(0);
 
 
             if (actualPos == goalPos) {
               pathToGoal.remove(0);
             } else {
-              arrive(new Vector2(pathToGoal.get(0).getX(), pathToGoal.get(0).getY()));
-              // System.out.println(b2Body.getPosition());
+              arrive(new Vector2(pathToGoal.get(0).getX() + 0.5f, pathToGoal.get(0).getY() + 0.5f));
             }
+          } else {
+            b2Body.applyForceToCenter(b2Body.getLinearVelocity().cpy().scl(-1), true);
           }
-          if (!pathToGoal.isEmpty()) {
-            // System.out.println(
-            // "MoveTo: " + new Vector2(pathToGoal.get(0).getX(), pathToGoal.get(0).getY()));
-          }
-          // arrive(pos..scl(Config.PIX2B));
         });
 
   }
@@ -70,24 +67,20 @@ public class PhysicsModule extends Module implements UpdatableModul {
     Vector2 desired = target.sub(b2Body.getPosition().cpy());
 
     float d = desired.len();
-    int maxSpeed = 3;
-    int maxForce = 3;
+    int maxSpeed = 10;
+    int maxForce = 10;
 
-    // System.out.println(d);
     desired.nor();
-//    if (d < 3.5 && d > 0.3) {
-//      float m = MathUtil.map(d, 0, 10, 0, maxSpeed);
-//      desired.scl(m);
-//    } else if (d <= 0.3) {
-//      desired.scl(0);
-//    } else {
+    if (d < 0.2 && d > 0.1) {
+      float m = MathUtil.map(d, 0, 10, 0, maxSpeed);
+      desired.scl(m);
+    } else if (d <= 0.05) {
+      desired.scl(0);
+    } else {
       desired.scl(maxSpeed);
-//    }
-
-    // System.out.println(b2Body.getLinearVelocity());
-    // System.out.println(desired);
+    }
+    
     Vector2 steer = desired.sub(b2Body.getLinearVelocity().cpy());
-    // System.out.println(steer);
     steer.limit(maxForce);
     b2Body.applyForceToCenter(steer, true);
   }

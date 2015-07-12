@@ -41,6 +41,7 @@ dependencies {
    compile "com.badlogicgames.gdx:gdx-box2d:${gdxVersion}"
    compile "com.badlogicgames.gdx:gdx-box2d-platform:${gdxVersion}:natives-desktop"
    
+   compile "com.badlogicgames.gdx:gdx:${gdxVersion}"
    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:${gdxVersion}"
    compile "com.badlogicgames.gdx:gdx-platform:${gdxVersion}:natives-desktop"
    compile "com.badlogicgames.box2dlights:box2dlights:${box2dLightsVersion}"
@@ -57,7 +58,7 @@ dependencies {
     compile "org.slick2d:slick2d-core:1.0.1"
     
     //pathfinding
-    compile "com.github.xaguzman:pathfinding:0.2.5"
+   // compile "com.github.xaguzman:pathfinding:0.2.5"
 }
 
 def listNativePaths() {

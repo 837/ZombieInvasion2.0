@@ -1,13 +1,10 @@
 package ch.redmonkeyass.zombieInvasion.worldmap;
 
-import java.util.Arrays;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
-import org.xguzm.pathfinding.grid.GridCell;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -18,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;
@@ -31,7 +29,10 @@ public class WorldMap implements RenderableModul {
   private GridCell[][] cells = new GridCell[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
 
   public GridCell[][] getCells() {
-    return Arrays.copyOf(cells, cells.length);
+    // return Arrays.copyOf(cells, cells.length);
+    // GridCell[][] newCells = new GridCell[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
+    // System.arraycopy(cells, 0, newCells, 0, cells.length);
+    return cells;
   }
 
   private Node[][] map = new Node[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];

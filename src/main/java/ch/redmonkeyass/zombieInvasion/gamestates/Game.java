@@ -15,10 +15,10 @@ import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
@@ -130,7 +130,7 @@ public class Game extends BasicGameState {
         WorldHandler.getModuleHandler().getModulesOf(PhysicsModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-        WorldHandler.getModuleHandler().getModulesOf(MovementModule.class)
+        WorldHandler.getModuleHandler().getModulesOf(ThetaStarMovementModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
         WorldHandler.getModuleHandler().getModulesOf(EntityStatusModule.class)

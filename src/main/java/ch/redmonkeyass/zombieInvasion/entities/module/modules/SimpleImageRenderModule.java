@@ -7,7 +7,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
-import org.xguzm.pathfinding.grid.GridCell;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -17,6 +16,7 @@ import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.util.ImageWrapper;
+import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
 
 public class SimpleImageRenderModule extends Module implements RenderableModul {
   private final ImageWrapper imageToRenderWrapper;
@@ -51,6 +51,7 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
           });
         });
 
+    //XXX DEBUG PATHFINDING
     WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
         .ifPresent(path -> {
           g.setColor(Color.yellow);

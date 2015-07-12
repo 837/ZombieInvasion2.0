@@ -10,10 +10,10 @@ import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
@@ -44,6 +44,11 @@ public class EntityFactory {
     }
   }
 
+  private static void addFriction(Body b) {
+//    FrictionJointDef fj = new FrictionJointDef();
+//    fj.
+  }
+  
   private static void createMouseEntity(EntityType entityType) {
     String id = "MOUSE";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
@@ -81,14 +86,11 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(11, 11);
+      bodyDef.position.set(11.5f, 11.5f);
 
       // Create our body in the WorldHandler using our body definition
       Body body = WorldHandler.getB2World().createBody(bodyDef);
 
-      // Create a circle shape and set its radius to 6
-      // PolygonShape shape = new PolygonShape();
-      // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
       PolygonShape shape = new PolygonShape();
       shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
 
@@ -96,7 +98,7 @@ public class EntityFactory {
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
       fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.5f;
+      fixtureDef.friction = 0.0f;
       fixtureDef.restitution = 0.0f;
 
 
@@ -110,10 +112,9 @@ public class EntityFactory {
       WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
-    WorldHandler.getModuleHandler()
-        .addModules(new SimpleImageRenderModule(id, Images.ADOLF));
+    WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ADOLF));
 
-    WorldHandler.getModuleHandler().addModules(new MovementModule(id),// new LightEmitter(id),
+    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id), // new LightEmitter(id),
         new DebugRendererModule(id), new EventListenerModule(id));
   }
 
@@ -133,14 +134,12 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(12, 12);
+      bodyDef.position.set(12.5f, 12.5f);
 
       // Create our body in the WorldHandler using our body definition
       Body body = WorldHandler.getB2World().createBody(bodyDef);
 
-      // Create a circle shape and set its radius to 6
-      // PolygonShape shape = new PolygonShape();
-      // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
+      
       PolygonShape shape = new PolygonShape();
       shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
 
@@ -148,7 +147,7 @@ public class EntityFactory {
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
       fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.5f;
+      fixtureDef.friction = 0.0f;
       fixtureDef.restitution = 0.0f;
 
 
@@ -162,10 +161,9 @@ public class EntityFactory {
       WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
-    WorldHandler.getModuleHandler()
-        .addModules(new SimpleImageRenderModule(id, Images.HANS));
+    WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.HANS));
 
-    WorldHandler.getModuleHandler().addModules(new MovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
@@ -191,14 +189,11 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(13, 13);
+      bodyDef.position.set(13.5f, 13.5f);
 
       // Create our body in the WorldHandler using our body definition
       Body body = WorldHandler.getB2World().createBody(bodyDef);
 
-      // Create a circle shape and set its radius to 6
-      // PolygonShape shape = new PolygonShape();
-      // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
       PolygonShape shape = new PolygonShape();
       shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
 
@@ -206,7 +201,7 @@ public class EntityFactory {
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
       fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.5f;
+      fixtureDef.friction = 0.0f;
       fixtureDef.restitution = 0.0f;
 
 
@@ -220,10 +215,9 @@ public class EntityFactory {
       WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
-    WorldHandler.getModuleHandler()
-        .addModules(new SimpleImageRenderModule(id, Images.GERHART));
+    WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.GERHART));
 
-    WorldHandler.getModuleHandler().addModules(new MovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
@@ -248,14 +242,11 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(12, 12);
+      bodyDef.position.set(12.5f, 12.5f);
 
       // Create our body in the WorldHandler using our body definition
       Body body = WorldHandler.getB2World().createBody(bodyDef);
 
-      // Create a circle shape and set its radius to 6
-      // PolygonShape shape = new PolygonShape();
-      // shape.setAsBox(32, 32, new Vector2(16, 16), 0);
       PolygonShape shape = new PolygonShape();
       shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
 
@@ -263,7 +254,7 @@ public class EntityFactory {
       // Create a fixture definition to apply our shape to
       fixtureDef.shape = shape;
       fixtureDef.density = 1.0f;
-      fixtureDef.friction = 1.0f;
+      fixtureDef.friction = 0.0f;
       fixtureDef.restitution = 0.0f;
 
 
@@ -277,8 +268,7 @@ public class EntityFactory {
       WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
     }
 
-    WorldHandler.getModuleHandler()
-        .addModules(new SimpleImageRenderModule(id, Images.ZOMBIE));
+    WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ZOMBIE));
 
     // WorldHandler.getModuleHandler().addModules(new MovementModule(id));
 
