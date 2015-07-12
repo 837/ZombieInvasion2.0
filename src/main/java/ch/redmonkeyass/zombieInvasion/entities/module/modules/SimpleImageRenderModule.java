@@ -16,7 +16,7 @@ import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.util.ImageWrapper;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
+import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 /**
  * Gives the Entity the ability to render a simple image.
@@ -65,8 +65,8 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
     WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
         .ifPresent(path -> {
           g.setColor(Color.yellow);
-          ((List<GridCell>) path)
-              .forEach(c -> g.drawRect(c.getX() * Config.B2PIX, c.getY() * Config.B2PIX, 32, 32));
+          ((List<Node>) path).forEach(c -> g.drawRect(c.getX() * Config.B2PIX,
+              c.getY() * Config.B2PIX, c.getTileSize(), c.getTileSize()));
         });
   }
 
