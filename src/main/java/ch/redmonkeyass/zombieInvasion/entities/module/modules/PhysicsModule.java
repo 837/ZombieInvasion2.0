@@ -9,11 +9,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.util.MathUtil;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
 
 
@@ -54,35 +54,60 @@ public class PhysicsModule extends Module implements UpdatableModul {
             if (actualPos == goalPos) {
               pathToGoal.remove(0);
             } else {
-              arrive(new Vector2(pathToGoal.get(0).getX() + 0.5f, pathToGoal.get(0).getY() + 0.5f));
+              moveToTile(
+                  new Vector2(pathToGoal.get(0).getX() + 0.5f, pathToGoal.get(0).getY() + 0.5f));
             }
           } else {
-            b2Body.applyForceToCenter(b2Body.getLinearVelocity().cpy().scl(-1), true);
+            b2Body.applyForceToCenter(
+                b2Body.getLinearVelocity().cpy().scl(-1).scl(b2Body.getMass()), true);
           }
         });
 
   }
 
+  void moveToTile(Vector2 target) {
+    Vector2 desiredHeading = target.cpy().sub(b2Body.getPosition());
+
+    // input from sprite
+    Vector2 velocity = b2Body.getLinearVelocity();
+    float maxVelocity = 10;
+    float acceleration = 10;
+
+    Vector2 steeringForce = desiredHeading.sub(velocity);
+
+    // force to reach and keep desired velocity
+    steeringForce.x = desiredHeading.x;
+    steeringForce.y = desiredHeading.y;
+    steeringForce.scl(maxVelocity);
+    steeringForce.sub(velocity.x, velocity.y);
+    steeringForce.scl(acceleration);
+    steeringForce.scl(1 / Config.B2PIX);
+
+    // apply steering force
+    b2Body.applyForceToCenter(steeringForce, true);
+
+  }
+
   void arrive(Vector2 target) {
-    Vector2 desired = target.sub(b2Body.getPosition().cpy());
+    Vector2 desired = target.cpy().sub(b2Body.getPosition());
 
     float d = desired.len();
     int maxSpeed = 10;
     int maxForce = 10;
 
     desired.nor();
-    if (d < 0.2 && d > 0.1) {
-      float m = MathUtil.map(d, 0, 10, 0, maxSpeed);
-      desired.scl(m);
-    } else if (d <= 0.05) {
-      desired.scl(0);
-    } else {
-      desired.scl(maxSpeed);
-    }
+    // if (d < 0.2 && d > 0.1) {
+    // float m = MathUtil.map(d, 0, 10, 0, maxSpeed);
+    // desired.scl(m);
+    // } else if (d <= 0.05) {
+    // desired.scl(0);
+    // } else {
+    desired.scl(maxSpeed);
+    // }
 
-    Vector2 steer = desired.sub(b2Body.getLinearVelocity().cpy());
-    steer.limit(maxForce);
-    b2Body.applyForceToCenter(steer, true);
+    Vector2 steer = desired.sub(b2Body.getLinearVelocity());
+    // steer.limit(maxForce);
+    b2Body.applyForceToCenter(steer.scl(b2Body.getMass()), true);
   }
 
   @Override

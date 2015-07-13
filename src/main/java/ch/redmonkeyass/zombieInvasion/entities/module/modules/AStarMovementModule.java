@@ -17,6 +17,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGrid;
+import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.AStarGridFinder;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.GridFinderOptions;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.ThetaStarGridFinder;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.heuristics.EuclideanDistance;
@@ -34,20 +35,20 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.heuristics.Eucli
  * @author Matthias
  *
  */
-public class ThetaStarMovementModule extends Module implements UpdatableModul {
+public class AStarMovementModule extends Module implements UpdatableModul {
   List<Node> pathToEnd = null;
-  ThetaStarGridFinder<Node> finder = null;
+  AStarGridFinder<Node> finder = null;
   NavigationGrid<Node> navGrid = null;
 
-  public ThetaStarMovementModule(String entityID) {
+  public AStarMovementModule(String entityID) {
     super(entityID);
     // Creating custom GridFinderOptions. For standard options, hover "GridFinderOptions()".
     GridFinderOptions opt = new GridFinderOptions();
-    opt.allowDiagonal = true;
+    opt.allowDiagonal = false;
     opt.dontCrossCorners = true;
     opt.heuristic = new EuclideanDistance();
 
-    finder = new ThetaStarGridFinder<Node>(Node.class, opt);
+    finder = new AStarGridFinder<Node>(Node.class, opt);
     navGrid = new NavigationGrid<Node>(WorldHandler.getWorldMap().getMap(), true);
   }
 

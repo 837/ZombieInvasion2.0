@@ -14,7 +14,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
@@ -115,7 +115,7 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ADOLF));
 
-    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id),  new LightEmitter(id),
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id),  //new LightEmitter(id),
         new DebugRendererModule(id), new EventListenerModule(id));
   }
 
@@ -164,7 +164,7 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.HANS));
 
-    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
@@ -218,7 +218,7 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.GERHART));
 
-    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
