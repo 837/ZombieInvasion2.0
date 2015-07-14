@@ -29,7 +29,9 @@ public class MouseTileSelectionModule extends Module implements UpdatableModul, 
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     if (selectedNode != null) {
       g.setColor(Color.white);
-      g.drawRect(selectedNode.getX() * Config.B2PIX, selectedNode.getY() * Config.B2PIX,
+      g.drawRect(
+          selectedNode.getX() * (Config.B2PIX * WorldHandler.getWorldMap().getNODE_SIZE_BOX2D()),
+          selectedNode.getY() * (Config.B2PIX * WorldHandler.getWorldMap().getNODE_SIZE_BOX2D()),
           selectedNode.getTileSize(), selectedNode.getTileSize());
       g.drawString("SelectedNodeType: " + selectedNode.getType(),
           10 + WorldHandler.getCamera().getPosition().x,
@@ -47,7 +49,8 @@ public class MouseTileSelectionModule extends Module implements UpdatableModul, 
           switch (event.getEvent()) {
             case MOUSE_MOVED:
               event.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {
-                positions[1].add(WorldHandler.getCamera().getPosition()).scl(Config.PIX2B);
+                positions[1].add(WorldHandler.getCamera().getPosition())
+                    .scl(Config.PIX2B / WorldHandler.getWorldMap().getNODE_SIZE_BOX2D());
                 Node[][] map = WorldHandler.getWorldMap().getMap();
                 selectedNode = map[(int) positions[1].x][(int) positions[1].y];
               });

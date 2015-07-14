@@ -2,7 +2,6 @@ package ch.redmonkeyass.zombieInvasion.worldmap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -18,7 +17,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;
-  private int NODE_SIZE_BOX2D;
+  private int NODE_SIZE_BOX2D = 1;
 
   public int getNODE_SIZE_BOX2D() {
     return NODE_SIZE_BOX2D;
@@ -59,7 +58,7 @@ public class WorldMap implements RenderableModul {
               break;
             default:
               map[x][y] =
-                  new Node(x, y, createBody(FieldType.NOT_WALL, x + 1, y + 1, NODE_SIZE_BOX2D),
+                  new Node(x, y, createBody(FieldType.NOT_WALL, x , y , NODE_SIZE_BOX2D),
                       FieldType.NOT_WALL, tileSize);
               break;
           }
@@ -67,13 +66,13 @@ public class WorldMap implements RenderableModul {
             case 0:
               break;
             default:
-              map[x][y] = new Node(x, y, createBody(FieldType.WALL, x + 1, y + 1, NODE_SIZE_BOX2D),
+              map[x][y] = new Node(x, y, createBody(FieldType.WALL, x , y , NODE_SIZE_BOX2D),
                   FieldType.WALL, tileSize);
               break;
           }
         }
       }
-    } catch (SlickException e) {
+    } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
@@ -109,7 +108,7 @@ public class WorldMap implements RenderableModul {
         // StaticBody
         bodyDef2.type = BodyType.StaticBody;
         // Set our body's starting position in object space (meters)
-        bodyDef2.position.set(x - (NODE_SIZE_BOX2D / 2), y - (NODE_SIZE_BOX2D / 2));
+        bodyDef2.position.set(x + (NODE_SIZE_BOX2D / 2), y + (NODE_SIZE_BOX2D / 2));
 
         // Create our body in the WorldHandler using our body definition
         Body body2 = WorldHandler.getB2World().createBody(bodyDef2);

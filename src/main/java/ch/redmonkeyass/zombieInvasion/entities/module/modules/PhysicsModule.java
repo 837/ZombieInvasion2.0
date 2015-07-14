@@ -55,8 +55,8 @@ public class PhysicsModule extends Module implements UpdatableModul {
               pathToGoal.remove(0);
             } else {
               moveToTile(new Vector2(
-                  pathToGoal.get(0).getX() + WorldHandler.getWorldMap().getNODE_SIZE_BOX2D() / 2,
-                  pathToGoal.get(0).getY() + WorldHandler.getWorldMap().getNODE_SIZE_BOX2D() / 2));
+                  pathToGoal.get(0).getX() + (WorldHandler.getWorldMap().getNODE_SIZE_BOX2D() / 2),
+                  pathToGoal.get(0).getY() + (WorldHandler.getWorldMap().getNODE_SIZE_BOX2D() / 2)));
             }
           } else {
             b2Body.applyForceToCenter(

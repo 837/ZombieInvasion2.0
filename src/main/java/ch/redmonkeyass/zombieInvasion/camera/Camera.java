@@ -30,13 +30,13 @@ public class Camera {
     offsetMinX = viewport_size_X / 2;
     offsetMinY = viewport_size_Y / 2;
     setMapData(mapWidth, mapHeight);
-    position = Vector2.Zero.add(viewport_size_X/2,viewport_size_Y/2);
-    screenRect = new Rectangle(getPosition().x,getPosition().y,viewport_size_X,viewport_size_Y);
+    position = Vector2.Zero.add(viewport_size_X / 2, viewport_size_Y / 2);
+    screenRect = new Rectangle(getPosition().x, getPosition().y, viewport_size_X, viewport_size_Y);
   }
 
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     WorldHandler.getEventDispatcher().getEvents().parallelStream().filter(
-            event -> event.getReceiverID().equals("GLOBAL") || event.getReceiverID().equals("MOUSE"))
+        event -> event.getReceiverID().equals("GLOBAL") || event.getReceiverID().equals("MOUSE"))
         .forEach(e -> {
           switch (e.getEvent()) {
             case RIGHT_DRAGGED:
@@ -59,8 +59,10 @@ public class Camera {
   }
 
   private void setMapData(int mapWidth, int mapHeight) {
-    offsetMaxX = mapWidth * Config.B2PIX - viewport_size_X / 2;
-    offsetMaxY = mapHeight * Config.B2PIX - viewport_size_Y / 2;
+    offsetMaxX = mapWidth * (Config.B2PIX * WorldHandler.getWorldMap().getNODE_SIZE_BOX2D())
+        - viewport_size_X / 2;
+    offsetMaxY = mapHeight * (Config.B2PIX * WorldHandler.getWorldMap().getNODE_SIZE_BOX2D())
+        - viewport_size_Y / 2;
   }
 
   private float keepWithinBoundaries(float lowerBound, float upperBound, float number) {
@@ -83,10 +85,12 @@ public class Camera {
 
   private void setPositionAndKeepWithinMapBoundaries(Vector2 point) {
     position = new Vector2(keepWithinBoundaries(offsetMinX, offsetMaxX, point.x),
-            keepWithinBoundaries(offsetMinY, offsetMaxY, point.y));
+        keepWithinBoundaries(offsetMinY, offsetMaxY, point.y));
   }
+
   /**
    * pix to pix
+   * 
    * @param pos to be converted to screen coordinates
    * @return a new vector towards position on screen in pix
    */
@@ -96,10 +100,11 @@ public class Camera {
 
   /**
    * box to pix
+   * 
    * @param pos to be converted to screen coordinates
    * @return a new vector towards position on screen in pix
    */
-  public Vector2 bgetPositionOnScreen(Vector2 pos){
+  public Vector2 bgetPositionOnScreen(Vector2 pos) {
     return pos.cpy().scl(Config.B2PIX).sub(position);
   }
 
@@ -108,14 +113,14 @@ public class Camera {
    * @param pos in box coordinates
    * @return true if pos is on the screen window
    */
-  public boolean bOnCamera(Vector2 pos){
+  public boolean bOnCamera(Vector2 pos) {
     updateScreenRectangle();
     return screenRect.contains(pos.cpy().scl(Config.B2PIX));
   }
 
 
 
-  private void updateScreenRectangle(){
+  private void updateScreenRectangle() {
     screenRect.setPosition(getPosition());
   }
 

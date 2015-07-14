@@ -10,7 +10,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
 
-import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
@@ -66,32 +65,34 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                 event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
 
                   // Calculating the click position and converting it to B2D coordinates
-                  Vector2 moveToPos =
-                      position.add(WorldHandler.getCamera().getPosition()).scl(Config.PIX2B).cpy();
-
-                  // Asking the Entity for its position
+                  // Vector2 moveToPos =
+                  // position.add(WorldHandler.getCamera().getPosition()).scl(Config.PIX2B).cpy();
                   WorldHandler.getEntityHandler()
-                      .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
-                      .ifPresent(entityPos -> {
+                      .getDataFrom("MOUSE", DataType.MOUSE_SELECTED_NODE, Node.class)
+                      .ifPresent(node -> {
+                    // Asking the Entity for its position
+                    WorldHandler.getEntityHandler()
+                        .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
+                        .ifPresent(entityPos -> {
 
-                    // Calculating the GridCells on which the Entity and where to move to
-                    Node[][] cells = WorldHandler.getWorldMap().getMap();
-                    Node actualPos, goalPos;
-                    actualPos = cells[(int) entityPos.x][(int) entityPos.y];
-                    goalPos = cells[(int) moveToPos.x][(int) moveToPos.y];
+                      // Calculating the GridCells on which the Entity and where to move to
+                      Node[][] cells = WorldHandler.getWorldMap().getMap();
+                      Node actualPos, goalPos;
+                      actualPos = cells[(int) entityPos.x][(int) entityPos.y];
+                      goalPos = node;
 
-                    // Calculating a path
-                    List<Node> path = finder.findPath(actualPos, goalPos, navGrid);
+                      // Calculating a path
+                      List<Node> path = finder.findPath(actualPos, goalPos, navGrid);
 
-                    // FIXME Copying the path to a new List, if you don't do that, some bad magic
-                    // happens... can't explain it...
-                    if (path != null) {
-                      pathToEnd = new ArrayList<>(path);
-                    }
+                      // FIXME Copying the path to a new List, if you don't do that, some bad magic
+                      // happens... can't explain it...
+                      if (path != null) {
+                        pathToEnd = new ArrayList<>(path);
+                      }
 
-                    LogManager.getLogger("zombie")
-                        .trace("Entity: " + getEntityID() + " moveToPos: " + moveToPos.toString());
-
+                      LogManager.getLogger("zombie").trace(
+                          "Entity: " + getEntityID() + " moveToPos: " + node.toString());
+                    });
                   });
                 });
               }
