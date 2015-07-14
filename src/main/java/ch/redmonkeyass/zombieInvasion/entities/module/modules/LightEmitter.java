@@ -25,7 +25,6 @@ import com.badlogic.gdx.utils.Array;
 
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.camera.Camera;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
@@ -197,7 +196,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 //        radialGradientCircle(lightX, lightY, innerColor, outerColor, 64, 300);
 //        radialGradientCircle(lightX + 300, lightY + 300, innerColor, outerColor, 64, 300);
       GL11.glColorMask(false, false, false, true);
-      g.drawImage(Images.CIRCULAR_LIGHT.get(),lightX,lightY);
+    //  g.drawImage(Images.CIRCULAR_LIGHT.get(),lightX,lightY);
       GL11.glColorMask(true, true, true, true);
 
 //      GL11.glBegin(GL11.GL_QUADS);
