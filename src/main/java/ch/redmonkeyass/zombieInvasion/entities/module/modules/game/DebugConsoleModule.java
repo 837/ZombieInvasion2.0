@@ -62,28 +62,28 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                   String[] message = consoleInputField.getText().trim().split(" ");
                   switch (message.length) {
                     case 0:
-                      outPut += "try /help\n";
+                      outPut += "try help\n";
                       break;
                     case 1:
                       switch (message[0]) {
-                        case "/clear":
+                        case "clear":
                           outPut = "";
                           break;
-                        case "/help":
+                        case "help":
                           outPut = "";
-                          outPut += "***GENERAL***\n" + "/help -- displays help\n"
-                              + "/clear -- clears the output\n" + "***ENTITIES***\n"
-                              + "/add -- /add ENTITY_ID MODULENAME\n"
-                              + "/remove -- /remove ENTITY_ID MODULENAME\n";
+                          outPut += "***GENERAL***\n" + "help -- displays help\n"
+                              + "clear -- clears the output\n" + "***ENTITIES***\n"
+                              + "add -- add ENTITY_ID MODULENAME\n"
+                              + "remove -- remove ENTITY_ID MODULENAME\n";
                           break;
                         default:
-                          outPut += "[" + message[0] + "] not found, try /help\n";
+                          outPut += "[" + message[0] + "] not found, try help\n";
                           break;
                       }
                       consoleInputField.setText("");
                       break;
                     case 2:
-                      outPut += "[" + message[0] + "] not found, try /help\n";
+                      outPut += "[" + message[0] + "] not found, try help\n";
                       break;
                     case 3:
                       /*
@@ -96,7 +96,7 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                           .filter(e1 -> e1.getID().equals(message[1])).findAny()
                           .ifPresent(entity -> {
                         try {
-                          if (message[0].equals("/add") || message[0].equals("/remove")) {
+                          if (message[0].equals("add") || message[0].equals("remove")) {
                             Class<Module> clazz;
                             Constructor<Module> constructtoni;
 
@@ -104,7 +104,7 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                                 .forName("ch.redmonkeyass.zombieInvasion.entities.module.modules."
                                     + message[2]);
                             switch (message[0]) {
-                              case "/add":
+                              case "add":
                                 constructtoni = clazz.getConstructor(String.class);
 
                                 WorldHandler.getModuleHandler()
@@ -112,7 +112,7 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                                 outPut +=
                                     "added to: " + entity.getID() + " the module: " + message[2];
                                 break;
-                              case "/remove":
+                              case "remove":
                                 WorldHandler.getModuleHandler().removeModulesFrom(entity.getID(), clazz);
                                 outPut += "removed from: " + entity.getID() + " the module: "
                                     + message[2];
