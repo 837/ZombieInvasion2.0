@@ -69,15 +69,19 @@ public class ThetaStarMovementModule extends Module implements UpdatableModul {
                   WorldHandler.getEntityHandler()
                       .getDataFrom("MOUSE", DataType.MOUSE_SELECTED_NODE, Node.class)
                       .ifPresent(node -> {
+                        
                     // Asking the Entity for its position
                     WorldHandler.getEntityHandler()
                         .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
                         .ifPresent(entityPos -> {
-
+                          
+                      Vector2 entityPosition =
+                          entityPos.scl(1f / WorldHandler.getWorldMap().getNodeSizeInMeter());
+                      
                       // Calculating the GridCells on which the Entity and where to move to
                       Node[][] cells = WorldHandler.getWorldMap().getMap();
                       Node actualPos, goalPos;
-                      actualPos = cells[(int) entityPos.x][(int) entityPos.y];
+                      actualPos = cells[(int) entityPosition.x][(int) entityPosition.y];
                       goalPos = node;
 
                       // Calculating a path

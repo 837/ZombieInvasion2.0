@@ -87,16 +87,19 @@ public class WorldMap implements RenderableModul {
             case 0:
               break;
             default:
-              map[x][y] = new Node(x, y, createBody(FieldType.NOT_WALL, x, y, nodeSizeInMeter),
-                  FieldType.NOT_WALL, tileWidth);
+              map[x][y] =
+                  new Node(x, y,
+                      createBody(FieldType.NOT_WALL, x * getNodeSizeInMeter(),
+                          y * getNodeSizeInMeter(), nodeSizeInMeter),
+                      FieldType.NOT_WALL, tileWidth);
               break;
           }
           switch (tileMap.getTileId(x, y, 1)) {
             case 0:
               break;
             default:
-              map[x][y] = new Node(x, y, createBody(FieldType.WALL, x, y, nodeSizeInMeter),
-                  FieldType.WALL, tileWidth);
+              map[x][y] = new Node(x, y, createBody(FieldType.WALL, x * getNodeSizeInMeter(),
+                  y * getNodeSizeInMeter(), nodeSizeInMeter), FieldType.WALL, tileWidth);
               break;
           }
         }

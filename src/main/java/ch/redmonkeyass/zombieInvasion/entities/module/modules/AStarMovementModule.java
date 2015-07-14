@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
 
+import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
@@ -74,11 +75,12 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                     WorldHandler.getEntityHandler()
                         .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
                         .ifPresent(entityPos -> {
-
+                      Vector2 entityPosition =
+                          entityPos.scl(1f / WorldHandler.getWorldMap().getNodeSizeInMeter());
                       // Calculating the GridCells on which the Entity and where to move to
                       Node[][] cells = WorldHandler.getWorldMap().getMap();
                       Node actualPos, goalPos;
-                      actualPos = cells[(int) entityPos.x][(int) entityPos.y];
+                      actualPos = cells[(int) entityPosition.x][(int) entityPosition.y];
                       goalPos = node;
 
                       // Calculating a path
@@ -90,8 +92,8 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                         pathToEnd = new ArrayList<>(path);
                       }
 
-                      LogManager.getLogger("zombie").trace(
-                          "Entity: " + getEntityID() + " moveToPos: " + node.toString());
+                      LogManager.getLogger("zombie")
+                          .trace("Entity: " + getEntityID() + " moveToPos: " + node.toString());
                     });
                   });
                 });
