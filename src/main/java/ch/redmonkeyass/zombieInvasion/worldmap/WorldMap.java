@@ -17,10 +17,17 @@ import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;
-  private int NODE_SIZE_BOX2D = 1;
+  private int nodeSizeInMeter = 0;
+  private int mapWidthInMeter = 0;
+  private int mapHeightInMeter = 0;
 
-  public int getNODE_SIZE_BOX2D() {
-    return NODE_SIZE_BOX2D;
+
+  public int getNodeSizeInMeter() {
+    return nodeSizeInMeter;
+  }
+
+  public void setNodeSizeInMeter(int nodeSizeInMeter) {
+    this.nodeSizeInMeter = nodeSizeInMeter;
   }
 
   enum FieldType {
@@ -39,7 +46,23 @@ public class WorldMap implements RenderableModul {
     }
   }
 
-  private Node[][] map = new Node[Config.WORLDMAP_WIDTH][Config.WORLDMAP_HEIGHT];
+  public int getMapHeightInMeter() {
+    return mapHeightInMeter;
+  }
+
+  public int getMapWidthInMeter() {
+    return mapWidthInMeter;
+  }
+
+  public void setMapHeightInMeter(int mapHeightInMeter) {
+    this.mapHeightInMeter = mapHeightInMeter;
+  }
+
+  public void setMapWidthInMeter(int mapWidthInMeter) {
+    this.mapWidthInMeter = mapWidthInMeter;
+  }
+
+  private Node[][] map = null;
 
   public Node[][] getMap() {
     return map;
@@ -48,8 +71,15 @@ public class WorldMap implements RenderableModul {
   public WorldMap() {
     try {
       tileMap = new TiledMap("res/tiledMap/64pxMapTest.tmx");
-      int tileSize = tileMap.getTileHeight();
-      NODE_SIZE_BOX2D = (int) (tileSize / Config.B2PIX);
+      int tileHeigth = tileMap.getTileHeight();
+      int tileWidth = tileMap.getTileWidth();
+      map = new Node[tileMap.getWidth()][tileMap.getHeight()];
+
+      setMapHeightInMeter((int) ((tileMap.getHeight() * tileHeigth) / Config.B2PIX));
+      setMapWidthInMeter((int) ((tileMap.getWidth() * tileWidth) / Config.B2PIX));
+
+
+      setNodeSizeInMeter((int) (tileWidth / Config.B2PIX));
 
       for (int x = 0; x < map.length; x++) {
         for (int y = 0; y < map[x].length; y++) {
@@ -57,24 +87,23 @@ public class WorldMap implements RenderableModul {
             case 0:
               break;
             default:
-              map[x][y] =
-                  new Node(x, y, createBody(FieldType.NOT_WALL, x , y , NODE_SIZE_BOX2D),
-                      FieldType.NOT_WALL, tileSize);
+              map[x][y] = new Node(x, y, createBody(FieldType.NOT_WALL, x, y, nodeSizeInMeter),
+                  FieldType.NOT_WALL, tileWidth);
               break;
           }
           switch (tileMap.getTileId(x, y, 1)) {
             case 0:
               break;
             default:
-              map[x][y] = new Node(x, y, createBody(FieldType.WALL, x , y , NODE_SIZE_BOX2D),
-                  FieldType.WALL, tileSize);
+              map[x][y] = new Node(x, y, createBody(FieldType.WALL, x, y, nodeSizeInMeter),
+                  FieldType.WALL, tileWidth);
               break;
           }
         }
       }
     } catch (Exception e) {
       // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.out.println(e);
     }
   }
 
@@ -135,4 +164,6 @@ public class WorldMap implements RenderableModul {
     }
 
   }
+
+
 }

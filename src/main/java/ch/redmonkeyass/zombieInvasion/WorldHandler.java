@@ -19,11 +19,10 @@ public class WorldHandler {
 
   // Camera
   private static final Camera CAMERA =
-          new Camera(Config.CAM_VIEWPORT_WIDTH, Config.CAM_VIEWPORT_HEIGHT, Config.WORLDMAP_WIDTH, Config.WORLDMAP_HEIGHT);
+      new Camera(Config.CAM_VIEWPORT_WIDTH, Config.CAM_VIEWPORT_HEIGHT);
 
   // EventHandler
   private static final EventDispatcher EVENT_DISPATCHER = new EventDispatcher();
-
 
   // WorldMap
   private static final WorldMap WORLD_MAP = new WorldMap();

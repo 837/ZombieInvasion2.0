@@ -31,6 +31,6 @@ public class Config {
 
 
   // WorldMap
-  public static final int WORLDMAP_WIDTH = 50;
-  public static final int WORLDMAP_HEIGHT = 50;
+//  public static final int WORLDMAP_WIDTH = 50;
+//  public static final int WORLDMAP_HEIGHT = 50;
 }

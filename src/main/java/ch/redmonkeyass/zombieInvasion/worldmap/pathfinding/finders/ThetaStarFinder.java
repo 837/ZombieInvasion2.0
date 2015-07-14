@@ -17,8 +17,6 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGridGr
  * A finder which will use theta star algorithm on a grid (any angle path finding).
  * It also lets you find a path based on coordinates rather than nodes on {@link NavigationGridGraph}'s.
  * 
- * @author Xavier Guzman
- *
  * @param <T> any class that inherits from {@link GridCell}
  */
 public abstract class ThetaStarFinder<T extends NavigationNode> implements PathFinder<T>{

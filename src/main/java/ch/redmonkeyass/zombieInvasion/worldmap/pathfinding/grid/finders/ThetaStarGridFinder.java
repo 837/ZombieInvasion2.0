@@ -9,7 +9,6 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGridGr
 /**
  * A helper class to which lets you find a path based on coordinates rather than nodes on {@link NavigationGridGraph}'s.
  * 
- * @author Xavier Guzman
  *
  * @param <T> any class that implements from {@link NavigationGridGraphNode}
  */

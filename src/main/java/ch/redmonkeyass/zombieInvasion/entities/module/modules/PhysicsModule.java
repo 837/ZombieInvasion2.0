@@ -46,8 +46,10 @@ public class PhysicsModule extends Module implements UpdatableModul {
           Node actualPos, goalPos;
 
           if (!pathToGoal.isEmpty()) {
-            actualPos = WorldHandler.getWorldMap()
-                .getMap()[(int) (b2Body.getPosition().x)][(int) (b2Body.getPosition().y)];
+            Vector2 position = b2Body.getPosition().cpy().scl(Config.B2PIX)
+                .scl(Config.PIX2B / WorldHandler.getWorldMap().getNodeSizeInMeter());
+
+            actualPos = WorldHandler.getWorldMap().getMap()[(int) (position.x)][(int) (position.y)];
             goalPos = pathToGoal.get(0);
 
 
@@ -55,8 +57,9 @@ public class PhysicsModule extends Module implements UpdatableModul {
               pathToGoal.remove(0);
             } else {
               moveToTile(new Vector2(
-                  pathToGoal.get(0).getX() + (WorldHandler.getWorldMap().getNODE_SIZE_BOX2D() / 2),
-                  pathToGoal.get(0).getY() + (WorldHandler.getWorldMap().getNODE_SIZE_BOX2D() / 2)));
+                  pathToGoal.get(0).getX() + (WorldHandler.getWorldMap().getNodeSizeInMeter() / 2),
+                  pathToGoal.get(0).getY()
+                      + (WorldHandler.getWorldMap().getNodeSizeInMeter() / 2)));
             }
           } else {
             b2Body.applyForceToCenter(

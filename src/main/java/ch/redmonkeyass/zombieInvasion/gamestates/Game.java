@@ -52,6 +52,9 @@ public class Game extends BasicGameState {
 
     inputHandler = new InputHandler(gc);
 
+
+    WorldHandler.getCamera().setMapData(WorldHandler.getWorldMap().getMapWidthInMeter(),
+        WorldHandler.getWorldMap().getMapHeightInMeter());
   }
 
   @Override

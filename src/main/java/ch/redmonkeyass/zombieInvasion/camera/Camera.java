@@ -18,18 +18,23 @@ public class Camera {
    * update before use
    */
   Rectangle screenRect;
-  private float offsetMaxX;
-  private float offsetMaxY;
+  private float offsetMaxX = 0;
+  private float offsetMaxY = 0;
   private float offsetMinX;
   private float offsetMinY;
 
-  public Camera(int viewport_size_X, int viewport_size_Y, int mapWidth, int mapHeight) {
+  /**
+   * After creating a camera object, you need to call <b> setMapData(mapWidth, mapHeight);</b>
+   * 
+   * @param viewport_size_X
+   * @param viewport_size_Y
+   */
+  public Camera(int viewport_size_X, int viewport_size_Y) {
     this.viewport_size_X = viewport_size_X;
     this.viewport_size_Y = viewport_size_Y;
 
     offsetMinX = viewport_size_X / 2;
     offsetMinY = viewport_size_Y / 2;
-    setMapData(mapWidth, mapHeight);
     position = Vector2.Zero.add(viewport_size_X / 2, viewport_size_Y / 2);
     screenRect = new Rectangle(getPosition().x, getPosition().y, viewport_size_X, viewport_size_Y);
   }
@@ -58,11 +63,9 @@ public class Camera {
     setPositionAndKeepWithinMapBoundaries(position.add(direction));
   }
 
-  private void setMapData(int mapWidth, int mapHeight) {
-    offsetMaxX = mapWidth * (Config.B2PIX * WorldHandler.getWorldMap().getNODE_SIZE_BOX2D())
-        - viewport_size_X / 2;
-    offsetMaxY = mapHeight * (Config.B2PIX * WorldHandler.getWorldMap().getNODE_SIZE_BOX2D())
-        - viewport_size_Y / 2;
+  public void setMapData(int mapWidthInMeter, int mapHeightInMeter) {
+    offsetMaxX = mapWidthInMeter * Config.B2PIX - viewport_size_X / 2;
+    offsetMaxY = mapHeightInMeter * Config.B2PIX - viewport_size_Y / 2;
   }
 
   private float keepWithinBoundaries(float lowerBound, float upperBound, float number) {

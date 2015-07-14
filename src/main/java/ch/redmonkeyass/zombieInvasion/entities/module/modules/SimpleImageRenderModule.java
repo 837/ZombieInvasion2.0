@@ -65,8 +65,10 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
     WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
         .ifPresent(path -> {
           g.setColor(Color.yellow);
-          ((List<Node>) path).forEach(c -> g.drawRect(c.getX() * Config.B2PIX,
-              c.getY() * Config.B2PIX, c.getTileSize(), c.getTileSize()));
+          ((List<Node>) path).forEach(c -> g.drawRect(
+              c.getX() * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
+              c.getY() * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
+              c.getTileSize(), c.getTileSize()));
         });
   }
 
