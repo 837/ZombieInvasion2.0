@@ -8,7 +8,6 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.heuristics.Manha
 /**
  * The options for the pathfinding behavior on a {@link NavigationGridGraph}.
  * 
- * @author Xavier Guzman
  */
 public class GridFinderOptions extends PathFinderOptions {
 

@@ -14,7 +14,7 @@ import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
+import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 
 public class PhysicsModule extends Module implements UpdatableModul {
@@ -42,8 +42,8 @@ public class PhysicsModule extends Module implements UpdatableModul {
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
         .ifPresent(path -> {
-          List<GridCell> pathToGoal = (List<GridCell>) path;
-          GridCell actualPos, goalPos;
+          List<Node> pathToGoal = (List<Node>) path;
+          Node actualPos, goalPos;
 
           if (!pathToGoal.isEmpty()) {
             actualPos = WorldHandler.getWorldMap()
@@ -54,8 +54,9 @@ public class PhysicsModule extends Module implements UpdatableModul {
             if (actualPos == goalPos) {
               pathToGoal.remove(0);
             } else {
-              moveToTile(
-                  new Vector2(pathToGoal.get(0).getX() + 0.5f, pathToGoal.get(0).getY() + 0.5f));
+              moveToTile(new Vector2(
+                  pathToGoal.get(0).getX() + WorldHandler.getWorldMap().getNODE_SIZE_BOX2D() / 2,
+                  pathToGoal.get(0).getY() + WorldHandler.getWorldMap().getNODE_SIZE_BOX2D() / 2));
             }
           } else {
             b2Body.applyForceToCenter(

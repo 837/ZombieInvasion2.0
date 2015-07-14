@@ -18,6 +18,11 @@ import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;
+  private int NODE_SIZE_BOX2D;
+
+  public int getNODE_SIZE_BOX2D() {
+    return NODE_SIZE_BOX2D;
+  }
 
   enum FieldType {
     WALL(false), NOT_WALL;
@@ -43,9 +48,9 @@ public class WorldMap implements RenderableModul {
 
   public WorldMap() {
     try {
-      tileMap = new TiledMap("res/tiledMap/mapTest.tmx");
+      tileMap = new TiledMap("res/tiledMap/64pxMapTest.tmx");
       int tileSize = tileMap.getTileHeight();
-      int NODE_SIZE_BOX2D = (int) (tileSize / Config.B2PIX);
+      NODE_SIZE_BOX2D = (int) (tileSize / Config.B2PIX);
 
       for (int x = 0; x < map.length; x++) {
         for (int y = 0; y < map[x].length; y++) {

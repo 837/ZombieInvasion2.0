@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="64" nextobjectid="1">
+ <tileset firstgid="1" name="ts" tilewidth="64" tileheight="64">
+  <image source="64pxTileSet.png" width="1472" height="128"/>
+ </tileset>
+ <layer name="Kachelebene 1" width="50" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3XSxKEIAxFUQauQdn/Sp1olYWJEFEIjze4I+nPKUI1vYQQFpDWo5I1NbV0RCFUxx/7Tcf9cyTDWYnDy1yhOGrnSns+muO6no72jqfzFJX3b+XIrUkdm9KIjnQf6PjOIc03qiN3vnufc+17oDpQ5sqr4xqKI7dnnn8Haxyezvlbh/W1vQ100EHHfI639TagOqTn2n3GW8gOy38QL1nvield0UuWe7t0d/fSDA6EuUI45yNGB2OMMcb+bgcICUTZECcAAA==
+  </data>
+ </layer>
+ <layer name="hindernisse" width="50" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3SMRLAIAhEUQrvf+ZU6cIIREXx78xWMQlvpIlIK9I3ljN/stKh/b+iY8Z944jvfvQ7ONbulfYcBw6Po5dMR+8MDhwRx9ccVR3WZDm0Oao6quzVro7evCc6PD4cezm872YbcODAcZ8jmmxDVcfovcMxxmFJ9tw4cODAcWpxUEoppXR2HwrM8EsQJwAA
+  </data>
+ </layer>
+</map>

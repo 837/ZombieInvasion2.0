@@ -10,11 +10,10 @@ import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
@@ -46,10 +45,10 @@ public class EntityFactory {
   }
 
   private static void addFriction(Body b) {
-//    FrictionJointDef fj = new FrictionJointDef();
-//    fj.
+    // FrictionJointDef fj = new FrictionJointDef();
+    // fj.
   }
-  
+
   private static void createMouseEntity(EntityType entityType) {
     String id = "MOUSE";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
@@ -115,7 +114,8 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ADOLF));
 
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id),  //new LightEmitter(id),
+    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id), // new
+                                                                                // LightEmitter(id),
         new DebugRendererModule(id), new EventListenerModule(id));
   }
 
@@ -140,7 +140,7 @@ public class EntityFactory {
       // Create our body in the WorldHandler using our body definition
       Body body = WorldHandler.getB2World().createBody(bodyDef);
 
-      
+
       PolygonShape shape = new PolygonShape();
       shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
 
@@ -164,7 +164,7 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.HANS));
 
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
@@ -218,7 +218,7 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.GERHART));
 
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));

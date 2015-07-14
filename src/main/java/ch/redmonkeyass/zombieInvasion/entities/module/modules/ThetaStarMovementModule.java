@@ -17,14 +17,13 @@ import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGrid;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.AStarGridFinder;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.GridFinderOptions;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.heuristics.EuclideanDistance;
+import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.ThetaStarGridFinder;
 
 /**
  * This module allows selected entities to be moved with a right click on a tile.
  * <p>
- * Used path finding algorithm is <b>AStarGridFinder</b>
+ * Used path finding algorithm is <b>ThetaStarGridFinder</b>
  * <p>
  * <b>Needs:</b> <br>
  * DataType.IS_SELECTED,<br>
@@ -34,20 +33,20 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.heuristics.Eucli
  * @author Matthias
  *
  */
-public class AStarMovementModule extends Module implements UpdatableModul {
+public class ThetaStarMovementModule extends Module implements UpdatableModul {
   List<Node> pathToEnd = null;
-  AStarGridFinder<Node> finder = null;
+  ThetaStarGridFinder<Node> finder = null;
   NavigationGrid<Node> navGrid = null;
 
-  public AStarMovementModule(String entityID) {
+  public ThetaStarMovementModule(String entityID) {
     super(entityID);
     // Creating custom GridFinderOptions. For standard options, hover "GridFinderOptions()".
     GridFinderOptions opt = new GridFinderOptions();
     opt.allowDiagonal = false;
     opt.dontCrossCorners = true;
-    opt.heuristic = new EuclideanDistance();
+   // opt.heuristic = new EuclideanDistance();
 
-    finder = new AStarGridFinder<Node>(Node.class, opt);
+    finder = new ThetaStarGridFinder<Node>(Node.class, opt);
     navGrid = new NavigationGrid<Node>(WorldHandler.getWorldMap().getMap(), true);
   }
 
