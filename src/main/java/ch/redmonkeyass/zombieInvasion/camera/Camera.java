@@ -63,9 +63,9 @@ public class Camera {
     setPositionAndKeepWithinMapBoundaries(position.add(direction));
   }
 
-  public void setMapData(int mapWidthInMeter, int mapHeightInMeter) {
-    offsetMaxX = mapWidthInMeter * Config.B2PIX - viewport_size_X / 2;
-    offsetMaxY = mapHeightInMeter * Config.B2PIX - viewport_size_Y / 2;
+  public void setMapData(float f, float g) {
+    offsetMaxX = f * Config.B2PIX - viewport_size_X / 2;
+    offsetMaxY = g * Config.B2PIX - viewport_size_Y / 2;
   }
 
   private float keepWithinBoundaries(float lowerBound, float upperBound, float number) {

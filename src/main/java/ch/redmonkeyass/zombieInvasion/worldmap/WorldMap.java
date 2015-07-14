@@ -17,16 +17,16 @@ import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;
-  private int nodeSizeInMeter = 0;
-  private int mapWidthInMeter = 0;
-  private int mapHeightInMeter = 0;
+  private float nodeSizeInMeter = 0;
+  private float mapWidthInMeter = 0;
+  private float mapHeightInMeter = 0;
 
 
-  public int getNodeSizeInMeter() {
+  public float getNodeSizeInMeter() {
     return nodeSizeInMeter;
   }
 
-  public void setNodeSizeInMeter(int nodeSizeInMeter) {
+  public void setNodeSizeInMeter(float nodeSizeInMeter) {
     this.nodeSizeInMeter = nodeSizeInMeter;
   }
 
@@ -46,19 +46,19 @@ public class WorldMap implements RenderableModul {
     }
   }
 
-  public int getMapHeightInMeter() {
+  public float getMapHeightInMeter() {
     return mapHeightInMeter;
   }
 
-  public int getMapWidthInMeter() {
+  public float getMapWidthInMeter() {
     return mapWidthInMeter;
   }
 
-  public void setMapHeightInMeter(int mapHeightInMeter) {
+  public void setMapHeightInMeter(float mapHeightInMeter) {
     this.mapHeightInMeter = mapHeightInMeter;
   }
 
-  public void setMapWidthInMeter(int mapWidthInMeter) {
+  public void setMapWidthInMeter(float mapWidthInMeter) {
     this.mapWidthInMeter = mapWidthInMeter;
   }
 
@@ -68,9 +68,9 @@ public class WorldMap implements RenderableModul {
     return map;
   }
 
-  public WorldMap() {
+  public WorldMap(String tmxFileName) {
     try {
-      tileMap = new TiledMap("res/tiledMap/64pxMapTest.tmx");
+      tileMap = new TiledMap("res/tiledMap/" + tmxFileName + ".tmx");
       int tileHeigth = tileMap.getTileHeight();
       int tileWidth = tileMap.getTileWidth();
       map = new Node[tileMap.getWidth()][tileMap.getHeight()];
@@ -87,19 +87,20 @@ public class WorldMap implements RenderableModul {
             case 0:
               break;
             default:
-              map[x][y] =
-                  new Node(x, y,
-                      createBody(FieldType.NOT_WALL, x * getNodeSizeInMeter(),
-                          y * getNodeSizeInMeter(), nodeSizeInMeter),
-                      FieldType.NOT_WALL, tileWidth);
+              map[x][y] = new Node(x, y,
+                  createBody(FieldType.NOT_WALL, (int) (x * getNodeSizeInMeter()),
+                      (int) (y * getNodeSizeInMeter()), nodeSizeInMeter),
+                  FieldType.NOT_WALL, tileWidth);
               break;
           }
           switch (tileMap.getTileId(x, y, 1)) {
             case 0:
               break;
             default:
-              map[x][y] = new Node(x, y, createBody(FieldType.WALL, x * getNodeSizeInMeter(),
-                  y * getNodeSizeInMeter(), nodeSizeInMeter), FieldType.WALL, tileWidth);
+              map[x][y] = new Node(x, y,
+                  createBody(FieldType.WALL, (int) (x * getNodeSizeInMeter()),
+                      (int) (y * getNodeSizeInMeter()), nodeSizeInMeter),
+                  FieldType.WALL, tileWidth);
               break;
           }
         }

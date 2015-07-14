@@ -20,6 +20,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
@@ -71,11 +72,9 @@ public class Game extends BasicGameState {
     WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-    // XXX DEBUGRENDERER
-    // WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
-    // .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+    WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
+        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-    // XXX MouseModules
     WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
@@ -144,7 +143,6 @@ public class Game extends BasicGameState {
       WorldHandler.getModuleHandler().getModulesOf(EntityStatusModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
-      // MouseModules
       WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 

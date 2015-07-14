@@ -43,7 +43,7 @@ public class ThetaStarMovementModule extends Module implements UpdatableModul {
     GridFinderOptions opt = new GridFinderOptions();
     opt.allowDiagonal = false;
     opt.dontCrossCorners = true;
-    // opt.heuristic = new EuclideanDistance();
+    //opt.heuristic = new EuclideanDistance();
 
     finder = new ThetaStarGridFinder<Node>(Node.class, opt);
     navGrid = new NavigationGrid<Node>(WorldHandler.getWorldMap().getMap(), true);
@@ -69,15 +69,15 @@ public class ThetaStarMovementModule extends Module implements UpdatableModul {
                   WorldHandler.getEntityHandler()
                       .getDataFrom("MOUSE", DataType.MOUSE_SELECTED_NODE, Node.class)
                       .ifPresent(node -> {
-                        
+
                     // Asking the Entity for its position
                     WorldHandler.getEntityHandler()
                         .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
                         .ifPresent(entityPos -> {
-                          
+
                       Vector2 entityPosition =
                           entityPos.scl(1f / WorldHandler.getWorldMap().getNodeSizeInMeter());
-                      
+
                       // Calculating the GridCells on which the Entity and where to move to
                       Node[][] cells = WorldHandler.getWorldMap().getMap();
                       Node actualPos, goalPos;

@@ -26,9 +26,10 @@ public class EntityStatusModule extends Module implements UpdatableModul {
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    WorldHandler.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events ->
-            events.parallelStream().filter(event -> event.getEvent().equals(EventType.KILL_ENTITY))
-                    .findAny().ifPresent(e -> status = Entity_Status.DEAD));
+    WorldHandler.getEntityHandler().getEventsFrom(getEntityID())
+        .ifPresent(events -> events.parallelStream()
+            .filter(event -> event.getEvent().equals(EventType.KILL_ENTITY)).findAny()
+            .ifPresent(e -> status = Entity_Status.DEAD));
   }
 
   @Override

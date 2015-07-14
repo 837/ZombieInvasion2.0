@@ -1,9 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
-import java.util.List;
 import java.util.Optional;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
@@ -16,7 +14,6 @@ import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.util.ImageWrapper;
-import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 /**
  * Gives the Entity the ability to render a simple image.
@@ -59,16 +56,6 @@ public class SimpleImageRenderModule extends Module implements RenderableModul {
                 position.y - imageToRenderWrapper.getB2DScaled().getHeight() / 2);
             g.popTransform();
           });
-        });
-
-    // XXX DEBUG PATHFINDING
-    WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
-        .ifPresent(path -> {
-          g.setColor(Color.red);
-          ((List<Node>) path).forEach(c -> g.drawRect(
-              c.getX() * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
-              c.getY() * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
-              c.getTileSize(), c.getTileSize()));
         });
   }
 

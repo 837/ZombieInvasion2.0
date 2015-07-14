@@ -29,7 +29,6 @@ import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.util.Images;
 
 /**
  * A point-light (shines in all directions) serves as baseclass to all light sources
@@ -196,17 +195,17 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 //        radialGradientCircle(lightX, lightY, innerColor, outerColor, 64, 300);
 //        radialGradientCircle(lightX + 300, lightY + 300, innerColor, outerColor, 64, 300);
       GL11.glColorMask(false, false, false, true);
-    //  g.drawImage(Images.CIRCULAR_LIGHT.get(),lightX,lightY);
+      //g.drawImage(Images.CIRCULAR_LIGHT.get(),lightX,lightY);
       GL11.glColorMask(true, true, true, true);
 
-//      GL11.glBegin(GL11.GL_QUADS);
-//      GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
-//      GL11.glColor3f(0, 0, 0);
-//      GL11.glVertex2f(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y);
-//      GL11.glVertex2f(WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(), WorldHandler.getCamera().getPosition().y);
-//      GL11.glVertex2f(WorldHandler.getCamera().getPosition().x+WorldHandler.getCamera().getViewport_size_X(), WorldHandler.getCamera().getPosition().y+WorldHandler.getCamera().getViewport_size_Y());
-//      GL11.glVertex2f(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
-//      GL11.glEnd();
+      GL11.glBegin(GL11.GL_QUADS);
+      GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
+      GL11.glColor3f(0, 0, 0);
+      GL11.glVertex2f(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y);
+      GL11.glVertex2f(WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(), WorldHandler.getCamera().getPosition().y);
+      GL11.glVertex2f(WorldHandler.getCamera().getPosition().x+WorldHandler.getCamera().getViewport_size_X(), WorldHandler.getCamera().getPosition().y+WorldHandler.getCamera().getViewport_size_Y());
+      GL11.glVertex2f(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
+      GL11.glEnd();
 
         g.setDrawMode(Graphics.MODE_NORMAL);
 

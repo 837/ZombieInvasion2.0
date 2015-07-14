@@ -110,13 +110,13 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
+      WorldHandler.getModuleHandler()
+          .addModules(new PhysicsModule(id, body, EntityType.ADOLF.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ADOLF));
 
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id), // new
-                                                                                // LightEmitter(id),
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id), // new LightEmitter(id),
         new DebugRendererModule(id), new EventListenerModule(id));
   }
 
@@ -160,7 +160,7 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
+      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.HANS.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.HANS));
@@ -214,7 +214,7 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
+      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.GERHART.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.GERHART));
@@ -267,7 +267,7 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body));
+      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.ZOMBIE.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ZOMBIE));

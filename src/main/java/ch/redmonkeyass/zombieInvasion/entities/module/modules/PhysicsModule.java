@@ -19,10 +19,12 @@ import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 public class PhysicsModule extends Module implements UpdatableModul {
   private Body b2Body;
+  private float entityWidthHeight;
 
-  public PhysicsModule(String entityID, Body b2Body) {
+  public PhysicsModule(String entityID, Body b2Body, float entityWidthHeight) {
     super(entityID);
     this.b2Body = b2Body;
+    this.entityWidthHeight = entityWidthHeight;
   }
 
   @Override
@@ -52,26 +54,32 @@ public class PhysicsModule extends Module implements UpdatableModul {
             actualPos = WorldHandler.getWorldMap().getMap()[(int) (position.x)][(int) (position.y)];
             goalPos = pathToGoal.get(0);
 
-
             if (actualPos == goalPos) {
               pathToGoal.remove(0);
             } else {
-              moveToTile(new Vector2(
-                  (pathToGoal.get(0).getX() + (WorldHandler.getWorldMap().getNodeSizeInMeter() / 2)
-                      - 0.5f) * WorldHandler.getWorldMap().getNodeSizeInMeter(),
-                  (pathToGoal.get(0).getY() + (WorldHandler.getWorldMap().getNodeSizeInMeter() / 2)
-                      - 0.5f) * WorldHandler.getWorldMap().getNodeSizeInMeter()));
+              moveToNode(goalPos);
             }
           } else {
             b2Body.applyForceToCenter(
                 b2Body.getLinearVelocity().cpy().scl(-1).scl(b2Body.getMass()), true);
           }
         });
-
   }
 
-  void moveToTile(Vector2 target) {
-    Vector2 desiredHeading = target.cpy().sub(b2Body.getPosition());
+  private void moveToNode(Node target) {
+    float positionOffSet = 0;
+    if (entityWidthHeight < WorldHandler.getWorldMap().getNodeSizeInMeter()) {
+      positionOffSet = entityWidthHeight / 2;
+    } else if (entityWidthHeight > WorldHandler.getWorldMap().getNodeSizeInMeter()) {
+      positionOffSet = WorldHandler.getWorldMap().getNodeSizeInMeter();
+    }
+
+
+    Vector2 desiredHeading = new Vector2(
+        (target.getX() + (WorldHandler.getWorldMap().getNodeSizeInMeter() / 2) - positionOffSet)
+            * WorldHandler.getWorldMap().getNodeSizeInMeter(),
+        (target.getY() + (WorldHandler.getWorldMap().getNodeSizeInMeter() / 2) - positionOffSet)
+            * WorldHandler.getWorldMap().getNodeSizeInMeter()).sub(b2Body.getPosition());
 
     // input from sprite
     Vector2 velocity = b2Body.getLinearVelocity();
@@ -84,35 +92,12 @@ public class PhysicsModule extends Module implements UpdatableModul {
     steeringForce.x = desiredHeading.x;
     steeringForce.y = desiredHeading.y;
     steeringForce.scl(maxVelocity);
-    steeringForce.sub(velocity.x, velocity.y);
+    steeringForce.sub(velocity);
     steeringForce.scl(acceleration);
     steeringForce.scl(1 / Config.B2PIX);
 
     // apply steering force
     b2Body.applyForceToCenter(steeringForce, true);
-
-  }
-
-  void arrive(Vector2 target) {
-    Vector2 desired = target.cpy().sub(b2Body.getPosition());
-
-    float d = desired.len();
-    int maxSpeed = 10;
-    int maxForce = 10;
-
-    desired.nor();
-    // if (d < 0.2 && d > 0.1) {
-    // float m = MathUtil.map(d, 0, 10, 0, maxSpeed);
-    // desired.scl(m);
-    // } else if (d <= 0.05) {
-    // desired.scl(0);
-    // } else {
-    desired.scl(maxSpeed);
-    // }
-
-    Vector2 steer = desired.sub(b2Body.getLinearVelocity());
-    // steer.limit(maxForce);
-    b2Body.applyForceToCenter(steer.scl(b2Body.getMass()), true);
   }
 
   @Override
