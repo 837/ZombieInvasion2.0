@@ -18,9 +18,21 @@ import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 
+/**
+ * MouseSelectionModule gives a mouse the ability to send selection Events to entities.
+ * <p>
+ * <b>Needs:</b> <br>
+ * EventType.LEFT_DOWN,<br>
+ * EventType.LEFT_DRAGGED,<br>
+ * EventType.LEFT_RELEASED<br>
+ * 
+ * @author Matthias
+ *
+ */
 public class MouseSelectionModule extends Module implements RenderableModul, UpdatableModul {
   private final Color areaColor = new Color(96, 96, 96, 80);
   private Rectangle area = new Rectangle(0, 0, 0, 0);
+
   public MouseSelectionModule(String entityID) {
     super(entityID);
     // TODO Auto-generated constructor stub
@@ -42,8 +54,6 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
             e.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {
               positions[1].add(WorldHandler.getCamera().getPosition());
               calculateArea(positions[1].cpy());
-              // EventDispatcher.createEvent(0, EventType.AREA_SELECTION_EVENT, area,
-              // "AreaSelectionHelper", "GLOBAL");
             });
 
             break;
@@ -59,8 +69,8 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
                     Math.min(area.getMinY(), area.getMaxY()), Math.abs(area.getWidth()),
                     Math.abs(area.getHeight()));
 
-                WorldHandler.getEventDispatcher().createEvent(0, EventType.AREA_SELECTION, areaToCheck,
-                    "AreaSelectionHelper", "GLOBAL");
+                WorldHandler.getEventDispatcher().createEvent(0, EventType.AREA_SELECTION,
+                    areaToCheck, "AreaSelectionHelper", "GLOBAL");
               } else {
                 WorldHandler.getEventDispatcher().createEvent(0, EventType.LEFT_CLICK_SELECTION,
                     position.cpy(), "AreaSelectionHelper", "GLOBAL");

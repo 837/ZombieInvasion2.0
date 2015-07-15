@@ -18,7 +18,7 @@ import ch.redmonkeyass.zombieInvasion.worldmap.Node;
  * MouseTileSelectionModule gives a mouse the ability to select a node.
  * <p>
  * <b>Needs:</b> <br>
- * EventType.MOUSE_MOVED,<br>
+ * EventType.MOUSE_MOVED<br>
  * 
  * @author Matthias
  *

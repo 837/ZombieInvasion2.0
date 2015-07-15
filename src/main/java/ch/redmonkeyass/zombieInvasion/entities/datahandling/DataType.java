@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule.Entity_Status;
@@ -18,22 +19,23 @@ public enum DataType {
   /*
    * physics
    */
-  COLLISION_FIXTURE(Fixture.class), POSITION(Vector2.class), ROTATIONRAD(Float.class),
+  COLLISION_FIXTURE(Fixture.class), POSITION(Vector2.class), ROTATIONRAD(
+      Float.class), ENTITY_WIDTH_HEIGHT(Float.class), ENTITY_B2DBODY(Body.class),
 
   /*
    * Movement
    */
-  MOVE_TO_POS(List.class),
+      MOVE_TO_POS(List.class),
 
   /*
    * Entity Stati
    */
-  ENTITY_STATUS(Entity_Status.class),
+      ENTITY_STATUS(Entity_Status.class),
 
   /*
    * MouseThings
    */
-  MOUSE_SELECTED_NODE(Node.class);
+      MOUSE_SELECTED_NODE(Node.class);
   private DataType(final Class<?> clazz) {
     // this.clazz = clazz;
   }
