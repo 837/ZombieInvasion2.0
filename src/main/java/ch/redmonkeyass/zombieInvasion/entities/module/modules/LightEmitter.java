@@ -111,7 +111,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
         visibilityPolygon.clear();
         vertices.clear();
         vertices.ensureCapacity(b2World.getBodyCount() * 5);
-        //calculateVisibilityPolygon();
+        calculateVisibilityPolygon();
 
     }
 
@@ -128,9 +128,9 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     visibilityPolygon
         .add(new Vector2(0, ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_Y()));
   */
-        //debugDrawVisibilityLines(g, Color.red);
+        debugDrawVisibilityLines(g, Color.red);
         //debugDrawNotVisibleArea(g);
-        testLight(g);
+      //  testLight(g);
     }
 
     /**

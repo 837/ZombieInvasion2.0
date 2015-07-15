@@ -39,6 +39,9 @@ public class MouseTileSelectionModule extends Module implements UpdatableModul, 
       g.drawString("SelectedNodePos: [" + selectedNode.getX() + ", " + selectedNode.getY() + "]",
           10 + WorldHandler.getCamera().getPosition().x,
           45 + WorldHandler.getCamera().getPosition().y);
+      g.drawString("SelectedNode has body: [" + (selectedNode.getBody() != null) + "]",
+          10 + WorldHandler.getCamera().getPosition().x,
+          60 + WorldHandler.getCamera().getPosition().y);
     }
   }
 

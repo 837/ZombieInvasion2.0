@@ -2,11 +2,12 @@ package ch.redmonkeyass.zombieInvasion.worldmap;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.worldmap.WorldMap.FieldType;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
 
 public class Node extends GridCell {
-  private final Body b2dBody;
+  private Body b2dBody;
   private final FieldType type;
   private final int tileSize;
 
@@ -31,5 +32,12 @@ public class Node extends GridCell {
 
   public boolean isSame(Node other) {
     return (other.x == this.x && other.y == this.y);
+  }
+
+  public void prepareForRemoval() {
+    if (b2dBody != null) {
+      WorldHandler.getB2World().destroyBody(b2dBody);
+      b2dBody = null;
+    }
   }
 }

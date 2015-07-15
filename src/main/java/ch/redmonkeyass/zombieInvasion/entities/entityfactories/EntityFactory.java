@@ -11,6 +11,7 @@ import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
@@ -116,7 +117,7 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ADOLF));
 
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id), // new LightEmitter(id),
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id),  new LightEmitter(id),
         new DebugRendererModule(id), new EventListenerModule(id));
   }
 

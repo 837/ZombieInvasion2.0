@@ -1,5 +1,9 @@
 package ch.redmonkeyass.zombieInvasion.worldmap;
 
+import java.util.ArrayList;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
@@ -21,6 +25,7 @@ public class WorldMap implements RenderableModul {
   private float mapWidthInMeter = 0;
   private float mapHeightInMeter = 0;
 
+  private Logger logger = LogManager.getLogger(WorldMap.class);
 
   public float getNodeSizeInMeter() {
     return nodeSizeInMeter;
@@ -105,10 +110,54 @@ public class WorldMap implements RenderableModul {
           }
         }
       }
+
+      // Removes bodies of nodes, where the node has no connection to a walkable node
+      for (int x = 0; x < map.length; x++) {
+        for (int y = 0; y < map[x].length; y++) {
+          if (map[x][y].isWalkable())
+            continue;
+
+          ArrayList<Node> neighbours = new ArrayList<>();
+
+          Node x1 = returnNodeOrNull(x - 1, y);
+          if (x1 != null)
+            neighbours.add(x1);
+
+          Node x2 = returnNodeOrNull(x + 1, y);
+          if (x2 != null)
+            neighbours.add(x2);
+
+          Node y1 = returnNodeOrNull(x, y - 1);
+          if (y1 != null)
+            neighbours.add(y1);
+
+          Node y2 = returnNodeOrNull(x, y + 1);
+          if (y2 != null)
+            neighbours.add(y2);
+
+          for (int i = 0; i < neighbours.size(); i++) {
+            if (neighbours.get(i).isWalkable()) {
+              break;
+            } else if (i == neighbours.size() - 1) {
+              map[x][y].prepareForRemoval();
+              logger.trace("Removed Body of Node: [" + x + ", " + y + "]");
+            }
+          }
+        }
+      }
     } catch (Exception e) {
-      // TODO Auto-generated catch block
-      System.out.println(e);
+      logger.error("Error while creating WorldMap.", e);
     }
+  }
+
+  private Node returnNodeOrNull(int x, int y) {
+    Node n = null;
+    try {
+      n = map[x][y];
+    } catch (Exception e) {
+      // XXX kinda hacky, so that I don't have to check if x,y is in the array
+    }
+    return n;
   }
 
   @Override
