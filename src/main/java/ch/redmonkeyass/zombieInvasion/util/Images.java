@@ -23,4 +23,17 @@ public class Images {
 
   public static final ImageWrapper ZOMBIE =
       new ImageWrapper("res/sprites/entities/testEntity4.png", EntityType.ZOMBIE);
+
+  public static final ImageWrapper CIRCULAR_LIGHT =
+      new ImageWrapper("res/sprites/entities/CircleLight.png", EntityType.ZERO);
+
+  public static final ImageWrapper TRANSPARENT =
+      new ImageWrapper("res/sprites/entities/transparent.png", EntityType.ZERO);
+
+
+
+
+
+
+
 }

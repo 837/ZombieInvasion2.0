@@ -1,26 +1,18 @@
 package ch.redmonkeyass.zombieInvasion.entities.entityfactories;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.*;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
 import ch.redmonkeyass.zombieInvasion.util.Images;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 public class EntityFactory {
   static public void createEntity(EntityType entityType) {
@@ -44,31 +36,6 @@ public class EntityFactory {
         createGameEntity(entityType);
         break;
     }
-  }
-
-  private static void addFriction(Body b) {
-    // FrictionJointDef fj = new FrictionJointDef();
-    // fj.
-  }
-
-  private static void createMouseEntity(EntityType entityType) {
-    String id = "MOUSE";
-    WorldHandler.getEntityHandler().addEntity(new Entity(id));
-    WorldHandler.getModuleHandler().addModules(new MouseSelectionModule(id),
-        new MouseTileSelectionModule(id));
-
-    // EventModule
-    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
-  }
-
-  private static void createGameEntity(EntityType entityType) {
-    String id = "GAME";
-    WorldHandler.getEntityHandler().addEntity(new Entity(id));
-
-    WorldHandler.getModuleHandler().addModules(new DebugConsoleModule(id));
-
-    // EventModule
-    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
   private static void createAdolf(EntityType entityType) {
@@ -117,7 +84,7 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ADOLF));
 
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id),  new LightEmitter(id),
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id), new LightEmitter(id),
         new DebugRendererModule(id), new EventListenerModule(id));
   }
 
@@ -173,13 +140,13 @@ public class EntityFactory {
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
-    // WorldHandler.getModuleHandler().addModules(new LightEmitter(id));
   }
 
   private static void createGerhart(EntityType entityType) {
     String id = "GERHART";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
+
 
     // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
@@ -280,5 +247,30 @@ public class EntityFactory {
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
+  }
+
+  private static void createMouseEntity(EntityType entityType) {
+    String id = "MOUSE";
+    WorldHandler.getEntityHandler().addEntity(new Entity(id));
+    WorldHandler.getModuleHandler().addModules(new MouseSelectionModule(id),
+        new MouseTileSelectionModule(id));
+
+    // EventModule
+    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
+  }
+
+  private static void createGameEntity(EntityType entityType) {
+    String id = "GAME";
+    WorldHandler.getEntityHandler().addEntity(new Entity(id));
+
+    WorldHandler.getModuleHandler().addModules(new DebugConsoleModule(id));
+
+    // EventModule
+    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
+  }
+
+  private static void addFriction(Body b) {
+    // FrictionJointDef fj = new FrictionJointDef();
+    // fj.
   }
 }
