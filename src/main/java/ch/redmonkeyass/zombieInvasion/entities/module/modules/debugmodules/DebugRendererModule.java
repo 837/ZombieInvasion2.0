@@ -17,6 +17,13 @@ import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
+/**
+ * DebugRendererModule is exactly what it sounds like. Renders all the debug stuff. put in it
+ * whatever you want to draw.
+ * 
+ * @author Matthias
+ *
+ */
 public class DebugRendererModule extends Module implements RenderableModul {
 
   public DebugRendererModule(String entityID) {
@@ -45,6 +52,26 @@ public class DebugRendererModule extends Module implements RenderableModul {
               c.getTileSize(), c.getTileSize()));
         });
 
+    WorldHandler.getEntityHandler().getDataFrom("MOUSE", DataType.MOUSE_SELECTED_NODE, Node.class)
+        .ifPresent(selectedNode -> {
+          g.setColor(Color.white);
+          g.drawRect(
+              selectedNode.getX()
+                  * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
+              selectedNode.getY()
+                  * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
+              selectedNode.getTileSize(), selectedNode.getTileSize());
+          g.drawString("SelectedNodeType: " + selectedNode.getType(),
+              10 + WorldHandler.getCamera().getPosition().x,
+              30 + WorldHandler.getCamera().getPosition().y);
+          g.drawString(
+              "SelectedNodePos: [" + selectedNode.getX() + ", " + selectedNode.getY() + "]",
+              10 + WorldHandler.getCamera().getPosition().x,
+              45 + WorldHandler.getCamera().getPosition().y);
+          g.drawString("SelectedNode has body: [" + (selectedNode.getBody() != null) + "]",
+              10 + WorldHandler.getCamera().getPosition().x,
+              60 + WorldHandler.getCamera().getPosition().y);
+        });
   }
 
   @Override

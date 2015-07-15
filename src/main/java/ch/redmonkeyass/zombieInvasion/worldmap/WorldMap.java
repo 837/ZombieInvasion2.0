@@ -150,6 +150,13 @@ public class WorldMap implements RenderableModul {
     }
   }
 
+  /**
+   * kinda hacky, so that I don't have to check if x,y is in the array
+   * 
+   * @param x
+   * @param y
+   * @return node or null
+   */
   private Node returnNodeOrNull(int x, int y) {
     Node n = null;
     try {

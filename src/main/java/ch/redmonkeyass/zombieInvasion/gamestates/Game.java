@@ -72,17 +72,15 @@ public class Game extends BasicGameState {
     WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-    WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
-        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-
     WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-    WorldHandler.getModuleHandler().getModulesOf(MouseTileSelectionModule.class)
+    WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+
 
     WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
