@@ -16,6 +16,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModul
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
@@ -131,6 +132,10 @@ public class Game extends BasicGameState {
 
       WorldHandler.getModuleHandler().getModulesOf(PhysicsModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+
+      WorldHandler.getModuleHandler().getModulesOf(MovementModule.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+
 
       WorldHandler.getModuleHandler().getModulesOf(AStarMovementModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));

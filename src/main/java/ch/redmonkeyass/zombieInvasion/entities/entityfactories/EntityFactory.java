@@ -12,6 +12,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModul
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
@@ -74,7 +75,8 @@ public class EntityFactory {
   private static void createAdolf(EntityType entityType) {
     String id = "ADOLF";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
-    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
+        new MovementModule(id, 10, 10));
 
     // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
 
@@ -117,14 +119,15 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ADOLF));
 
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id),  new LightEmitter(id),
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id), new LightEmitter(id),
         new DebugRendererModule(id), new EventListenerModule(id));
   }
 
   private static void createHans(EntityType entityType) {
     String id = "HANS";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
-    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
+        new MovementModule(id, 10, 10));
 
     // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
@@ -161,7 +164,8 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.HANS.getWidth()));
+      WorldHandler.getModuleHandler()
+          .addModules(new PhysicsModule(id, body, EntityType.HANS.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.HANS));
@@ -179,7 +183,8 @@ public class EntityFactory {
   private static void createGerhart(EntityType entityType) {
     String id = "GERHART";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
-    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
+        new MovementModule(id, 10, 10));
 
     // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
@@ -215,7 +220,8 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.GERHART.getWidth()));
+      WorldHandler.getModuleHandler()
+          .addModules(new PhysicsModule(id, body, EntityType.GERHART.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.GERHART));
@@ -268,7 +274,8 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.ZOMBIE.getWidth()));
+      WorldHandler.getModuleHandler()
+          .addModules(new PhysicsModule(id, body, EntityType.ZOMBIE.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ZOMBIE));
