@@ -1,25 +1,34 @@
 package ch.redmonkeyass.zombieInvasion.gamestates;
 
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityFactory;
-import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.*;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
-import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
-import ch.redmonkeyass.zombieInvasion.input.InputHandler;
-import ch.redmonkeyass.zombieInvasion.util.Images;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityFactory;
+import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugRendererGameModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import ch.redmonkeyass.zombieInvasion.input.InputHandler;
+import ch.redmonkeyass.zombieInvasion.util.Images;
 
 public class Game extends BasicGameState {
   private final int ID;
@@ -69,32 +78,36 @@ public class Game extends BasicGameState {
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
 
-    GL11.glEnable(GL11.GL_BLEND);
-    GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
-
-    GL11.glBegin(GL11.GL_QUADS);
-    GL11.glColor4f(0, 0, 0, 0);
-    GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
-        WorldHandler.getCamera().getPosition().y);
-    GL11.glVertex2f(
-        WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
-        WorldHandler.getCamera().getPosition().y);
-    GL11.glVertex2f(
-        WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
-        WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
-    GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
-        WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
-    GL11.glEnd();
-    GL11.glDisable(GL11.GL_BLEND);
-    g.setDrawMode(Graphics.MODE_NORMAL);
+    // GL11.glEnable(GL11.GL_BLEND);
+    // GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
+    //
+    // GL11.glBegin(GL11.GL_QUADS);
+    // GL11.glColor4f(0, 0, 0, 0);
+    // GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
+    // WorldHandler.getCamera().getPosition().y);
+    // GL11.glVertex2f(
+    // WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
+    // WorldHandler.getCamera().getPosition().y);
+    // GL11.glVertex2f(
+    // WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
+    // WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
+    // GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
+    // WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
+    // GL11.glEnd();
+    // GL11.glDisable(GL11.GL_BLEND);
+    // g.setDrawMode(Graphics.MODE_NORMAL);
 
 
 
     WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+    
     WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-
+    
+    WorldHandler.getModuleHandler().getModulesOf(DebugRendererGameModule.class)
+        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+    
     WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 

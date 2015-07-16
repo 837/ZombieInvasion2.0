@@ -1,18 +1,27 @@
 package ch.redmonkeyass.zombieInvasion.entities.entityfactories;
 
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.Entity;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.*;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
-import ch.redmonkeyass.zombieInvasion.util.Images;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.Entity;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugRendererGameModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
+import ch.redmonkeyass.zombieInvasion.util.Images;
 
 public class EntityFactory {
   static public void createEntity(EntityType entityType) {
@@ -83,8 +92,8 @@ public class EntityFactory {
     }
 
     WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id),
-        new SimpleImageRenderModule(id, Images.ADOLF), new LightEmitter(id),
-        new DebugRendererModule(id), new EventListenerModule(id), new MovementModule(id, 10, 10));
+        new SimpleImageRenderModule(id, Images.ADOLF), new DebugRendererModule(id),
+        new EventListenerModule(id), new MovementModule(id, 10, 10));
 
   }
 
@@ -272,7 +281,8 @@ public class EntityFactory {
     String id = "GAME";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
-    WorldHandler.getModuleHandler().addModules(new DebugConsoleModule(id));
+    WorldHandler.getModuleHandler().addModules(new DebugConsoleModule(id),
+        new DebugRendererGameModule(id));
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));

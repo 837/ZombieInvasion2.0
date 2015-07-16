@@ -37,7 +37,7 @@ public class DebugRendererModule extends Module implements RenderableModul {
         .ifPresent(position -> {
           position.scl(Config.B2PIX); // transform to world
                                       // coordinates
-          g.setColor(Color.black);
+          g.setColor(Color.white);
           g.drawString(getEntityID(), position.x - 18, position.y - 18);
           g.drawString(position.toString(), position.x, position.y);
         });
@@ -50,27 +50,6 @@ public class DebugRendererModule extends Module implements RenderableModul {
               c.getX() * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
               c.getY() * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
               c.getTileSize(), c.getTileSize()));
-        });
-
-    WorldHandler.getEntityHandler().getDataFrom("MOUSE", DataType.MOUSE_SELECTED_NODE, Node.class)
-        .ifPresent(selectedNode -> {
-          g.setColor(Color.white);
-          g.drawRect(
-              selectedNode.getX()
-                  * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
-              selectedNode.getY()
-                  * (Config.B2PIX * WorldHandler.getWorldMap().getNodeSizeInMeter()),
-              selectedNode.getTileSize(), selectedNode.getTileSize());
-          g.drawString("SelectedNodeType: " + selectedNode.getType(),
-              10 + WorldHandler.getCamera().getPosition().x,
-              30 + WorldHandler.getCamera().getPosition().y);
-          g.drawString(
-              "SelectedNodePos: [" + selectedNode.getX() + ", " + selectedNode.getY() + "]",
-              10 + WorldHandler.getCamera().getPosition().x,
-              45 + WorldHandler.getCamera().getPosition().y);
-          g.drawString("SelectedNode has body: [" + (selectedNode.getBody() != null) + "]",
-              10 + WorldHandler.getCamera().getPosition().x,
-              60 + WorldHandler.getCamera().getPosition().y);
         });
   }
 
