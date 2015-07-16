@@ -1,31 +1,37 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+
 import org.apache.logging.log4j.LogManager;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.entities.module.Module;
+import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+
 /**
- * A point-light (shines in all directions) serves as baseclass to all light sources
- * <p>
- * Created by P on 18.06.2015.
+ * A point-light (shines in all directions) serves as baseclass to all light sources <p> Created by
+ * P on 18.06.2015.
  */
 public class LightEmitter extends Module implements UpdatableModul, RenderableModul {
   World b2World = WorldHandler.getB2World();
@@ -37,7 +43,8 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   Fixture mFixture;
 
   //limits range of the light
-  private int lightCircleRadiusPix = 600;
+  private float lightCircleRadiusPix = 300;
+  private float lightCircleRadiusM = lightCircleRadiusPix * Config.PIX2B;
 
   public LightEmitter(String entityID) {
     super(entityID);
@@ -171,11 +178,9 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     final Vector2 center = mPosition;
     final Vector2 p = point;
 
-    Vector2 line = new Vector2(
+    return new Vector2(
         (float) ((p.x - center.x) * Math.cos(o) + (p.y - center.y) * Math.sin(o)) + center.x,
         (float) (-(p.x - center.x) * Math.sin(o) + (p.y - center.y) * Math.cos(o)) + center.y);
-
-    return line;
   }
 
   /*
@@ -183,7 +188,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
  */
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-
+    Color colorBefore = g.getColor();
     /*add the bottom left/right to the intersectionpoints
     visibilityPolygon
         .add(new Vector2(ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_X(),
@@ -192,10 +197,14 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
         .add(new Vector2(0, ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_Y()));
   */
     //debugDrawNotVisibleArea(g);
-    debugDrawVisibilityLines(g, Color.blue);
+    //debugDrawVisibilityLines(g, Color.blue);
 
-    //prepareVisibilityPolygonForLights(g);
-    //testLight(g);
+
+    prepareVisibilityPolygonForLights(g);
+    testLight(g);
+
+    g.setColor(colorBefore);
+    g.setDrawMode(Graphics.MODE_NORMAL);
   }
 
   /**
@@ -213,29 +222,25 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   }
 
   /**
-   * requires visibilityPolygon to be sorted by angle from the body's perspective!!!
-   * colors non-visible areas black
+   * requires visibilityPolygon to be sorted by angle from the body's perspective!!! colors
+   * non-visible areas black
    *
    * @param g jwgl Graphics context
    */
   private void prepareVisibilityPolygonForLights(Graphics g) {
     g.pushTransform();
 
-    Rectangle screen = new Rectangle(WorldHandler.getCamera().getPosition().x,
-        WorldHandler.getCamera().getPosition().y,
-        WorldHandler.getCamera().getViewport_size_X(),
-        WorldHandler.getCamera().getViewport_size_Y());
-
-
-    g.setColor(new Color(0, 0, 0, 255));
-    GL11.glColorMask(false, false, false, true);
-    g.setDrawMode(Graphics.MODE_ADD);
-    g.fill(screen);
-
-
     Vector2 pos = mPosition.cpy().scl(Config.B2PIX);
     g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-    g.setColor(Color.transparent);
+    g.setColor(new Color(0, 0, 0, 0));
+
+    //ensure length from center of light to point is at max getLightCircleRadiusM
+    for (int i = 0; i < visibilityPolygon.size(); i++) {
+      float distFromCenter2 = visibilityPolygon.get(i).cpy().sub(mPosition).len2();
+      if (distFromCenter2 > lightCircleRadiusM * lightCircleRadiusM) {
+        visibilityPolygon.get(i).sub(mPosition).nor().scl((int) lightCircleRadiusM).add(mPosition);
+      }
+    }
 
     for (int i = 0; i < visibilityPolygon.size() - 1; i++) {
       Polygon p = new Polygon();
@@ -249,9 +254,8 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     p.addPoint(visibilityPolygon.get(visibilityPolygon.size() - 1).x * Config.B2PIX, visibilityPolygon.get(visibilityPolygon.size() - 1).y * Config.B2PIX);
     p.addPoint(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX);
     g.fill(p);
-    GL11.glColorMask(true, true, true, true);
-    g.setDrawMode(Graphics.MODE_NORMAL);
 
+    g.setDrawMode(Graphics.MODE_NORMAL);
     g.popTransform();
   }
 
@@ -294,7 +298,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
           float[] outerColor = {1, 1, 1, 1f};
 
           //multiply alpha with values of other lights
-          g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
+          g.setDrawMode(Graphics.MODE_ADD);
           //lock color channels, only alpha shall be multiplied
           GL11.glColorMask(false, false, false, true);
           //draw a circle (made up of 64 triangles) with gradient from inner to outer color
@@ -353,6 +357,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
       closestFixture = fixture;
       closestIntersectionPoint = intersectionPoint;
       return fraction;
+
     }
   }
 

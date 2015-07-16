@@ -31,7 +31,7 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     if (consoleInputField != null) {
-      g.setColor(new Color(0, 0, 0, 80));
+      g.setColor(new Color(0, 0, 255, 80));
       g.fillRect(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y, Config.WIDTH,
           Config.HEIGHT);
       g.setColor(Color.white);

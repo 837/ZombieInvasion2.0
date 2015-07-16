@@ -14,6 +14,7 @@ import ch.redmonkeyass.zombieInvasion.input.InputHandler;
 import ch.redmonkeyass.zombieInvasion.util.Images;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -64,31 +65,33 @@ public class Game extends BasicGameState {
     WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-    WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
-        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-
-    WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
-        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-
     WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
 
-/*    GL11.glEnable(GL11.GL_BLEND);
+    GL11.glEnable(GL11.GL_BLEND);
     GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
 
     GL11.glBegin(GL11.GL_QUADS);
-    GL11.glColor3f(0, 0, 0);
+    GL11.glColor4f(0, 0, 0, 0);
     GL11.glVertex2f(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y);
     GL11.glVertex2f(WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(), WorldHandler.getCamera().getPosition().y);
     GL11.glVertex2f(WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(), WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
     GL11.glVertex2f(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
     GL11.glEnd();
+    GL11.glDisable(GL11.GL_BLEND);
+    g.setDrawMode(Graphics.MODE_NORMAL);
 
-    GL11.glDisable(GL11.GL_BLEND);*/
+
+
+    WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
+        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+    WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
+        .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
     WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+
 
     // XXX TEST END
   }

@@ -77,15 +77,18 @@ public class EntityFactory {
       // Remember to dispose of any shapes after you're done with them!
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
-
-      WorldHandler.getModuleHandler()
-          .addModules(new PhysicsModule(id, body, EntityType.ADOLF.getWidth()));
+      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.ADOLF.getWidth()));
     }
 
-    WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ADOLF));
+    WorldHandler.getModuleHandler().addModules(
+        new AStarMovementModule(id),
+        new SimpleImageRenderModule(id, Images.ADOLF),
+        new LightEmitter(id),
+        new DebugRendererModule(id),
+        new EventListenerModule(id),
+        new MovementModule(id, 10, 10)
+    );
 
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id), new LightEmitter(id),
-        new DebugRendererModule(id), new EventListenerModule(id));
   }
 
   private static void createHans(EntityType entityType) {
@@ -140,6 +143,7 @@ public class EntityFactory {
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
+    WorldHandler.getModuleHandler().addModules(new MovementModule(id, 10, 10));
   }
 
   private static void createGerhart(EntityType entityType) {
@@ -194,6 +198,8 @@ public class EntityFactory {
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
+    WorldHandler.getModuleHandler().addModules(new MovementModule(id, 10, 10));
+
   }
 
   private static void createZombie(EntityType entityType) {
