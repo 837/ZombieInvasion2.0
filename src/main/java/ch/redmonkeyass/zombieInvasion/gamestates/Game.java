@@ -74,10 +74,16 @@ public class Game extends BasicGameState {
 
     GL11.glBegin(GL11.GL_QUADS);
     GL11.glColor4f(0, 0, 0, 0);
-    GL11.glVertex2f(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y);
-    GL11.glVertex2f(WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(), WorldHandler.getCamera().getPosition().y);
-    GL11.glVertex2f(WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(), WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
-    GL11.glVertex2f(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
+    GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
+        WorldHandler.getCamera().getPosition().y);
+    GL11.glVertex2f(
+        WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
+        WorldHandler.getCamera().getPosition().y);
+    GL11.glVertex2f(
+        WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
+        WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
+    GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
+        WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
     GL11.glEnd();
     GL11.glDisable(GL11.GL_BLEND);
     g.setDrawMode(Graphics.MODE_NORMAL);
@@ -116,20 +122,20 @@ public class Game extends BasicGameState {
           .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e ->
 
       {
-        switch (e.getEvent()) {
-          case G_PRESSED:
-            for (int i = 0; i < 10; i++) {
-              EntityFactory.createEntity(EntityType.ZOMBIE);
+            switch (e.getEvent()) {
+              case G_PRESSED:
+                for (int i = 0; i < 10; i++) {
+                  EntityFactory.createEntity(EntityType.ZOMBIE);
+                }
+                logger.trace("Spawned 10 new Entities");
+                break;
+              case K_PRESSED:
+                WorldHandler.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null,
+                    "GAME", "GLOBAL");
+                logger.trace("Removed all Entities");
+                break;
             }
-            logger.trace("Spawned 10 new Entities");
-            break;
-          case K_PRESSED:
-            WorldHandler.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null,
-                "GAME", "GLOBAL");
-            logger.trace("Removed all Entities");
-            break;
-        }
-      });
+          });
 
       WorldHandler.getEntityHandler().UPDATE_ENTITYHANDLER();
       WorldHandler.getModuleHandler().UPDATE_MODULEHANDLER();
@@ -138,6 +144,9 @@ public class Game extends BasicGameState {
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
       WorldHandler.getModuleHandler().getModulesOf(PhysicsModule.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+
+      WorldHandler.getModuleHandler().getModulesOf(MovementModule.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
       WorldHandler.getModuleHandler().getModulesOf(AStarMovementModule.class)

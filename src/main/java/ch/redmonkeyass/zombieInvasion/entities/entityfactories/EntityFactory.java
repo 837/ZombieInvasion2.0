@@ -41,7 +41,8 @@ public class EntityFactory {
   private static void createAdolf(EntityType entityType) {
     String id = "ADOLF";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
-    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
+        new MovementModule(id, 10, 10));
 
     // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
 
@@ -77,24 +78,21 @@ public class EntityFactory {
       // Remember to dispose of any shapes after you're done with them!
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.ADOLF.getWidth()));
+      WorldHandler.getModuleHandler()
+          .addModules(new PhysicsModule(id, body, EntityType.ADOLF.getWidth()));
     }
 
-    WorldHandler.getModuleHandler().addModules(
-        new AStarMovementModule(id),
-        new SimpleImageRenderModule(id, Images.ADOLF),
-        new LightEmitter(id),
-        new DebugRendererModule(id),
-        new EventListenerModule(id),
-        new MovementModule(id, 10, 10)
-    );
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id),
+        new SimpleImageRenderModule(id, Images.ADOLF), new LightEmitter(id),
+        new DebugRendererModule(id), new EventListenerModule(id), new MovementModule(id, 10, 10));
 
   }
 
   private static void createHans(EntityType entityType) {
     String id = "HANS";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
-    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
+        new MovementModule(id, 10, 10));
 
     // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
     /*
@@ -131,7 +129,8 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.HANS.getWidth()));
+      WorldHandler.getModuleHandler()
+          .addModules(new PhysicsModule(id, body, EntityType.HANS.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.HANS));
@@ -149,7 +148,8 @@ public class EntityFactory {
   private static void createGerhart(EntityType entityType) {
     String id = "GERHART";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
-    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
+    WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
+        new MovementModule(id, 10, 10));
 
 
     // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
@@ -186,7 +186,8 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.GERHART.getWidth()));
+      WorldHandler.getModuleHandler()
+          .addModules(new PhysicsModule(id, body, EntityType.GERHART.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.GERHART));
@@ -206,7 +207,8 @@ public class EntityFactory {
     String id = "ZOMBIE" + WorldHandler.getEntityHandler().getAllEntities().size() + 1;
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
-    WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
+    WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id),
+        new MovementModule(id, 10, 10));
 
     /*
      * Add Physics for testentity
@@ -241,7 +243,8 @@ public class EntityFactory {
       // BodyDef and FixtureDef don't need disposing, but shapes do.
       // shape.dispose();
 
-      WorldHandler.getModuleHandler().addModules(new PhysicsModule(id, body, EntityType.ZOMBIE.getWidth()));
+      WorldHandler.getModuleHandler()
+          .addModules(new PhysicsModule(id, body, EntityType.ZOMBIE.getWidth()));
     }
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ZOMBIE));
