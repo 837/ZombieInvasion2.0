@@ -1,9 +1,14 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.entities.module.Module;
+import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import org.apache.logging.log4j.LogManager;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
@@ -12,22 +17,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * A point-light (shines in all directions) serves as baseclass to all light sources <p> Created by
@@ -87,14 +79,14 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     Array<Body> bodies = new Array<>();
     b2World.getBodies(bodies);
 
-    final float c = lightCircleRadiusPix;
+    final float c = lightCircleRadiusM;
 
     BodiesInRangeCB cb = new BodiesInRangeCB();
     b2World.QueryAABB(cb,
-        WorldHandler.getCamera().getPosition().x * Config.PIX2B - c,
-        WorldHandler.getCamera().getPosition().y * Config.PIX2B - c,
-        WorldHandler.getCamera().getPosition().x * Config.PIX2B + c,
-        WorldHandler.getCamera().getPosition().y * Config.PIX2B + c
+        mPosition.x - c,
+        mPosition.y - c,
+        mPosition.x + c,
+        mPosition.y + c
     );
 
 
@@ -208,20 +200,6 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   }
 
   /**
-   * draws the lines as computed by the calculateVisibilityPolygon function, useful for debugging
-   *
-   * @param g jwgl Graphics context
-   */
-  private void debugDrawVisibilityLines(Graphics g, Color color) {
-    Color previousColor = g.getColor();
-    g.setColor(color);
-    for (Vector2 p : visibilityPolygon) {
-      g.drawLine(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX, p.x * Config.B2PIX, p.y * Config.B2PIX);
-    }
-    g.setColor(previousColor);
-  }
-
-  /**
    * requires visibilityPolygon to be sorted by angle from the body's perspective!!! colors
    * non-visible areas black
    *
@@ -256,30 +234,6 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     g.fill(p);
 
     g.setDrawMode(Graphics.MODE_NORMAL);
-    g.popTransform();
-  }
-
-  private void debugDrawNotVisibleArea(Graphics g) {
-
-    g.pushTransform();
-    final float range = 128;
-
-    g.setColor(Color.red);
-
-    for (int i = 0; i < visibilityPolygon.size() - 1; i++) {
-      Polygon p = new Polygon();
-      p.addPoint(visibilityPolygon.get(i).x * Config.B2PIX, visibilityPolygon.get(i).y * Config.B2PIX);
-      p.addPoint(visibilityPolygon.get(i + 1).x * Config.B2PIX, visibilityPolygon.get(i + 1).y * Config.B2PIX);
-      p.addPoint(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX);
-
-      g.fill(p);
-    }
-    Polygon p = new Polygon();
-    p.addPoint(visibilityPolygon.get(0).x * Config.B2PIX, visibilityPolygon.get(0).y * Config.B2PIX);
-    p.addPoint(visibilityPolygon.get(visibilityPolygon.size() - 1).x * Config.B2PIX, visibilityPolygon.get(visibilityPolygon.size() - 1).y * Config.B2PIX);
-    p.addPoint(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX);
-    g.fill(p);
-
     g.popTransform();
   }
 
@@ -339,6 +293,44 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
       GL11.glVertex2f(radius + posX, posY);
     }
     GL11.glEnd();
+  }
+
+  /**
+   * draws the lines as computed by the calculateVisibilityPolygon function, useful for debugging
+   *
+   * @param g jwgl Graphics context
+   */
+  private void debugDrawVisibilityLines(Graphics g, Color color) {
+    Color previousColor = g.getColor();
+    g.setColor(color);
+    for (Vector2 p : visibilityPolygon) {
+      g.drawLine(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX, p.x * Config.B2PIX, p.y * Config.B2PIX);
+    }
+    g.setColor(previousColor);
+  }
+
+  private void debugDrawNotVisibleArea(Graphics g) {
+
+    g.pushTransform();
+    final float range = 128;
+
+    g.setColor(Color.red);
+
+    for (int i = 0; i < visibilityPolygon.size() - 1; i++) {
+      Polygon p = new Polygon();
+      p.addPoint(visibilityPolygon.get(i).x * Config.B2PIX, visibilityPolygon.get(i).y * Config.B2PIX);
+      p.addPoint(visibilityPolygon.get(i + 1).x * Config.B2PIX, visibilityPolygon.get(i + 1).y * Config.B2PIX);
+      p.addPoint(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX);
+
+      g.fill(p);
+    }
+    Polygon p = new Polygon();
+    p.addPoint(visibilityPolygon.get(0).x * Config.B2PIX, visibilityPolygon.get(0).y * Config.B2PIX);
+    p.addPoint(visibilityPolygon.get(visibilityPolygon.size() - 1).x * Config.B2PIX, visibilityPolygon.get(visibilityPolygon.size() - 1).y * Config.B2PIX);
+    p.addPoint(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX);
+    g.fill(p);
+
+    g.popTransform();
   }
 
   private class LightCallBack implements RayCastCallback {
