@@ -43,7 +43,7 @@ public class AStarMovementModule extends Module implements UpdatableModul {
     GridFinderOptions opt = new GridFinderOptions();
     opt.allowDiagonal = false;
     opt.dontCrossCorners = true;
-    //opt.heuristic = new EuclideanDistance();
+    // opt.heuristic = new EuclideanDistance();
 
     finder = new AStarGridFinder<Node>(Node.class, opt);
     navGrid = new NavigationGrid<Node>(WorldHandler.getWorldMap().getMap(), true);

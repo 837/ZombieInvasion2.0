@@ -1,14 +1,9 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
@@ -17,9 +12,22 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.entities.module.Module;
+import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 
 /**
  * A point-light (shines in all directions) serves as baseclass to all light sources <p> Created by
@@ -189,11 +197,11 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
         .add(new Vector2(0, ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_Y()));
   */
     //debugDrawNotVisibleArea(g);
-    //debugDrawVisibilityLines(g, Color.blue);
+    debugDrawVisibilityLines(g, Color.blue);
 
 
-    prepareVisibilityPolygonForLights(g);
-    testLight(g);
+//    prepareVisibilityPolygonForLights(g);
+//    testLight(g);
 
     g.setColor(colorBefore);
     g.setDrawMode(Graphics.MODE_NORMAL);

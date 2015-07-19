@@ -1,16 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="64" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="64" nextobjectid="85">
  <tileset firstgid="1" name="ts" tilewidth="64" tileheight="64">
   <image source="64pxTileSet.png" width="1472" height="128"/>
  </tileset>
- <layer name="Kachelebene 1" width="50" height="50">
+ <layer name="background" width="50" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XSxKEIAxFUQauQdn/Sp1olYWJEFEIjze4I+nPKUI1vYQQFpDWo5I1NbV0RCFUxx/7Tcf9cyTDWYnDy1yhOGrnSns+muO6no72jqfzFJX3b+XIrUkdm9KIjnQf6PjOIc03qiN3vnufc+17oDpQ5sqr4xqKI7dnnn8Haxyezvlbh/W1vQ100EHHfI639TagOqTn2n3GW8gOy38QL1nvield0UuWe7t0d/fSDA6EuUI45yNGB2OMMcb+bgcICUTZECcAAA==
+   H4sIAAAAAAAAC+2XQRKEIAwEufmDXf//Ui9rFYVEAqwwjHPokymlSVImWwhhI+HzwxPTw0iPPQOrxxP5lsf1OzmHE48HSl2xePTWlfV8NY84Xh7jPe76aTfeP8qjFJN6fA1W9EjzII//eeTqm9Wj1N+z+9w6B6sHS12hesSweJRyhvwf7PFA6nPPuXr2iFke3nys4NEyt6N5tO4f8hjjxOrRygwP606ZPDz5Q4XZo2YHQaF2TkxnRRRq5vbc7I7CGzwY6oqhz1dEHkIIIYR4mgN+mcu9ECcAAA==
   </data>
  </layer>
- <layer name="hindernisse" width="50" height="50">
+ <layer name="dynamic_obstacles" width="50" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3SMRLAIAhEUQrvf+ZU6cIIREXx78xWMQlvpIlIK9I3ljN/stKh/b+iY8Z944jvfvQ7ONbulfYcBw6Po5dMR+8MDhwRx9ccVR3WZDm0Oao6quzVro7evCc6PD4cezm872YbcODAcZ8jmmxDVcfovcMxxmFJ9tw4cODAcWpxUEoppXR2HwrM8EsQJwAA
+   H4sIAAAAAAAAC+3OIQEAAAgDsNegf1ECXKEwW4IlAAAAAFzNdwAAAAAAgLJTTWa5ECcAAA==
   </data>
  </layer>
+ <layer name="walls" width="50" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2WSwrAIAwFXXj/M3dVkBKbn9FE3kBBURPG+uuttT58FH3hF0X/lCPz7/SIzJ/Nw7qWMnpQfbJ4eMZI4sBDF9u7rsZy5f2hKa9m5Xk1a+fir8DjIYl9ykNyn1fw4Pq89ewe1H+o6EG13eqhiZ3hXXK7xy3rKqvH3z1B5c/oQeWteO5+c1a9zy05OOfZHOz2kPwPa9xoJOfWrG6NG4HkHpH0/RsLD10+6X7IvM9HPPOviRsNd1554p5Esq649pXzYcXrkQXru4QaexJ4wCMCeNTw0L5LThP1TtnNTR5Z1woAAADg4QFuFMTdECcAAA==
+  </data>
+ </layer>
+ <objectgroup width="1" height="1" name="walls">
+  <object id="42" type="rectangle" x="1725.24" y="0" width="68.7576" height="1981.82"/>
+  <object id="46" name="NAME IT IF YOU WANT" type="rectangle" x="1343.33" y="1919.33" width="398" height="127.333"/>
+  <object id="47" type="rectangle" x="1534" y="2046" width="116" height="464"/>
+  <object id="49" type="rectangle" x="830.667" y="2432" width="708" height="225.333"/>
+  <object id="50" type="rectangle" x="566.667" y="2622.67" width="412" height="105.333"/>
+  <object id="51" type="rectangle" x="830.667" y="1917.33" width="321.333" height="130.667"/>
+  <object id="52" type="rectangle" x="832" y="2048" width="126.667" height="390.667"/>
+  <object id="53" type="rectangle" x="123" y="1726" width="259" height="219"/>
+  <object id="54" type="rectangle" x="377" y="1854.67" width="261.333" height="772"/>
+  <object id="55" type="rectangle" x="574.667" y="1473.33" width="64" height="390.667"/>
+  <object id="56" type="rectangle" x="830.667" y="1409.33" width="768" height="381.333"/>
+  <object id="57" type="rectangle" x="832" y="1086.67" width="125.333" height="330.667"/>
+  <object id="58" type="rectangle" x="1344" y="447" width="256.667" height="191"/>
+  <object id="59" type="rectangle" x="1471.33" y="637.333" width="128" height="772.667"/>
+  <object id="60" type="rectangle" x="831" y="191" width="769" height="128"/>
+  <object id="61" type="rectangle" x="830" y="318" width="384" height="321"/>
+  <object id="62" type="rectangle" x="830.667" y="640" width="129.333" height="318.667"/>
+  <object id="63" type="rectangle" x="0" y="7" width="1758" height="54"/>
+  <object id="64" type="rectangle" x="192" y="62" width="63" height="257"/>
+  <object id="67" type="rectangle" x="251" y="46" width="389" height="81"/>
+  <object id="68" type="rectangle" x="575" y="126" width="65" height="192"/>
+  <object id="69" type="rectangle" x="576" y="447" width="62" height="958"/>
+  <object id="70" type="rectangle" x="190" y="447" width="64" height="574"/>
+  <object id="71" type="rectangle" x="253" y="702" width="322" height="192"/>
+  <object id="72" type="rectangle" x="446" y="896" width="129" height="510"/>
+  <object id="73" type="rectangle" x="191" y="1151" width="63" height="257"/>
+  <object id="74" type="rectangle" x="251" y="1280" width="207" height="126"/>
+  <object id="75" type="rectangle" x="11.5" y="57.5" width="51.5" height="1229"/>
+  <object id="76" type="rectangle" x="55.5" y="1215" width="136" height="519.5"/>
+  <object id="77" type="rectangle" x="319.5" y="1471.5" width="63.5" height="128"/>
+  <object id="78" type="rectangle" x="382.5" y="1471.5" width="212.5" height="63.5"/>
+ </objectgroup>
 </map>
