@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.util.Comparables;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
@@ -41,8 +42,6 @@ public class WorldMapLoader {
     Room room = addedRooms.stream()
         .filter(r -> r.getRoomDescription().getName().equals("room0_startzone_10x10.tmx")).findAny()
         .get();
-    System.out.println(room.getPosOnMap().cpy().scl(WorldHandler.getWorldMap().getNodeSizeInMeter())
-        .add(room.getRoomDescription().getWidth(), room.getRoomDescription().getHeight()));
     return room.getPosOnMap().cpy().scl(WorldHandler.getWorldMap().getNodeSizeInMeter())
         .add(room.getRoomDescription().getWidth(), room.getRoomDescription().getHeight());
   }
@@ -61,7 +60,7 @@ public class WorldMapLoader {
 
   private void createMap(ArrayList<Door> doors) {
     Door door = getRandomOpenDoor(doors);
-    if (door == null || addedRooms.size() > 50) {
+    if (door == null || addedRooms.size() > Config.MAX_ROOMS) {
       return;
     }
 

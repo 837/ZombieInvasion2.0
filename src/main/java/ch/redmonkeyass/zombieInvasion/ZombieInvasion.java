@@ -21,7 +21,7 @@ public class ZombieInvasion extends StateBasedGame {
   public static void main(String[] args) {
     try {
       AppGameContainer app = new AppGameContainer(new ZombieInvasion(
-              ZombieInvasion.class.getSimpleName() + "2.0 [Version : " + Config.VERSION + "]"));
+          ZombieInvasion.class.getSimpleName() + "2.0 [Version : " + Config.VERSION + "]"));
       app.setDisplayMode(Config.WIDTH, Config.HEIGHT, false);
       app.setTargetFrameRate(Config.FPS);
       app.setShowFPS(true);

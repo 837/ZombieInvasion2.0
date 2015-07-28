@@ -7,8 +7,8 @@ public class Config {
   public static final int GAME = 2;
 
   // Application Properties
-  public static final int WIDTH = 1920;
-  public static final int HEIGHT = 1080;
+  public static final int WIDTH = 1366;
+  public static final int HEIGHT = 768;
   public static final int FPS = 60;
   public static final double VERSION = 0.9;
   public static final float TICKS_PER_SECOND = 30;
@@ -32,4 +32,6 @@ public class Config {
 
   // WorldMap
   public static final String WORLDMAP_NAME = "200x200Background.tmx";
+  public static final int MAX_ROOMS = 50;
+  
 }
