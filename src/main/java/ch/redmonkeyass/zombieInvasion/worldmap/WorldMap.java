@@ -1,12 +1,8 @@
 package ch.redmonkeyass.zombieInvasion.worldmap;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,8 +19,11 @@ import com.badlogic.gdx.utils.Array;
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.util.Comparables;
+import ch.redmonkeyass.zombieInvasion.worldmap.Node.CornerType;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.MapBodyBuilder;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
+import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.WorldMapLoader;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;
@@ -82,11 +81,17 @@ public class WorldMap implements RenderableModul {
     return map;
   }
 
+  private WorldMapLoader worldMapLoader = null;
+
+  public WorldMapLoader getWorldMapLoader() {
+    return worldMapLoader;
+  }
+
   public WorldMap(String tmxFileName) {
     try {
-      // loads the tiledMap
-      tileMap = loadTiledMap(tmxFileName);
+      worldMapLoader = new WorldMapLoader(tmxFileName);
 
+      tileMap = worldMapLoader.getFinishedMap();
       // calculates tileWidth/tileHeight/mapSize/nodeSizeInMeter
       int tileHeigth = (int) tileMap.getTileHeight();
       int tileWidth = (int) tileMap.getTileWidth();
@@ -96,16 +101,17 @@ public class WorldMap implements RenderableModul {
       setMapWidthInMeter((int) ((mapWidth * tileWidth) / Config.B2PIX));
       setNodeSizeInMeter((int) (tileWidth / Config.B2PIX));
 
-      // create a Node[][]
+      // create a nodemap
       map = new Node[mapWidth][mapHeight];
-
       // create the Nodes and create bodies if the second layer has elements
       createNodeMapAndDynamicObstacleBodies(map, tileWidth, tileMap);
 
       // remove inaccessible node bodies
       // removeInaccessibleBodiesFromSecondLayer(map);
-
+      ArrayList<ArrayList<Node>> areas = getConnectedRegions(map);
       obstacles.addAll(MapBodyBuilder.buildShapes(tileMap));
+
+      createBoxBodiesForAreas(areas);
 
     } catch (Exception e) {
       logger.error("Error while creating WorldMap.", e);
@@ -115,61 +121,41 @@ public class WorldMap implements RenderableModul {
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-    tileMap.render(0, 0);
+    worldMapLoader.getFinishedMap().render(0, 0);
+    // tileMap.render(0, 0);
     // for (int x = 0; x < map.length; x++) {
     // for (int y = 0; y < map[x].length; y++) {
     // if (map[x][y].isWalkable())
     // continue;
-    // g.setColor(Color.darkGray);
-    // g.fillRect(x * (Config.B2PIX * 2), y * (Config.B2PIX * 2), 64, 64);
-    // g.setColor(Color.black);
-    // g.drawRect(x * (Config.B2PIX * 2), y * (Config.B2PIX * 2), 64, 64);
-    // g.drawString(map[x][y].getRegionGroup() + "", x * (Config.B2PIX * 2) + 32,
-    // y * (Config.B2PIX * 2) + 32);
-    // g.setColor(Color.green);
-    // g.fillOval(map[x][y].getCornerInMeter(CornerType.TOP_LEFT).x * (Config.B2PIX * 2),
-    // map[x][y].getCornerInMeter(CornerType.TOP_LEFT).y * (Config.B2PIX * 2), 4, 4);
-    // g.setColor(Color.blue);
-    // g.fillOval(map[x][y].getCornerInMeter(CornerType.TOP_RIGHT).x * (Config.B2PIX * 2),
-    // map[x][y].getCornerInMeter(CornerType.TOP_RIGHT).y * (Config.B2PIX * 2), 4, 4);
-    // g.setColor(Color.magenta);
-    // g.fillOval(map[x][y].getCornerInMeter(CornerType.BOTTOM_LEFT).x * (Config.B2PIX * 2),
-    // map[x][y].getCornerInMeter(CornerType.BOTTOM_LEFT).y * (Config.B2PIX * 2), 4, 4);
-    // g.setColor(Color.red);
-    // g.fillOval(map[x][y].getCornerInMeter(CornerType.BOTTOM_RIGHT).x * (Config.B2PIX * 2),
-    // map[x][y].getCornerInMeter(CornerType.BOTTOM_RIGHT).y * (Config.B2PIX * 2), 4, 4);
+    // // g.setColor(Color.darkGray);
+    // // g.fillRect(x * (Config.B2PIX * 2), y * (Config.B2PIX * 2), 64, 64);
+    // // g.setColor(Color.black);
+    // // g.drawRect(x * (Config.B2PIX * 2), y * (Config.B2PIX * 2), 64, 64);
+    // g.setColor(Color.white);
+    // g.drawString(map[x][y].getRegionGroup() + "",
+    // x * (Config.B2PIX * getNodeSizeInMeter()) + 32,
+    // y * (Config.B2PIX * getNodeSizeInMeter()) + 32);
+    // // g.setColor(Color.green);
+    // // g.fillOval(map[x][y].getCornerInMeter(CornerType.TOP_LEFT).x * (Config.B2PIX * 2),
+    // // map[x][y].getCornerInMeter(CornerType.TOP_LEFT).y * (Config.B2PIX * 2), 4, 4);
+    // // g.setColor(Color.blue);
+    // // g.fillOval(map[x][y].getCornerInMeter(CornerType.TOP_RIGHT).x * (Config.B2PIX * 2),
+    // // map[x][y].getCornerInMeter(CornerType.TOP_RIGHT).y * (Config.B2PIX * 2), 4, 4);
+    // // g.setColor(Color.magenta);
+    // // g.fillOval(map[x][y].getCornerInMeter(CornerType.BOTTOM_LEFT).x * (Config.B2PIX * 2),
+    // // map[x][y].getCornerInMeter(CornerType.BOTTOM_LEFT).y * (Config.B2PIX * 2), 4, 4);
+    // // g.setColor(Color.red);
+    // // g.fillOval(map[x][y].getCornerInMeter(CornerType.BOTTOM_RIGHT).x * (Config.B2PIX * 2),
+    // // map[x][y].getCornerInMeter(CornerType.BOTTOM_RIGHT).y * (Config.B2PIX * 2), 4, 4);
     // }
     // }
   }
 
   /**
-   * Destroys all WALL bodies
+   * Destroys all Obstacles bodies
    */
   public void destroyAllObstacles() {
     obstacles.forEach(o -> WorldHandler.getB2World().destroyBody(o));
-  }
-
-  /**
-   * loads the tiledmap and fixes a line in the tmx file
-   * 
-   * @param tmxFileName
-   * @return TiledMap
-   * @throws Exception
-   */
-  private TiledMap loadTiledMap(String tmxFileName) throws Exception {
-    // Loads the mapFile into a string, adds width/height property to objectLayer, saves the file
-    // again.
-    String ref = new File("res/tiledMap/" + tmxFileName + ".tmx").getAbsolutePath();
-    String loadFileContentForFix = new String(Files.readAllBytes(Paths.get(ref)));
-    loadFileContentForFix =
-        loadFileContentForFix.replaceAll("<objectgroup width=\"1\" height=\"1\"", "<objectgroup");
-    loadFileContentForFix =
-        loadFileContentForFix.replaceAll("<objectgroup", "<objectgroup width=\"1\" height=\"1\"");
-    Path path = Paths.get(ref);
-    try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-      writer.write(loadFileContentForFix);
-    }
-    return new TiledMap(ref);
   }
 
   /**
@@ -177,12 +163,12 @@ public class WorldMap implements RenderableModul {
    * 
    * @param x
    * @param y
-   * @return node or null
+   * @return Object or null
    */
-  private Node returnNodeOrNull(int x, int y) {
-    Node n = null;
+  private Object returnObjectOrNull(int x, int y, Object[][] array) {
+    Object n = null;
     try {
-      n = map[x][y];
+      n = array[x][y];
     } catch (Exception e) {
       // XXX kinda hacky, so that I don't have to check if x,y is in the array
     }
@@ -306,19 +292,19 @@ public class WorldMap implements RenderableModul {
 
           ArrayList<Node> neighbours = new ArrayList<>();
 
-          Node x1 = returnNodeOrNull(current.x - 1, current.y);
+          Node x1 = (Node) returnObjectOrNull(current.x - 1, current.y, map);
           if (x1 != null)
             neighbours.add(x1);
 
-          Node x2 = returnNodeOrNull(current.x + 1, current.y);
+          Node x2 = (Node) returnObjectOrNull(current.x + 1, current.y, map);
           if (x2 != null)
             neighbours.add(x2);
 
-          Node y1 = returnNodeOrNull(current.x, current.y - 1);
+          Node y1 = (Node) returnObjectOrNull(current.x, current.y - 1, map);
           if (y1 != null)
             neighbours.add(y1);
 
-          Node y2 = returnNodeOrNull(current.x, current.y + 1);
+          Node y2 = (Node) returnObjectOrNull(current.x, current.y + 1, map);
           if (y2 != null)
             neighbours.add(y2);
 
@@ -344,19 +330,19 @@ public class WorldMap implements RenderableModul {
 
         ArrayList<Node> neighbours = new ArrayList<>();
 
-        Node x1 = returnNodeOrNull(x - 1, y);
+        Node x1 = (Node) returnObjectOrNull(x - 1, y, map);
         if (x1 != null)
           neighbours.add(x1);
 
-        Node x2 = returnNodeOrNull(x + 1, y);
+        Node x2 = (Node) returnObjectOrNull(x + 1, y, map);
         if (x2 != null)
           neighbours.add(x2);
 
-        Node y1 = returnNodeOrNull(x, y - 1);
+        Node y1 = (Node) returnObjectOrNull(x, y - 1, map);
         if (y1 != null)
           neighbours.add(y1);
 
-        Node y2 = returnNodeOrNull(x, y + 1);
+        Node y2 = (Node) returnObjectOrNull(x, y + 1, map);
         if (y2 != null)
           neighbours.add(y2);
 
@@ -371,4 +357,175 @@ public class WorldMap implements RenderableModul {
       }
     }
   }
+
+  /**
+   * Creates rectangles based on Abi´s algorithm
+   * 
+   * @param areas
+   */
+  private void createBoxBodiesForAreas(ArrayList<ArrayList<Node>> areas) {
+    for (int a = 0; a < areas.size(); a++) {
+      ArrayList<Node> currentArea = areas.get(a);
+      currentArea.sort(new Comparables.SortXThenYForNodes());
+
+      ArrayList<NodeContainer> nodes = new ArrayList<>();
+      currentArea.forEach(n -> nodes.add(new NodeContainer(n)));
+
+      NodeContainer[][] test = new NodeContainer[nodes.get(nodes.size() - 1).node.x + 1][1000];
+      nodes.forEach(nc -> test[nc.node.x][nc.node.y] = nc);
+
+      ArrayList<ArrayList<NodeContainer>> rectangles = new ArrayList<>();
+      while (!nodes.stream().filter(nc -> !nc.visited).collect(Collectors.toList()).isEmpty()) {
+        NodeContainer currentStartNode = nodes.stream().filter(nc -> !nc.visited).findFirst().get();
+        ArrayList<NodeContainer> rectangle1 = new ArrayList<>();
+        ArrayList<NodeContainer> rectangle2 = new ArrayList<>();
+
+        rectangle1.add(currentStartNode);
+        rectangle2.add(currentStartNode);
+        int xStartNode = currentStartNode.node.x;
+        int yStartNode = currentStartNode.node.y;
+        boolean isConnectedX1 = true;
+        boolean isConnectedY1 = true;
+        int x1 = xStartNode;
+        int y1 = yStartNode;
+        int size1 = 0;
+        while (isConnectedX1) {
+          NodeContainer cnc = (NodeContainer) returnObjectOrNull(x1, y1, test);
+          if (cnc != null && !cnc.node.isWalkable()) {
+            rectangle1.add(cnc);
+            if (!cnc.visited) {
+              size1++;
+            }
+            y1++;
+          } else {
+            isConnectedX1 = false;
+            y1--;
+          }
+        }
+        boolean breakOut1 = false;
+        while (isConnectedY1) {
+          NodeContainer cnc = (NodeContainer) returnObjectOrNull(x1, y1, test);
+          if (cnc != null && !cnc.node.isWalkable()) {
+            ArrayList<NodeContainer> tempUpNodes = new ArrayList<>();
+            for (int i = y1; i >= yStartNode; i--) {
+              NodeContainer cncUp = (NodeContainer) returnObjectOrNull(x1, i, test);
+              if (cncUp == null) {
+                breakOut1 = true;
+                break;
+              } else {
+                tempUpNodes.add(cncUp);
+              }
+            }
+            if (breakOut1) {
+              break;
+            } else {
+              rectangle1.addAll(tempUpNodes);
+            }
+            rectangle1.add(cnc);
+            if (!cnc.visited) {
+              size1++;
+            }
+            x1++;
+          } else {
+            isConnectedY1 = false;
+          }
+        }
+
+        boolean isConnectedX2 = true;
+        boolean isConnectedY2 = true;
+        int x2 = xStartNode;
+        int y2 = yStartNode;
+        int size2 = 0;
+        while (isConnectedX2) {
+          NodeContainer cnc = (NodeContainer) returnObjectOrNull(x2, y2, test);
+          if (cnc != null && !cnc.node.isWalkable()) {
+            rectangle2.add(cnc);
+            if (!cnc.visited) {
+              size2++;
+            }
+            x2++;
+          } else {
+            isConnectedX2 = false;
+            x2--;
+          }
+        }
+        boolean breakOut2 = false;
+        while (isConnectedY2) {
+          NodeContainer cnc = (NodeContainer) returnObjectOrNull(x2, y2, test);
+          if (cnc != null && !cnc.node.isWalkable()) {
+            ArrayList<NodeContainer> tempLeftNodes = new ArrayList<>();
+            for (int i = x2; i >= xStartNode; i--) {
+              NodeContainer cncLeft = (NodeContainer) returnObjectOrNull(i, y2, test);
+              if (cncLeft == null) {
+                breakOut2 = true;
+                break;
+              } else {
+                tempLeftNodes.add(cncLeft);
+              }
+            }
+            if (breakOut2) {
+              break;
+            } else {
+              rectangle2.addAll(tempLeftNodes);
+            }
+            rectangle2.add(cnc);
+            if (!cnc.visited) {
+              size2++;
+            }
+            y2++;
+          } else {
+            isConnectedY2 = false;
+          }
+        }
+
+        if (size1 > size2) {
+          rectangle1.forEach(nc -> nc.setVisited(true));
+          rectangles.add(rectangle1);
+        } else {
+          rectangle2.forEach(nc -> nc.setVisited(true));
+          rectangles.add(rectangle2);
+        }
+      }
+      
+      // Create for all rectangle the bodies
+      rectangles.stream().forEach(r -> {
+        NodeContainer firstNC = r.get(0);
+        NodeContainer lastNC = r.get(r.size() - 1);
+
+        float width = (lastNC.node.getCornerInMeter(CornerType.BOTTOM_RIGHT).x - firstNC.node.x);
+        float height = (lastNC.node.getCornerInMeter(CornerType.BOTTOM_RIGHT).y - firstNC.node.y);
+
+
+        BodyDef bodyDef2 = new BodyDef();
+        bodyDef2.type = BodyType.StaticBody;
+
+        Body body2 = WorldHandler.getB2World().createBody(bodyDef2);
+
+        PolygonShape shape2 = new PolygonShape();
+        shape2.setAsBox((width * getNodeSizeInMeter()) / 2, (height * getNodeSizeInMeter()) / 2,
+            firstNC.node.getCornerInMeter(CornerType.TOP_LEFT).cpy().add(width / 2, height / 2)
+                .scl(getNodeSizeInMeter()),
+            0);
+        obstacles.add(body2);
+        body2.createFixture(shape2, 1f);
+
+      });
+    //  System.out.println("Bodies: " + WorldHandler.getB2World().getBodyCount());
+    }
+  }
+
+  public class NodeContainer {
+    private final Node node;
+    private boolean visited = false;
+
+    public NodeContainer(Node n) {
+      node = n;
+    }
+
+    public void setVisited(boolean visited) {
+      this.visited = visited;
+    }
+  }
 }
+
+

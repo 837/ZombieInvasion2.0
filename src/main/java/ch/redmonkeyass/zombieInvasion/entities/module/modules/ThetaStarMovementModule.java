@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -92,9 +91,6 @@ public class ThetaStarMovementModule extends Module implements UpdatableModul {
                       if (path != null) {
                         pathToEnd = new ArrayList<>(path);
                       }
-
-                      LogManager.getLogger("zombie")
-                          .trace("Entity: " + getEntityID() + " moveToPos: " + node.toString());
                     });
                   });
                 });

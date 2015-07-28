@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="64" tileheight="64" nextobjectid="17">
+ <tileset firstgid="1" name="64pxTileSet" tilewidth="64" tileheight="64">
+  <image source="../64pxTileSet.png" width="1472" height="128"/>
+ </tileset>
+ <layer name="background" width="12" height="12">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC5NgYGCQoBCLIWFS1BJSj66GGPX4+KTYNdjVYgtLUvVTAwMAUden5kACAAA=
+  </data>
+ </layer>
+ <layer name="dynamic" width="12" height="12">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjgHwAAPMY7ENAAgAA
+  </data>
+ </layer>
+ <layer name="walls" width="12" height="12">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NmIB4wk6B2FAxNQEocg9QCAFZP30FAAgAA
+  </data>
+ </layer>
+</map>

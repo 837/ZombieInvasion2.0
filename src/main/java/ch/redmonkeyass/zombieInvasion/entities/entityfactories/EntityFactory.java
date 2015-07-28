@@ -16,7 +16,6 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugRendererGameModule;
@@ -52,8 +51,7 @@ public class EntityFactory {
     String id = "ADOLF";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 10, 10) , new LightEmitter(id)
-    );
+        new MovementModule(id, 10, 10), new LightEmitter(id));
 
     // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
 
@@ -67,7 +65,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(11.5f, 11.5f);
+      bodyDef.position.set(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos());
 
       // Create our body in the WorldHandler using our body definition
       Body body = WorldHandler.getB2World().createBody(bodyDef);
@@ -116,7 +114,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(12.5f, 12.5f);
+      bodyDef.position.set(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos());
 
       // Create our body in the WorldHandler using our body definition
       Body body = WorldHandler.getB2World().createBody(bodyDef);
@@ -146,7 +144,7 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.HANS));
 
-    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
@@ -174,7 +172,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(13.5f, 13.5f);
+      bodyDef.position.set(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos());
 
       // Create our body in the WorldHandler using our body definition
       Body body = WorldHandler.getB2World().createBody(bodyDef);
@@ -203,7 +201,7 @@ public class EntityFactory {
 
     WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.GERHART));
 
-    WorldHandler.getModuleHandler().addModules(new ThetaStarMovementModule(id));
+    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
@@ -231,7 +229,7 @@ public class EntityFactory {
       // StaticBody
       bodyDef.type = BodyType.DynamicBody;
       // Set our body's starting position in object space (meters)
-      bodyDef.position.set(12.5f, 12.5f);
+      bodyDef.position.set(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos());
 
       // Create our body in the WorldHandler using our body definition
       Body body = WorldHandler.getB2World().createBody(bodyDef);
@@ -288,10 +286,5 @@ public class EntityFactory {
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
-  }
-
-  private static void addFriction(Body b) {
-    // FrictionJointDef fj = new FrictionJointDef();
-    // fj.
   }
 }

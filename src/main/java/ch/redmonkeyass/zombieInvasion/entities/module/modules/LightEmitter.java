@@ -30,8 +30,9 @@ import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
 
 /**
- * A point-light (shines in all directions) serves as baseclass to all light sources <p> Created by
- * P on 18.06.2015.
+ * A point-light (shines in all directions) serves as baseclass to all light sources
+ * <p>
+ * Created by P on 18.06.2015.
  */
 public class LightEmitter extends Module implements UpdatableModul, RenderableModul {
   World b2World = WorldHandler.getB2World();
@@ -42,7 +43,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   Vector2 lastValidPos;
   Fixture mFixture;
 
-  //limits range of the light
+  // limits range of the light
   private float lightCircleRadiusPix = 300;
   private float lightCircleRadiusM = lightCircleRadiusPix * Config.PIX2B;
 
@@ -70,7 +71,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     } catch (NoSuchElementException e) {
       LogManager.getLogger("es").error("couldn't get data: " + e);
     }
-    //visibility polygon has changed or hasn't been created yet, do calculation
+    // visibility polygon has changed or hasn't been created yet, do calculation
     visibilityPolygon.clear();
     vertices.clear();
     vertices.ensureCapacity(b2World.getBodyCount() * 5);
@@ -90,12 +91,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     final float c = lightCircleRadiusM;
 
     BodiesInRangeCB cb = new BodiesInRangeCB();
-    b2World.QueryAABB(cb,
-        mPosition.x - c,
-        mPosition.y - c,
-        mPosition.x + c,
-        mPosition.y + c
-    );
+    b2World.QueryAABB(cb, mPosition.x - c, mPosition.y - c, mPosition.x + c, mPosition.y + c);
 
 
     cb.bodiesInRange.remove(mFixture.getBody());
@@ -118,17 +114,17 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
               e.getVertex1(tmp1);
               Vector2 worldpoint1 = b.getWorldPoint(tmp1).cpy();
               vertices.add(worldpoint1.cpy());
-              vertices.add(createVectorRotatedAroundCenter(0.000001f, worldpoint1).cpy().sub(mPosition).scl(maxDistVisibleOnScreen)
-                  .add(mPosition));
-              vertices.add(createVectorRotatedAroundCenter(-0.000001f, worldpoint1).cpy().sub(mPosition)
-                  .scl(maxDistVisibleOnScreen).add(mPosition));
+              vertices.add(createVectorRotatedAroundCenter(0.000001f, worldpoint1).cpy()
+                  .sub(mPosition).scl(maxDistVisibleOnScreen).add(mPosition));
+              vertices.add(createVectorRotatedAroundCenter(-0.000001f, worldpoint1).cpy()
+                  .sub(mPosition).scl(maxDistVisibleOnScreen).add(mPosition));
               e.getVertex2(tmp1);
               worldpoint1 = b.getWorldPoint(tmp1).cpy();
               vertices.add(worldpoint1.cpy());
-              vertices.add(createVectorRotatedAroundCenter(0.000001f, worldpoint1).cpy().sub(mPosition).scl(maxDistVisibleOnScreen)
-                  .add(mPosition));
-              vertices.add(createVectorRotatedAroundCenter(-0.000001f, worldpoint1).cpy().sub(mPosition)
-                  .scl(maxDistVisibleOnScreen).add(mPosition));
+              vertices.add(createVectorRotatedAroundCenter(0.000001f, worldpoint1).cpy()
+                  .sub(mPosition).scl(maxDistVisibleOnScreen).add(mPosition));
+              vertices.add(createVectorRotatedAroundCenter(-0.000001f, worldpoint1).cpy()
+                  .sub(mPosition).scl(maxDistVisibleOnScreen).add(mPosition));
 
               break;
             case Polygon:
@@ -139,10 +135,10 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
                 p.getVertex(i, vertice);
                 worldpoint = b.getWorldPoint(vertice).cpy();
                 vertices.add(worldpoint.cpy());
-                vertices.add(createVectorRotatedAroundCenter(0.000001f, worldpoint).cpy().sub(mPosition).scl(maxDistVisibleOnScreen)
-                    .add(mPosition));
-                vertices.add(createVectorRotatedAroundCenter(-0.000001f, worldpoint).cpy().sub(mPosition)
-                    .scl(maxDistVisibleOnScreen).add(mPosition));
+                vertices.add(createVectorRotatedAroundCenter(0.000001f, worldpoint).cpy()
+                    .sub(mPosition).scl(maxDistVisibleOnScreen).add(mPosition));
+                vertices.add(createVectorRotatedAroundCenter(-0.000001f, worldpoint).cpy()
+                    .sub(mPosition).scl(maxDistVisibleOnScreen).add(mPosition));
               }
               break;
             case Chain:
@@ -158,19 +154,17 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
       if (b.hasIntersection) {
         visibilityPolygon.add(b.closestIntersectionPoint.cpy());
       } else {
-        //visibilityPolygon.add(v);
+        // visibilityPolygon.add(v);
       }
     });
   }
 
   private void sortVisibilityPolygonByAngleFromBodysPerspective() {
-    //sort by angle from the emitting body
+    // sort by angle from the emitting body
     // uses this formula to account for 360 degree view: (x > 0 ? x : (2*PI + x))
-    visibilityPolygon.sort((v0, v1) -> Double.compare(
-        Math.atan2(v1.y - mPosition.y,
-            v1.x - mPosition.x),
-        Math.atan2(v0.y - mPosition.y,
-            v0.x - mPosition.x)));
+    visibilityPolygon
+        .sort((v0, v1) -> Double.compare(Math.atan2(v1.y - mPosition.y, v1.x - mPosition.x),
+            Math.atan2(v0.y - mPosition.y, v0.x - mPosition.x)));
   }
 
   private Vector2 createVectorRotatedAroundCenter(float offsetinRadians, Vector2 point) {
@@ -184,24 +178,24 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
   }
 
   /*
- * for debugging
- */
+   * for debugging
+   */
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     Color colorBefore = g.getColor();
-    /*add the bottom left/right to the intersectionpoints
-    visibilityPolygon
-        .add(new Vector2(ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_X(),
-                ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_Y()));
-    visibilityPolygon
-        .add(new Vector2(0, ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_Y()));
-  */
-    //debugDrawNotVisibleArea(g);
+    /*
+     * add the bottom left/right to the intersectionpoints visibilityPolygon .add(new
+     * Vector2(ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_X(),
+     * ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_Y()));
+     * visibilityPolygon .add(new Vector2(0,
+     * ch.redmonkeyass.zombieInvasion.WorldHandler.getCamera().getViewport_size_Y()));
+     */
+    // debugDrawNotVisibleArea(g);
     debugDrawVisibilityLines(g, Color.blue);
 
 
-//    prepareVisibilityPolygonForLights(g);
-//    testLight(g);
+    // prepareVisibilityPolygonForLights(g);
+    // testLight(g);
 
     g.setColor(colorBefore);
     g.setDrawMode(Graphics.MODE_NORMAL);
@@ -220,7 +214,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     g.setDrawMode(Graphics.MODE_ALPHA_MAP);
     g.setColor(new Color(0, 0, 0, 0));
 
-    //ensure length from center of light to point is at max getLightCircleRadiusM
+    // ensure length from center of light to point is at max getLightCircleRadiusM
     for (int i = 0; i < visibilityPolygon.size(); i++) {
       float distFromCenter2 = visibilityPolygon.get(i).cpy().sub(mPosition).len2();
       if (distFromCenter2 > lightCircleRadiusM * lightCircleRadiusM) {
@@ -230,14 +224,18 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
     for (int i = 0; i < visibilityPolygon.size() - 1; i++) {
       Polygon p = new Polygon();
-      p.addPoint(visibilityPolygon.get(i).x * Config.B2PIX, visibilityPolygon.get(i).y * Config.B2PIX);
-      p.addPoint(visibilityPolygon.get(i + 1).x * Config.B2PIX, visibilityPolygon.get(i + 1).y * Config.B2PIX);
+      p.addPoint(visibilityPolygon.get(i).x * Config.B2PIX,
+          visibilityPolygon.get(i).y * Config.B2PIX);
+      p.addPoint(visibilityPolygon.get(i + 1).x * Config.B2PIX,
+          visibilityPolygon.get(i + 1).y * Config.B2PIX);
       p.addPoint(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX);
       g.fill(p);
     }
     Polygon p = new Polygon();
-    p.addPoint(visibilityPolygon.get(0).x * Config.B2PIX, visibilityPolygon.get(0).y * Config.B2PIX);
-    p.addPoint(visibilityPolygon.get(visibilityPolygon.size() - 1).x * Config.B2PIX, visibilityPolygon.get(visibilityPolygon.size() - 1).y * Config.B2PIX);
+    p.addPoint(visibilityPolygon.get(0).x * Config.B2PIX,
+        visibilityPolygon.get(0).y * Config.B2PIX);
+    p.addPoint(visibilityPolygon.get(visibilityPolygon.size() - 1).x * Config.B2PIX,
+        visibilityPolygon.get(visibilityPolygon.size() - 1).y * Config.B2PIX);
     p.addPoint(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX);
     g.fill(p);
 
@@ -254,37 +252,37 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
           final float lightY = posOnScreen.y;
 
           /*
-          to make a light bright use a low alpha value as inner color and a high aplpha end value
+           * to make a light bright use a low alpha value as inner color and a high aplpha end value
            */
           float[] innerColor = {0, 0, 0, .2f};
           float[] outerColor = {1, 1, 1, 1f};
 
-          //multiply alpha with values of other lights
+          // multiply alpha with values of other lights
           g.setDrawMode(Graphics.MODE_ADD);
-          //lock color channels, only alpha shall be multiplied
+          // lock color channels, only alpha shall be multiplied
           GL11.glColorMask(false, false, false, true);
-          //draw a circle (made up of 64 triangles) with gradient from inner to outer color
+          // draw a circle (made up of 64 triangles) with gradient from inner to outer color
           radialGradientCircle(lightX, lightY, innerColor, outerColor, 64, lightCircleRadiusPix);
           GL11.glColorMask(true, true, true, true);
 
           g.setDrawMode(Graphics.MODE_NORMAL);
 
           /*
-          after ALL alpha circles have been drawn
-          the screen has to be filled black like with the following options enabled:
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
+           * after ALL alpha circles have been drawn the screen has to be filled black like with the
+           * following options enabled: GL11.glEnable(GL11.GL_BLEND);
+           * GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
            */
         });
   }
 
-  private void radialGradientCircle(float posX, float posY, float[] innerColor, float[] outerColor, int slices, float radius) {
+  private void radialGradientCircle(float posX, float posY, float[] innerColor, float[] outerColor,
+      int slices, float radius) {
     float incr = (float) (2 * Math.PI / slices);
 
     GL11.glBegin(GL11.GL_TRIANGLE_FAN);
     {
       GL11.glColor4f(innerColor[0], innerColor[1], innerColor[2], innerColor[3]);
-      //start position - hub
+      // start position - hub
       GL11.glVertex2f(posX, posY);
 
       GL11.glColor4f(outerColor[0], outerColor[1], outerColor[2], outerColor[3]);
@@ -294,10 +292,10 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
         float x = (float) Math.cos(angle) * radius;
         float y = (float) Math.sin(angle) * radius;
 
-        //vertices in counter clock wise order
+        // vertices in counter clock wise order
         GL11.glVertex2f(x + posX, y + posY);
       }
-      //closing vertice
+      // closing vertice
       GL11.glVertex2f(radius + posX, posY);
     }
     GL11.glEnd();
@@ -312,7 +310,8 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
     Color previousColor = g.getColor();
     g.setColor(color);
     for (Vector2 p : visibilityPolygon) {
-      g.drawLine(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX, p.x * Config.B2PIX, p.y * Config.B2PIX);
+      g.drawLine(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX, p.x * Config.B2PIX,
+          p.y * Config.B2PIX);
     }
     g.setColor(previousColor);
   }
@@ -326,15 +325,19 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
     for (int i = 0; i < visibilityPolygon.size() - 1; i++) {
       Polygon p = new Polygon();
-      p.addPoint(visibilityPolygon.get(i).x * Config.B2PIX, visibilityPolygon.get(i).y * Config.B2PIX);
-      p.addPoint(visibilityPolygon.get(i + 1).x * Config.B2PIX, visibilityPolygon.get(i + 1).y * Config.B2PIX);
+      p.addPoint(visibilityPolygon.get(i).x * Config.B2PIX,
+          visibilityPolygon.get(i).y * Config.B2PIX);
+      p.addPoint(visibilityPolygon.get(i + 1).x * Config.B2PIX,
+          visibilityPolygon.get(i + 1).y * Config.B2PIX);
       p.addPoint(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX);
 
       g.fill(p);
     }
     Polygon p = new Polygon();
-    p.addPoint(visibilityPolygon.get(0).x * Config.B2PIX, visibilityPolygon.get(0).y * Config.B2PIX);
-    p.addPoint(visibilityPolygon.get(visibilityPolygon.size() - 1).x * Config.B2PIX, visibilityPolygon.get(visibilityPolygon.size() - 1).y * Config.B2PIX);
+    p.addPoint(visibilityPolygon.get(0).x * Config.B2PIX,
+        visibilityPolygon.get(0).y * Config.B2PIX);
+    p.addPoint(visibilityPolygon.get(visibilityPolygon.size() - 1).x * Config.B2PIX,
+        visibilityPolygon.get(visibilityPolygon.size() - 1).y * Config.B2PIX);
     p.addPoint(mPosition.x * Config.B2PIX, mPosition.y * Config.B2PIX);
     g.fill(p);
 
@@ -348,7 +351,7 @@ public class LightEmitter extends Module implements UpdatableModul, RenderableMo
 
     @Override
     public float reportRayFixture(Fixture fixture, Vector2 intersectionPoint, Vector2 normal,
-                                  float fraction) {
+        float fraction) {
       /*
        * if fixture == the fixture of this entity then ignore the intersection (return -1) else
        * return the length of the ray (v) => the very last callback will contain the closest fixture

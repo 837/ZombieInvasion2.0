@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -41,7 +40,7 @@ public class AStarMovementModule extends Module implements UpdatableModul {
     super(entityID);
     // Creating custom GridFinderOptions. For standard options, hover "GridFinderOptions()".
     GridFinderOptions opt = new GridFinderOptions();
-    opt.allowDiagonal = false;
+    opt.allowDiagonal = true;
     opt.dontCrossCorners = true;
     // opt.heuristic = new EuclideanDistance();
 
@@ -88,10 +87,10 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                       // happens... can't explain it...
                       if (path != null) {
                         pathToEnd = new ArrayList<>(path);
+                      } else {
+                        pathToEnd = new ArrayList<>();
+                        pathToEnd.add(goalPos);
                       }
-
-                      LogManager.getLogger("zombie")
-                          .trace("Entity: " + getEntityID() + " moveToPos: " + node.toString());
                     });
                   });
                 });

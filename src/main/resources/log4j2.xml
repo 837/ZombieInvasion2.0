@@ -9,7 +9,10 @@
     <Logger name="ch.m837.zombieInvasion.gameStates.Game" level="trace" additivity="false">
         <AppenderRef ref="Console"/>
     </Logger>
-      <Logger name="ch.redmonkeyass.zombieInvasion.worldmap.WorldMap" level="trace" additivity="false">
+    <Logger name="ch.redmonkeyass.zombieInvasion.worldmap.WorldMap" level="trace" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger> 
+     <Logger name="ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.WorldMapLoader" level="trace" additivity="false">
         <AppenderRef ref="Console"/>
     </Logger>
     <Logger name="zombie" level="trace" additivity="false">

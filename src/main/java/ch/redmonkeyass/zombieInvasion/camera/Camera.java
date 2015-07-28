@@ -66,6 +66,8 @@ public class Camera {
   public void setMapData(float f, float g) {
     offsetMaxX = f * Config.B2PIX - viewport_size_X / 2;
     offsetMaxY = g * Config.B2PIX - viewport_size_Y / 2;
+    move(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos().cpy().scl(Config.B2PIX)
+        .sub(viewport_size_X / 2, viewport_size_Y / 2));
   }
 
   private float keepWithinBoundaries(float lowerBound, float upperBound, float number) {
