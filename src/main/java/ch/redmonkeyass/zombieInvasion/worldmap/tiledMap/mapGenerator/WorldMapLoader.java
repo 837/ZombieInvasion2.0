@@ -249,6 +249,7 @@ public class WorldMapLoader {
       if (currentRoom.getName().endsWith(".tmx")) {
         rooms.add(new RoomDescription(loadTiledMap("/rooms/" + currentRoom.getName()),
             currentRoom.getName()));
+        logger.trace("Added room: " + currentRoom.getName());
       }
     }
     return rooms;
