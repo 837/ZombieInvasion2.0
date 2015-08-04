@@ -10,7 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityFactory;
+import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityBuilder;
 import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
@@ -46,13 +46,19 @@ public class Game extends BasicGameState {
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-    EntityFactory.createEntity(EntityType.MOUSE);
-    EntityFactory.createEntity(EntityType.GAME);
+    new EntityBuilder(EntityType.MOUSE).createEntity();
+    new EntityBuilder(EntityType.GAME).createEntity();
 
+    new EntityBuilder(EntityType.ADOLF)
+        .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+        .createEntity();
+    new EntityBuilder(EntityType.HANS)
+        .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+        .createEntity();
+    new EntityBuilder(EntityType.GERHART)
+        .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+        .createEntity();
 
-    EntityFactory.createEntity(EntityType.ADOLF);
-    EntityFactory.createEntity(EntityType.HANS);
-    EntityFactory.createEntity(EntityType.GERHART);
 
 
     inputHandler = new InputHandler(gc);
@@ -65,13 +71,13 @@ public class Game extends BasicGameState {
   @Override
   public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
-       g.translate(-WorldHandler.getCamera().getPosition().x,
+    g.translate(-WorldHandler.getCamera().getPosition().x,
         -WorldHandler.getCamera().getPosition().y);
 
 
     // WorldMap
     WorldHandler.getWorldMap().RENDER(gc, sbg, g);
- 
+
     // XXX TEST START
     WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
@@ -112,7 +118,7 @@ public class Game extends BasicGameState {
     WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-     // XXX TEST END
+    // XXX TEST END
   }
 
 
@@ -137,9 +143,9 @@ public class Game extends BasicGameState {
       {
             switch (e.getEvent()) {
               case G_PRESSED:
-                for (int i = 0; i < 10; i++) {
-                  EntityFactory.createEntity(EntityType.ZOMBIE);
-                }
+                          new EntityBuilder(EntityType.ZOMBIE).numOfEntitiesToSpawn(100)
+                    .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+                    .createEntity();
                 logger.trace("Spawned 10 new Entities");
                 break;
               case K_PRESSED:

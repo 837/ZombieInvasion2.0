@@ -1,19 +1,11 @@
 package ch.redmonkeyass.zombieInvasion.entities.entityfactories;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
@@ -24,241 +16,107 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSel
 import ch.redmonkeyass.zombieInvasion.util.Images;
 
 public class EntityFactory {
-  static public void createEntity(EntityType entityType) {
-    switch (entityType) {
-      case ADOLF:
-        createAdolf(entityType);
-        break;
-      case HANS:
-        createHans(entityType);
-        break;
-      case GERHART:
-        createGerhart(entityType);
-        break;
-      case ZOMBIE:
-        createZombie(entityType);
-        break;
-      case MOUSE:
-        createMouseEntity(entityType);
-        break;
-      case GAME:
-        createGameEntity(entityType);
-        break;
+
+
+
+  static public void createEntity(EntityBuilder entityBuilder) {
+    for (int i = 0; i < entityBuilder.getNumOfEntitiesToSpawn(); i++) {
+      switch (entityBuilder.getEntityType()) {
+        case ADOLF:
+          createAdolf(entityBuilder);
+          break;
+        case HANS:
+          createHans(entityBuilder);
+          break;
+        case GERHART:
+          createGerhart(entityBuilder);
+          break;
+        case ZOMBIE:
+          createZombie(entityBuilder);
+          break;
+        case MOUSE:
+          createMouseEntity(entityBuilder);
+          break;
+        case GAME:
+          createGameEntity(entityBuilder);
+          break;
+      }
     }
   }
 
-  private static void createAdolf(EntityType entityType) {
+
+
+  private static void createAdolf(EntityBuilder entityBuilder) {
     String id = "ADOLF";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
+
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 10, 10), new LightEmitter(id));
+        new MovementModule(id, 10, 10), new AStarMovementModule(id),
+        new SimpleImageRenderModule(id, Images.ADOLF),
+        EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
-    // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
-
-    /*
-     * Add Physics for testentity
-     */
-    {
-      // First we create a body definition
-      BodyDef bodyDef = new BodyDef();
-      // We set our body to dynamic, for something like ground which doesn't move we would set it to
-      // StaticBody
-      bodyDef.type = BodyType.DynamicBody;
-      // Set our body's starting position in object space (meters)
-      bodyDef.position.set(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos());
-
-      // Create our body in the WorldHandler using our body definition
-      Body body = WorldHandler.getB2World().createBody(bodyDef);
-
-      PolygonShape shape = new PolygonShape();
-      shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
-
-      FixtureDef fixtureDef = new FixtureDef();
-      // Create a fixture definition to apply our shape to
-      fixtureDef.shape = shape;
-      fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.0f;
-      fixtureDef.restitution = 0.0f;
+    entityBuilder.getAdditionalModules()
+        .forEach(m -> WorldHandler.getModuleHandler().addModules(m));
 
 
-      // Create our fixture and attach it to the body
-      body.createFixture(fixtureDef);
+    // DebugModules
+    WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
 
-      // Remember to dispose of any shapes after you're done with them!
-      // BodyDef and FixtureDef don't need disposing, but shapes do.
-      // shape.dispose();
-      WorldHandler.getModuleHandler()
-          .addModules(new PhysicsModule(id, body, EntityType.ADOLF.getWidth()));
-    }
-
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id),
-        new SimpleImageRenderModule(id, Images.ADOLF), new DebugRendererModule(id),
-        new EventListenerModule(id), new MovementModule(id, 10, 10));
-
+    // EventModule
+    WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
-  private static void createHans(EntityType entityType) {
+  private static void createHans(EntityBuilder entityBuilder) {
     String id = "HANS";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
+
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 10, 10));
+        new MovementModule(id, 10, 10), new AStarMovementModule(id),
+        new SimpleImageRenderModule(id, Images.HANS),
+        EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
-    // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
-    /*
-     * Add Physics for testentity
-     */
-    {
-      // First we create a body definition
-      BodyDef bodyDef = new BodyDef();
-      // We set our body to dynamic, for something like ground which doesn't move we would set it to
-      // StaticBody
-      bodyDef.type = BodyType.DynamicBody;
-      // Set our body's starting position in object space (meters)
-      bodyDef.position.set(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos());
+    entityBuilder.getAdditionalModules()
+        .forEach(m -> WorldHandler.getModuleHandler().addModules(m));
 
-      // Create our body in the WorldHandler using our body definition
-      Body body = WorldHandler.getB2World().createBody(bodyDef);
-
-
-      PolygonShape shape = new PolygonShape();
-      shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
-
-      FixtureDef fixtureDef = new FixtureDef();
-      // Create a fixture definition to apply our shape to
-      fixtureDef.shape = shape;
-      fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.0f;
-      fixtureDef.restitution = 0.0f;
-
-
-      // Create our fixture and attach it to the body
-      body.createFixture(fixtureDef);
-
-      // Remember to dispose of any shapes after you're done with them!
-      // BodyDef and FixtureDef don't need disposing, but shapes do.
-      // shape.dispose();
-
-      WorldHandler.getModuleHandler()
-          .addModules(new PhysicsModule(id, body, EntityType.HANS.getWidth()));
-    }
-
-    WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.HANS));
-
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
-    WorldHandler.getModuleHandler().addModules(new MovementModule(id, 10, 10));
   }
 
-  private static void createGerhart(EntityType entityType) {
+  private static void createGerhart(EntityBuilder entityBuilder) {
     String id = "GERHART";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
+
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 10, 10));
+        new MovementModule(id, 10, 10), new AStarMovementModule(id),
+        new SimpleImageRenderModule(id, Images.GERHART),
+        EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
-
-    // WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id));
-    /*
-     * Add Physics for testentity
-     */
-    {
-      // First we create a body definition
-      BodyDef bodyDef = new BodyDef();
-      // We set our body to dynamic, for something like ground which doesn't move we would set it to
-      // StaticBody
-      bodyDef.type = BodyType.DynamicBody;
-      // Set our body's starting position in object space (meters)
-      bodyDef.position.set(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos());
-
-      // Create our body in the WorldHandler using our body definition
-      Body body = WorldHandler.getB2World().createBody(bodyDef);
-
-      PolygonShape shape = new PolygonShape();
-      shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
-
-      FixtureDef fixtureDef = new FixtureDef();
-      // Create a fixture definition to apply our shape to
-      fixtureDef.shape = shape;
-      fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.0f;
-      fixtureDef.restitution = 0.0f;
-
-
-      // Create our fixture and attach it to the body
-      body.createFixture(fixtureDef);
-
-      // Remember to dispose of any shapes after you're done with them!
-      // BodyDef and FixtureDef don't need disposing, but shapes do.
-      // shape.dispose();
-
-      WorldHandler.getModuleHandler()
-          .addModules(new PhysicsModule(id, body, EntityType.GERHART.getWidth()));
-    }
-
-    WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.GERHART));
-
-    WorldHandler.getModuleHandler().addModules(new AStarMovementModule(id));
+    entityBuilder.getAdditionalModules()
+        .forEach(m -> WorldHandler.getModuleHandler().addModules(m));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
-    WorldHandler.getModuleHandler().addModules(new MovementModule(id, 10, 10));
-
   }
 
-  private static void createZombie(EntityType entityType) {
+  private static void createZombie(EntityBuilder entityBuilder) {
     String id = "ZOMBIE" + WorldHandler.getEntityHandler().getAllEntities().size() + 1;
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
-    WorldHandler.getModuleHandler().addModules(new SelectionModule(id));
+
     WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id),
-        new MovementModule(id, 10, 10));
+        new MovementModule(id, 3, 3), new SelectionModule(id),
+        new SimpleImageRenderModule(id, Images.ZOMBIE),
+        EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
-    /*
-     * Add Physics for testentity
-     */
-    {
-      // First we create a body definition
-      BodyDef bodyDef = new BodyDef();
-      // We set our body to dynamic, for something like ground which doesn't move we would set it to
-      // StaticBody
-      bodyDef.type = BodyType.DynamicBody;
-      // Set our body's starting position in object space (meters)
-      bodyDef.position.set(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos());
+    entityBuilder.getAdditionalModules()
+        .forEach(m -> WorldHandler.getModuleHandler().addModules(m));
 
-      // Create our body in the WorldHandler using our body definition
-      Body body = WorldHandler.getB2World().createBody(bodyDef);
-
-      PolygonShape shape = new PolygonShape();
-      shape.setAsBox(entityType.getWidth() / 2, entityType.getHeight() / 2);
-
-      FixtureDef fixtureDef = new FixtureDef();
-      // Create a fixture definition to apply our shape to
-      fixtureDef.shape = shape;
-      fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.0f;
-      fixtureDef.restitution = 0.0f;
-
-
-      // Create our fixture and attach it to the body
-      body.createFixture(fixtureDef);
-
-      // Remember to dispose of any shapes after you're done with them!
-      // BodyDef and FixtureDef don't need disposing, but shapes do.
-      // shape.dispose();
-
-      WorldHandler.getModuleHandler()
-          .addModules(new PhysicsModule(id, body, EntityType.ZOMBIE.getWidth()));
-    }
-
-    WorldHandler.getModuleHandler().addModules(new SimpleImageRenderModule(id, Images.ZOMBIE));
-
-    // WorldHandler.getModuleHandler().addModules(new MovementModule(id));
 
     // DebugModules
     WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
@@ -267,22 +125,28 @@ public class EntityFactory {
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
-  private static void createMouseEntity(EntityType entityType) {
+  private static void createMouseEntity(EntityBuilder entityBuilder) {
     String id = "MOUSE";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
     WorldHandler.getModuleHandler().addModules(new MouseSelectionModule(id),
         new MouseTileSelectionModule(id));
 
+    entityBuilder.getAdditionalModules()
+        .forEach(m -> WorldHandler.getModuleHandler().addModules(m));
+
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
   }
 
-  private static void createGameEntity(EntityType entityType) {
+  private static void createGameEntity(EntityBuilder entityBuilder) {
     String id = "GAME";
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new DebugConsoleModule(id),
         new DebugRendererGameModule(id));
+
+    entityBuilder.getAdditionalModules()
+        .forEach(m -> WorldHandler.getModuleHandler().addModules(m));
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
