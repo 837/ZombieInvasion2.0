@@ -60,10 +60,10 @@ public class EntityHandler {
    *
    * @return Optional<T> of supplied type
    */
-   public <T> Optional<T> getDataFrom(String fromID, DataType dataType, Class<T> type) {
-   return entities.parallelStream().filter(e -> e.getID().equals(fromID)).findAny()
-   .flatMap(entity1 -> entity1.getData(dataType)).map(type::cast);
-   }
+  public <T> Optional<T> getDataFrom(String fromID, DataType dataType, Class<T> type) {
+    return entities.parallelStream().filter(e -> e.getID().equals(fromID)).findAny()
+        .flatMap(entity1 -> entity1.getData(dataType)).map(type::cast);
+  }
 
   public void UPDATE_ENTITYHANDLER() {
     removeDeadEntities();
