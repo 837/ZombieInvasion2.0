@@ -1,12 +1,12 @@
 package ch.redmonkeyass.zombieInvasion.util;
 
-import ch.redmonkeyass.zombieInvasion.Config;
 import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.GL11;
 
+import ch.redmonkeyass.zombieInvasion.Config;
+
 /**
- * test functionality of GL_Helper
- * Created by P on 28.07.2015.
+ * test functionality of GL_Helper Created by P on 28.07.2015.
  */
 public class ShaderTester {
   int distanceProgram;
@@ -14,7 +14,7 @@ public class ShaderTester {
   int reductionProgram;
   int drawProgram;
   int testProgram;
-  //int shadowCastersFBO = GL_Helper.generateFrameBufferObject(Config.WIDTH,Config.HEIGHT);
+  // int shadowCastersFBO = GL_Helper.generateFrameBufferObject(Config.WIDTH,Config.HEIGHT);
 
   int texture;
   int fbo;
@@ -24,18 +24,19 @@ public class ShaderTester {
   }
 
   private void init() {
-    testProgram = GL_Helper.loadShaderProgram("res/shaderinos/passthrough.vert", "res/shaderinos/testFragger.frag");
-    //distanceProgram = GL_Helper.loadShaderProgram("res/shaderinos/passthrough.vert","res/shaderinos/calcDistances.frag");
+    testProgram = GL_Helper.loadShaderProgram("res/shaderinos/passthrough.vert",
+        "res/shaderinos/testFragger.frag");
+    // distanceProgram =
+    // GL_Helper.loadShaderProgram("res/shaderinos/passthrough.vert","res/shaderinos/calcDistances.frag");
 
     fbo = GL_Helper.generateFrameBufferObject();
     texture = GL_Helper.generateTexture(fbo, Config.WIDTH, Config.HEIGHT);
     GL_Helper.checkFrameBuffer(fbo);
-
   }
 
   public void calculateShadows() {
-    //GL_Helper.renderToFBO(shadowCastersFBO,Config.WIDTH,Config.HEIGHT);
-    //ARBShaderObjects.glUseProgramObjectARB(distanceProgram);
+    // GL_Helper.renderToFBO(shadowCastersFBO,Config.WIDTH,Config.HEIGHT);
+    // ARBShaderObjects.glUseProgramObjectARB(distanceProgram);
 
   }
 
@@ -48,12 +49,17 @@ public class ShaderTester {
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
     GL11.glViewport(0, 0, Config.WIDTH, Config.HEIGHT);
 
+    GL11.glLoadIdentity();
+
     GL11.glBegin(GL11.GL_QUADS);
     GL11.glVertex2f(0, 0);
     GL11.glVertex2f(Config.WIDTH, 0);
     GL11.glVertex2f(Config.WIDTH, Config.HEIGHT);
     GL11.glVertex2f(0, Config.HEIGHT);
     GL11.glEnd();
+
+    // GL11.glDisable(texture);
+    GL11.glFlush();
   }
 
   public void startUsingTestShader() {

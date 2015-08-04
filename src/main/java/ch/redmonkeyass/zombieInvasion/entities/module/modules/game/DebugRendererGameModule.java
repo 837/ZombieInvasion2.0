@@ -49,6 +49,10 @@ public class DebugRendererGameModule extends Module implements RenderableModul {
           g.drawString("SelectedNode has body: [" + (selectedNode.getBody() != null) + "]",
               10 + WorldHandler.getCamera().getPosition().x,
               60 + WorldHandler.getCamera().getPosition().y);
+          g.drawString(
+              "Camera position: [" + WorldHandler.getCamera().getPosition().toString() + "]",
+              10 + WorldHandler.getCamera().getPosition().x,
+              80 + WorldHandler.getCamera().getPosition().y);
         });
   }
 

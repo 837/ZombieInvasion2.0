@@ -34,10 +34,20 @@ public class WorldMapLoader {
     return addedRooms;
   }
 
+  /**
+   * The random generated tiledmap
+   * 
+   * @return finished tiledmap
+   */
   public TiledMap getFinishedMap() {
     return finishedMap;
   }
 
+  /**
+   * Returns the middle of the startzone
+   * 
+   * @return startzonepos
+   */
   public Vector2 getStartRoomPos() {
     Room room = addedRooms.stream()
         .filter(r -> r.getRoomDescription().getName().equals("room0_startzone_10x10.tmx")).findAny()
@@ -58,6 +68,11 @@ public class WorldMapLoader {
 
   private ArrayList<Room> addedRooms = new ArrayList<>();
 
+  /**
+   * Recursive function to generate random map
+   * 
+   * @param doors
+   */
   private void createMap(ArrayList<Door> doors) {
     Door door = getRandomOpenDoor(doors);
     if (door == null || addedRooms.size() > Config.MAX_ROOMS) {
@@ -95,6 +110,12 @@ public class WorldMapLoader {
     createMap(doors);
   }
 
+  /**
+   * Returns a random open door
+   * 
+   * @param doors
+   * @return random door
+   */
   private Door getRandomOpenDoor(ArrayList<Door> doors) {
     List<Door> tmpList =
         doors.stream().filter(d -> d.getDoorstate() == DOORSTATE.Open).collect(Collectors.toList());
@@ -104,6 +125,13 @@ public class WorldMapLoader {
     return tmpList.get(new Random().nextInt(tmpList.size()));
   }
 
+  /**
+   * Returns a random door with opposite dir of doordir
+   * 
+   * @param doordir
+   * @param tmpRoomsForThisDoor
+   * @return random door with opposite dir of doordir
+   */
   private Room getRandomRoomWithDoorOppositeOf(DOORDIR doordir,
       ArrayList<RoomDescription> tmpRoomsForThisDoor) {
 
@@ -120,6 +148,13 @@ public class WorldMapLoader {
     return room;
   }
 
+  /**
+   * Tests if the room toTest overlaps with the second room rSecond
+   * 
+   * @param toTest
+   * @param rSecond
+   * @return if it overlaps
+   */
   private boolean doTheyOverlap(Room toTest, Room rSecond) {
     Rectangle r1 = new Rectangle(toTest.getPosOnMap().x, toTest.getPosOnMap().y,
         toTest.getRoomDescription().getWidth(), toTest.getRoomDescription().getHeight());
@@ -131,6 +166,14 @@ public class WorldMapLoader {
     return r1.overlaps(r2);
   }
 
+  /**
+   * calculates the position the new room should be place in the world.
+   * 
+   * @param rFirst
+   * @param dFirst
+   * @param rSecond
+   * @param dSecond
+   */
   private void calculatePosition(Room rFirst, Door dFirst, Room rSecond, Door dSecond) {
     // System.out.println("RoomFirst: " + rFirst.getRoomDescription().getName());
     // System.out.println("RoomSecond: " + rSecond.getRoomDescription().getName());
@@ -166,6 +209,11 @@ public class WorldMapLoader {
     rSecond.setPosOnMap(new Vector2(rSecondX, rSecondY));
   }
 
+  /**
+   * Creates a random generated tiledmap, based on the room in the res folder
+   * 
+   * @return generated tiledmap
+   */
   private TiledMap generateTiledMap() {
     // FIXME throws error when not found
     RoomDescription startRoomDescription = roomDescriptions.stream()
@@ -238,6 +286,13 @@ public class WorldMapLoader {
     return new TiledMap(ref);
   }
 
+  /**
+   * loads the rooms from the res folder into roomdescriptions
+   * 
+   * @param pathToRooms
+   * @return
+   * @throws Exception
+   */
   private ArrayList<RoomDescription> loadRoomDescription(String pathToRooms) throws Exception {
     File roomFolder = new File(pathToRooms);
     File[] allRooms = roomFolder.listFiles();

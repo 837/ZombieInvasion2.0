@@ -16,23 +16,18 @@ public class EntityHandler {
   }
 
   public void addModuleToEntity(Module module) {
-    entities.parallelStream()
-        .filter(entity -> entity.getID().equals(module.getEntityID()))
-        .findAny()
-        .ifPresent(foundEntity -> foundEntity.addModule(module));
+    entities.parallelStream().filter(entity -> entity.getID().equals(module.getEntityID()))
+        .findAny().ifPresent(foundEntity -> foundEntity.addModule(module));
   }
 
-  public <T> void removeModuleFromEntity(Class<T> concreteModuleClazz,String entityID){
-    entities.parallelStream()
-        .filter(entity -> entity.getID().equals(entityID))
-        .findAny()
+  public <T> void removeModuleFromEntity(Class<T> concreteModuleClazz, String entityID) {
+    entities.parallelStream().filter(entity -> entity.getID().equals(entityID)).findAny()
         .ifPresent(foundEntity -> foundEntity.removeModule(concreteModuleClazz));
   }
 
   private void removeDeadEntities() {
-      WorldHandler.getEventDispatcher().getEvents().stream().sequential()
-        .filter(event -> event.getReceiverID().equals("ENTITY_HANDLER"))
-        .forEach(e -> {
+    WorldHandler.getEventDispatcher().getEvents().stream().sequential()
+        .filter(event -> event.getReceiverID().equals("ENTITY_HANDLER")).forEach(e -> {
           switch (e.getEvent()) {
             case REMOVE_ENTITY:
               entities.removeIf(entity -> entity.getID().equals(e.getSenderID()));
@@ -56,9 +51,7 @@ public class EntityHandler {
    * @return ArrayList<Event> all_Events
    */
   public Optional<ArrayList<Event>> getEventsFrom(String fromID) {
-    return entities.parallelStream()
-        .filter(e -> e.getID().equals(fromID))
-        .findAny()
+    return entities.parallelStream().filter(e -> e.getID().equals(fromID)).findAny()
         .flatMap(Entity::getEvents);
   }
 
@@ -67,14 +60,10 @@ public class EntityHandler {
    *
    * @return Optional<T> of supplied type
    */
-  public <T> Optional<T> getDataFrom(String fromID, DataType dataType, Class<T> type) {
-    return
-        entities.parallelStream()
-            .filter(e -> e.getID().equals(fromID))
-            .findAny()
-            .flatMap(entity1 -> entity1.getData(dataType))
-            .map(type::cast);
-  }
+   public <T> Optional<T> getDataFrom(String fromID, DataType dataType, Class<T> type) {
+   return entities.parallelStream().filter(e -> e.getID().equals(fromID)).findAny()
+   .flatMap(entity1 -> entity1.getData(dataType)).map(type::cast);
+   }
 
   public void UPDATE_ENTITYHANDLER() {
     removeDeadEntities();

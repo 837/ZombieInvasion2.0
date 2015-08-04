@@ -12,8 +12,6 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.GridFind
  * A {@link NavigationGraph} which is represented as a grid or a table.
  * The nodes are accessible through (x, y) coordinates. 
  * 
- * @author Xavier Guzman
- *
  * @param <T> only classes extending {@link GridCell} can be used within this graph
  */
 public class NavigationGrid<T extends NavigationGridGraphNode> implements NavigationGridGraph<T> {

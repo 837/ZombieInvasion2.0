@@ -8,7 +8,6 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.NavigationGraph;
  * 
  * The default implementation is {@link GridCell}.
  * 
- * @author Xavier Guzman
  *
  * @param <T> only classes implementing {@link NavigationGridGraphNode} can be used within this graph
  */

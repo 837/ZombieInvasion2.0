@@ -28,7 +28,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelecti
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 import ch.redmonkeyass.zombieInvasion.input.InputHandler;
-import ch.redmonkeyass.zombieInvasion.util.Images;
+import ch.redmonkeyass.zombieInvasion.util.ShaderTester;
 
 public class Game extends BasicGameState {
   private final int ID;
@@ -41,6 +41,8 @@ public class Game extends BasicGameState {
   public Game(int ID) {
     this.ID = ID;
   }
+
+  ShaderTester st = new ShaderTester();
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -62,14 +64,14 @@ public class Game extends BasicGameState {
 
   @Override
   public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-    g.translate(-WorldHandler.getCamera().getPosition().x,
+
+       g.translate(-WorldHandler.getCamera().getPosition().x,
         -WorldHandler.getCamera().getPosition().y);
 
-    g.drawImage(Images.MENU_BACKGROUND.get(), 0, 0);
 
     // WorldMap
     WorldHandler.getWorldMap().RENDER(gc, sbg, g);
-
+ 
     // XXX TEST START
     WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
@@ -77,7 +79,7 @@ public class Game extends BasicGameState {
     WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-
+    //
     // GL11.glEnable(GL11.GL_BLEND);
     // GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
     //
@@ -98,21 +100,19 @@ public class Game extends BasicGameState {
     // g.setDrawMode(Graphics.MODE_NORMAL);
 
 
-
     WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-    
+
     WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-    
+
     WorldHandler.getModuleHandler().getModulesOf(DebugRendererGameModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-    
+
     WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
         .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-
-    // XXX TEST END
+     // XXX TEST END
   }
 
 

@@ -112,16 +112,23 @@ public class WorldMap implements RenderableModul {
       obstacles.addAll(MapBodyBuilder.buildShapes(tileMap));
 
       createBoxBodiesForAreas(areas);
-
     } catch (Exception e) {
       logger.error("Error while creating WorldMap.", e);
     }
   }
 
+  boolean first = true;
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
+
     worldMapLoader.getFinishedMap().render(0, 0);
+
+    // worldMapLoader.getFinishedMap().render((int) WorldHandler.getCamera().getPosition().x,
+    // (int) WorldHandler.getCamera().getPosition().y,
+    // (int) WorldHandler.getCamera().getPosition().x/64,
+    // (int) WorldHandler.getCamera().getPosition().y/64, 42, 42);
+    // worldMapLoader.getFinishedMap().render(0, 0);
     // tileMap.render(0, 0);
     // for (int x = 0; x < map.length; x++) {
     // for (int y = 0; y < map[x].length; y++) {
@@ -486,7 +493,7 @@ public class WorldMap implements RenderableModul {
           rectangles.add(rectangle2);
         }
       }
-      
+
       // Create for all rectangle the bodies
       rectangles.stream().forEach(r -> {
         NodeContainer firstNC = r.get(0);
@@ -510,7 +517,7 @@ public class WorldMap implements RenderableModul {
         body2.createFixture(shape2, 1f);
 
       });
-    //  System.out.println("Bodies: " + WorldHandler.getB2World().getBodyCount());
+      // System.out.println("Bodies: " + WorldHandler.getB2World().getBodyCount());
     }
   }
 

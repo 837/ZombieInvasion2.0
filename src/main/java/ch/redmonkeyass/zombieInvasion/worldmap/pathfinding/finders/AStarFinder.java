@@ -14,7 +14,6 @@ import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.Util;
 /**
  * A generic implementation of A* that works on any {@link NavigationGraph} instance.
  * 
- * @author Xavier Guzman
  *
  * @param <T> a class implementing {@link NavigationNode}
  */

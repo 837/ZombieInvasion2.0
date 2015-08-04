@@ -98,6 +98,7 @@ public class MapBodyBuilder {
   }
 
 
+
   // private static PolygonShape getPolygon(PolygonMapObject polygonObject) {
   // PolygonShape polygon = new PolygonShape();
   // float[] vertices = polygonObject.getPolygon().getTransformedVertices();

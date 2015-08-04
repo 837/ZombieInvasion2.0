@@ -36,13 +36,16 @@ public enum DataType {
    * MouseThings
    */
       MOUSE_SELECTED_NODE(Node.class);
+
+
+
   private DataType(final Class<?> clazz) {
-    // this.clazz = clazz;
+    this.clazz = clazz;
   }
 
-  // private Class<?> clazz;
-  //
-  // public Class<?> getClazz() {
-  // return clazz;
-  // }
+  private Class<?> clazz;
+
+  public Class<?> getClazz() {
+    return clazz;
+  }
 }
