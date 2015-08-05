@@ -46,19 +46,20 @@ public class Game extends BasicGameState {
 
   @Override
   public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-    new EntityBuilder(EntityType.MOUSE).createEntity();
-    new EntityBuilder(EntityType.GAME).createEntity();
+    EntityBuilder.createBuilder(EntityType.MOUSE).createEntity();
+    EntityBuilder.createBuilder(EntityType.GAME).createEntity();
 
-    new EntityBuilder(EntityType.ADOLF)
+    EntityBuilder.createBuilder(EntityType.ADOLF)
         .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
         .createEntity();
-    new EntityBuilder(EntityType.HANS)
+    
+    EntityBuilder.createBuilder(EntityType.HANS)
         .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
         .createEntity();
-    new EntityBuilder(EntityType.GERHART)
+    
+    EntityBuilder.createBuilder(EntityType.GERHART)
         .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
         .createEntity();
-
 
 
     inputHandler = new InputHandler(gc);
@@ -143,7 +144,7 @@ public class Game extends BasicGameState {
       {
             switch (e.getEvent()) {
               case G_PRESSED:
-                          new EntityBuilder(EntityType.ZOMBIE).numOfEntitiesToSpawn(100)
+                EntityBuilder.createBuilder(EntityType.ZOMBIE).numOfEntitiesToSpawn(100)
                     .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
                     .createEntity();
                 logger.trace("Spawned 10 new Entities");

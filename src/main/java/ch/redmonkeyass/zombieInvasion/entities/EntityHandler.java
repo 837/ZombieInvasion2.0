@@ -9,7 +9,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
 
 public class EntityHandler {
-  private ArrayList<Entity> entities = new ArrayList<>();
+  private ArrayList<Entity> entities = new ArrayList<>(500);
 
   public void addEntity(Entity entity) {
     entities.add(entity);

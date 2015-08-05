@@ -22,3 +22,4 @@ public enum EventType {
   KILL_ENTITY, REMOVE_ENTITY
 
 }
+

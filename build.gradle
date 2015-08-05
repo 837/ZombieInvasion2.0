@@ -52,12 +52,12 @@ dependencies {
    compile "org.jbox2d:jbox2d:2.1.2.2"
    
    compile files("libs/JBTCore.jar")
-  // compile files("libs/lwjgl-natives.jar")
-  // compile files("libs/slick.jar")
+   // compile files("libs/lwjgl-natives.jar")
+   compile files("libs/slick.jar")
    
-    compile "org.slick2d:slick2d-core:1.0.1"
+   //compile "org.slick2d:slick2d-core:1.0.2-SNAPSHOT"
     
-    //pathfinding
+   //pathfinding
    // compile "com.github.xaguzman:pathfinding:0.2.5"
 }
 

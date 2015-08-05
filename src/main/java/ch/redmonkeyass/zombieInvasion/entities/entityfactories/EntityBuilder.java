@@ -12,7 +12,11 @@ public class EntityBuilder {
   private int numOfEntitiesToSpawn = 1;
   private ArrayList<Module> additionalModules = new ArrayList<>();
 
-  public EntityBuilder(final EntityType entityType) {
+  public static EntityBuilder createBuilder(final EntityType entityType) {
+    return new EntityBuilder(entityType);
+  }
+
+  private EntityBuilder(final EntityType entityType) {
     this.entityType = entityType;
   }
 

@@ -99,7 +99,7 @@ public class EntityFactory {
         .forEach(m -> WorldHandler.getModuleHandler().addModules(m));
 
     // DebugModules
-    WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
+   WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));

@@ -35,6 +35,11 @@ public class WorldMap implements RenderableModul {
 
   private Logger logger = LogManager.getLogger(WorldMap.class);
 
+  public float getNodeSizeInPixel() {
+    return nodeSizeInMeter * Config.B2PIX;
+  }
+
+
   public float getNodeSizeInMeter() {
     return nodeSizeInMeter;
   }
@@ -121,8 +126,13 @@ public class WorldMap implements RenderableModul {
 
   @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
-
-    worldMapLoader.getFinishedMap().render(0, 0);
+    int camX = (int) WorldHandler.getCamera().getPosition().x;
+    int camY = (int) WorldHandler.getCamera().getPosition().y;
+    int offsetX = (int) (camX % WorldHandler.getWorldMap().getNodeSizeInPixel());
+    int offsetY = (int) (camY % WorldHandler.getWorldMap().getNodeSizeInPixel());
+    int nodeSize = (int) WorldHandler.getWorldMap().getNodeSizeInPixel();
+    worldMapLoader.getFinishedMap().render(camX - offsetX, camY - offsetY, camX / nodeSize,
+        camY / nodeSize, Config.WIDTH / nodeSize + 1, Config.HEIGHT / nodeSize + 1);
 
     // worldMapLoader.getFinishedMap().render((int) WorldHandler.getCamera().getPosition().x,
     // (int) WorldHandler.getCamera().getPosition().y,
