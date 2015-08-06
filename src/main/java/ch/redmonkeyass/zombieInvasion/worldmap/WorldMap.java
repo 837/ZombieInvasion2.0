@@ -24,6 +24,7 @@ import ch.redmonkeyass.zombieInvasion.worldmap.Node.CornerType;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.MapBodyBuilder;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.WorldMapLoader;
+import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.WorldMapLoader.MAP_LOADER_TYPE;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;
@@ -41,7 +42,7 @@ public class WorldMap implements RenderableModul {
 
 
   public float getNodeSizeInMeter() {
-    return nodeSizeInMeter;
+    return nodeSizeInMeter / 2;
   }
 
   public void setNodeSizeInMeter(float nodeSizeInMeter) {
@@ -94,7 +95,7 @@ public class WorldMap implements RenderableModul {
 
   public WorldMap(String tmxFileName) {
     try {
-      worldMapLoader = new WorldMapLoader(tmxFileName);
+      worldMapLoader = new WorldMapLoader(tmxFileName, MAP_LOADER_TYPE.RANDOM_ROOM_MAP);
 
       tileMap = worldMapLoader.getFinishedMap();
       // calculates tileWidth/tileHeight/mapSize/nodeSizeInMeter
@@ -107,15 +108,27 @@ public class WorldMap implements RenderableModul {
       setNodeSizeInMeter((int) (tileWidth / Config.B2PIX));
 
       // create a nodemap
-      map = new Node[mapWidth][mapHeight];
+      map = new Node[mapWidth * 2][mapHeight * 2];
+
+      Node[][] testBoxMap = new Node[mapWidth][mapHeight];
+
       // create the Nodes and create bodies if the second layer has elements
       createNodeMapAndDynamicObstacleBodies(map, tileWidth, tileMap);
 
+      // for walls
+      createNodeMapForBoxBodies(testBoxMap, tileWidth, tileMap);
+
       // remove inaccessible node bodies
       // removeInaccessibleBodiesFromSecondLayer(map);
-      ArrayList<ArrayList<Node>> areas = getConnectedRegions(map);
+
+      // creates box bodies from shape layer on tilemap //atm unused
       obstacles.addAll(MapBodyBuilder.buildShapes(tileMap));
 
+      // creates areas used for wall calculation
+      ArrayList<ArrayList<Node>> areas = getConnectedRegions(testBoxMap);
+
+
+      // calculates box bodies for walls
       createBoxBodiesForAreas(areas);
     } catch (Exception e) {
       logger.error("Error while creating WorldMap.", e);
@@ -133,39 +146,6 @@ public class WorldMap implements RenderableModul {
     int nodeSize = (int) WorldHandler.getWorldMap().getNodeSizeInPixel();
     worldMapLoader.getFinishedMap().render(camX - offsetX, camY - offsetY, camX / nodeSize,
         camY / nodeSize, Config.WIDTH / nodeSize + 1, Config.HEIGHT / nodeSize + 1);
-
-    // worldMapLoader.getFinishedMap().render((int) WorldHandler.getCamera().getPosition().x,
-    // (int) WorldHandler.getCamera().getPosition().y,
-    // (int) WorldHandler.getCamera().getPosition().x/64,
-    // (int) WorldHandler.getCamera().getPosition().y/64, 42, 42);
-    // worldMapLoader.getFinishedMap().render(0, 0);
-    // tileMap.render(0, 0);
-    // for (int x = 0; x < map.length; x++) {
-    // for (int y = 0; y < map[x].length; y++) {
-    // if (map[x][y].isWalkable())
-    // continue;
-    // // g.setColor(Color.darkGray);
-    // // g.fillRect(x * (Config.B2PIX * 2), y * (Config.B2PIX * 2), 64, 64);
-    // // g.setColor(Color.black);
-    // // g.drawRect(x * (Config.B2PIX * 2), y * (Config.B2PIX * 2), 64, 64);
-    // g.setColor(Color.white);
-    // g.drawString(map[x][y].getRegionGroup() + "",
-    // x * (Config.B2PIX * getNodeSizeInMeter()) + 32,
-    // y * (Config.B2PIX * getNodeSizeInMeter()) + 32);
-    // // g.setColor(Color.green);
-    // // g.fillOval(map[x][y].getCornerInMeter(CornerType.TOP_LEFT).x * (Config.B2PIX * 2),
-    // // map[x][y].getCornerInMeter(CornerType.TOP_LEFT).y * (Config.B2PIX * 2), 4, 4);
-    // // g.setColor(Color.blue);
-    // // g.fillOval(map[x][y].getCornerInMeter(CornerType.TOP_RIGHT).x * (Config.B2PIX * 2),
-    // // map[x][y].getCornerInMeter(CornerType.TOP_RIGHT).y * (Config.B2PIX * 2), 4, 4);
-    // // g.setColor(Color.magenta);
-    // // g.fillOval(map[x][y].getCornerInMeter(CornerType.BOTTOM_LEFT).x * (Config.B2PIX * 2),
-    // // map[x][y].getCornerInMeter(CornerType.BOTTOM_LEFT).y * (Config.B2PIX * 2), 4, 4);
-    // // g.setColor(Color.red);
-    // // g.fillOval(map[x][y].getCornerInMeter(CornerType.BOTTOM_RIGHT).x * (Config.B2PIX * 2),
-    // // map[x][y].getCornerInMeter(CornerType.BOTTOM_RIGHT).y * (Config.B2PIX * 2), 4, 4);
-    // }
-    // }
   }
 
   /**
@@ -192,46 +172,132 @@ public class WorldMap implements RenderableModul {
     return n;
   }
 
+  /**
+   * Hate this shitty looking function... creates bodies and nodes for stuff
+   * 
+   * @param map
+   * @param tileWidth
+   * @param tileMap
+   */
   private void createNodeMapAndDynamicObstacleBodies(Node[][] map, int tileWidth,
       TiledMap tileMap) {
-    for (int x = 0; x < map.length; x++) {
-      for (int y = 0; y < map[x].length; y++) {
+    for (int x = 0; x < map.length / 2; x++) {
+      for (int y = 0; y < map[x].length / 2; y++) {
+        int xN = x * 2;
+        int yN = y * 2;
         switch (tileMap.getTileId(x, y, 0)) {
           case 0:
             break;
           default:
-            map[x][y] = new Node(x, y,
-                createBodyForSecondLayer(FieldType.NOT_WALL, (int) (x * getNodeSizeInMeter()),
-                    (int) (y * getNodeSizeInMeter()), nodeSizeInMeter),
-                FieldType.NOT_WALL, tileWidth);
+            map[xN][yN] = new Node(xN, yN,
+                createBodyForSecondLayer(FieldType.NOT_WALL, (int) (xN * getNodeSizeInMeter()),
+                    (int) (yN * getNodeSizeInMeter()), getNodeSizeInMeter()),
+                FieldType.NOT_WALL, tileWidth / 2);
+            map[xN][yN + 1] = new Node(xN, yN + 1,
+                createBodyForSecondLayer(FieldType.NOT_WALL, (int) ((xN) * getNodeSizeInMeter()),
+                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+                FieldType.NOT_WALL, tileWidth / 2);
+            map[xN + 1][yN] = new Node(xN + 1, yN,
+                createBodyForSecondLayer(FieldType.NOT_WALL,
+                    (int) ((xN + 1) * getNodeSizeInMeter()), (int) ((yN) * getNodeSizeInMeter()),
+                    getNodeSizeInMeter()),
+                FieldType.NOT_WALL, tileWidth / 2);
+            map[xN + 1][yN + 1] = new Node(xN + 1, yN + 1,
+                createBodyForSecondLayer(FieldType.NOT_WALL,
+                    (int) ((xN + 1) * getNodeSizeInMeter()),
+                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+                FieldType.NOT_WALL, tileWidth / 2);
             break;
         }
         switch (tileMap.getTileId(x, y, 1)) {
           case 0:
             break;
           default:
-            map[x][y] = new Node(x, y,
+            map[xN][yN] = new Node(xN, yN,
                 createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
-                    (int) (x * getNodeSizeInMeter()), (int) (y * getNodeSizeInMeter()),
-                    nodeSizeInMeter),
-                FieldType.DYNAMIC_OBSTACLE, tileWidth);
+                    (int) (xN * getNodeSizeInMeter()), (int) (yN * getNodeSizeInMeter()),
+                    getNodeSizeInMeter()),
+                FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
+            map[xN][yN + 1] = new Node(xN, yN + 1,
+                createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
+                    (int) ((xN) * getNodeSizeInMeter()), (int) ((yN + 1) * getNodeSizeInMeter()),
+                    getNodeSizeInMeter()),
+                FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
+            map[xN + 1][yN] = new Node(xN + 1, yN,
+                createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
+                    (int) ((xN + 1) * getNodeSizeInMeter()), (int) ((yN) * getNodeSizeInMeter()),
+                    getNodeSizeInMeter()),
+                FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
+            map[xN + 1][yN + 1] = new Node(xN + 1, yN + 1,
+                createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
+                    (int) ((xN + 1) * getNodeSizeInMeter()),
+                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+                FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
             break;
         }
         switch (tileMap.getTileId(x, y, 2)) {
           case 0:
             break;
           default:
-            map[x][y] =
-                new Node(x, y,
-                    createBodyForSecondLayer(FieldType.WALL, (int) (x * getNodeSizeInMeter()),
-                        (int) (y * getNodeSizeInMeter()), nodeSizeInMeter),
-                    FieldType.WALL, tileWidth);
+            map[xN][yN] = new Node(xN, yN,
+                createBodyForSecondLayer(FieldType.WALL, (int) (xN * getNodeSizeInMeter()),
+                    (int) (yN * getNodeSizeInMeter()), getNodeSizeInMeter()),
+                FieldType.WALL, tileWidth / 2);
+            map[xN][yN + 1] = new Node(xN, yN + 1,
+                createBodyForSecondLayer(FieldType.WALL, (int) ((xN) * getNodeSizeInMeter()),
+                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+                FieldType.WALL, tileWidth / 2);
+
+            map[xN + 1][yN] = new Node(xN + 1, yN,
+                createBodyForSecondLayer(FieldType.WALL, (int) ((xN + 1) * getNodeSizeInMeter()),
+                    (int) ((yN) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+                FieldType.WALL, tileWidth / 2);
+            map[xN + 1][yN + 1] = new Node(xN + 1, yN + 1,
+                createBodyForSecondLayer(FieldType.WALL, (int) ((xN + 1) * getNodeSizeInMeter()),
+                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+                FieldType.WALL, tileWidth / 2);
             break;
         }
       }
     }
   }
 
+  /**
+   * used for wall obstacle calculation, 1/4 of the actual nodes, but still correct^^
+   * 
+   * @param map
+   * @param tileWidth
+   * @param tileMap
+   */
+  private void createNodeMapForBoxBodies(Node[][] map, int tileWidth, TiledMap tileMap) {
+    for (int x = 0; x < map.length; x++) {
+      for (int y = 0; y < map[x].length; y++) {
+        switch (tileMap.getTileId(x, y, 0)) {
+          case 0:
+            break;
+          default:
+            map[x][y] = new Node(x, y, null, FieldType.NOT_WALL, tileWidth);
+            break;
+        }
+        switch (tileMap.getTileId(x, y, 1)) {
+          case 0:
+            break;
+          default:
+            map[x][y] = new Node(x, y, null, FieldType.DYNAMIC_OBSTACLE, tileWidth);
+            break;
+        }
+        switch (tileMap.getTileId(x, y, 2)) {
+          case 0:
+            break;
+          default:
+            map[x][y] = new Node(x, y, null, FieldType.WALL, tileWidth);
+
+            break;
+        }
+
+      }
+    }
+  }
 
   /**
    * creates bodies for all dynamic_obstacle elements.
@@ -244,20 +310,6 @@ public class WorldMap implements RenderableModul {
    */
   private Body createBodyForSecondLayer(FieldType type, int x, int y, final float NODE_SIZE_BOX2D) {
     switch (type) {
-      // case WALL:
-      // BodyDef bodyDef = new BodyDef();
-      //
-      // bodyDef.type = BodyType.StaticBody;
-      // bodyDef.position.set(x + (NODE_SIZE_BOX2D / 2), y + (NODE_SIZE_BOX2D / 2));
-      //
-      // Body body = WorldHandler.getB2World().createBody(bodyDef);
-      //
-      // PolygonShape shape = new PolygonShape();
-      // shape.setAsBox(NODE_SIZE_BOX2D / 2, NODE_SIZE_BOX2D / 2);
-      //
-      // body.createFixture(shape, 1f);
-      // return body;
-
       case DYNAMIC_OBSTACLE:
         BodyDef bodyDef2 = new BodyDef();
         bodyDef2.type = BodyType.StaticBody;
@@ -388,7 +440,7 @@ public class WorldMap implements RenderableModul {
       ArrayList<NodeContainer> nodes = new ArrayList<>();
       currentArea.forEach(n -> nodes.add(new NodeContainer(n)));
 
-      NodeContainer[][] test = new NodeContainer[nodes.get(nodes.size() - 1).node.x + 1][1000];
+      NodeContainer[][] test = new NodeContainer[nodes.get(nodes.size() - 1).node.x + 1][2000];
       nodes.forEach(nc -> test[nc.node.x][nc.node.y] = nc);
 
       ArrayList<ArrayList<NodeContainer>> rectangles = new ArrayList<>();
@@ -519,9 +571,10 @@ public class WorldMap implements RenderableModul {
         Body body2 = WorldHandler.getB2World().createBody(bodyDef2);
 
         PolygonShape shape2 = new PolygonShape();
-        shape2.setAsBox((width * getNodeSizeInMeter()) / 2, (height * getNodeSizeInMeter()) / 2,
+        shape2.setAsBox((width * getNodeSizeInMeter() * 2) / 2,
+            (height * getNodeSizeInMeter() * 2) / 2,
             firstNC.node.getCornerInMeter(CornerType.TOP_LEFT).cpy().add(width / 2, height / 2)
-                .scl(getNodeSizeInMeter()),
+                .scl(getNodeSizeInMeter() * 2),
             0);
         obstacles.add(body2);
         body2.createFixture(shape2, 1f);

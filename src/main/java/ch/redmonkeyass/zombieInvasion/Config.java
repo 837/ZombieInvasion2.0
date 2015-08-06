@@ -19,7 +19,7 @@ public class Config {
   /*
    * temporary, there has to be a more sensible way to define this
    */
-  public static final float B2PIX = 32;
+  public static final float B2PIX = 32; // Should be constant over all development
   public static final float PIX2B = 1 / B2PIX;
 
   // Camera
@@ -33,5 +33,5 @@ public class Config {
   // WorldMap
   public static final String WORLDMAP_NAME = "200x200Background.tmx";
   public static final int MAX_ROOMS = 50;
-  
+
 }

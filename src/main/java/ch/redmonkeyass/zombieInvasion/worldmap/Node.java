@@ -71,4 +71,10 @@ public class Node extends GridCell {
     }
     return null;
   }
+
+
+  @Override
+  public String toString() {
+  return "Node:["+x+"]["+y+"]{Type="+type.name()+"; TileSize="+getTileSize()+";}";
+  }
 }
