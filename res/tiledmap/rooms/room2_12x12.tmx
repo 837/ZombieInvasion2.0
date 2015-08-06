@@ -15,7 +15,7 @@
  </layer>
  <layer name="walls" width="12" height="12">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NmIB4wk6B2FAxNQEocg9QCAFZP30FAAgAA
+   H4sIAAAAAAAAC2NgGAWjgHwAAPMY7ENAAgAA
   </data>
  </layer>
 </map>

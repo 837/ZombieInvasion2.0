@@ -145,7 +145,7 @@ public class WorldMap implements RenderableModul {
     int offsetY = (int) (camY % WorldHandler.getWorldMap().getNodeSizeInPixel());
     int nodeSize = (int) WorldHandler.getWorldMap().getNodeSizeInPixel();
     worldMapLoader.getFinishedMap().render(camX - offsetX, camY - offsetY, camX / nodeSize,
-        camY / nodeSize, Config.WIDTH / nodeSize + 1, Config.HEIGHT / nodeSize + 1);
+        camY / nodeSize, Config.WIDTH / nodeSize + 2, Config.HEIGHT / nodeSize + 1);
   }
 
   /**

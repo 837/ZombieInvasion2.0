@@ -20,7 +20,7 @@ public class WorldMapLoader {
     switch (mapLoaderType) {
       case CITY_BUILDING_MAP:
         logger.trace("Selected MapLoader: CITY_BUILDING_MAP");
-        // mapLoader = new WorldMapLoaderForRandomGeneratedRoomsMap(tmxBackGroundMapFile);
+         mapLoader = new WorldMapLoaderForCityMap(tmxBackGroundMapFile);
         break;
       case RANDOM_ROOM_MAP:
         logger.trace("Selected MapLoader: RANDOM_ROOM_MAP");

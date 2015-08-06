@@ -5,7 +5,7 @@
  </tileset>
  <layer name="Background" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC5NgYGCQGMWDBgMArj+wxZABAAA=
+   H4sIAAAAAAAACxNmYGAQHsWDBgMA9CmQ3ZABAAA=
   </data>
  </layer>
  <layer name="Dynamic_Obstacles" width="10" height="10">

@@ -48,13 +48,13 @@ public class Door {
   private Vector2 startPosDoorTiles;
   private Vector2 endPosDoorTiles;
 
-  private Room parent;
+  private MapPart parent;
 
-  public Room getParent() {
+  public MapPart getParent() {
     return parent;
   }
 
-  public void setParent(Room parent) {
+  public void setParent(MapPart parent) {
     this.parent = parent;
   }
 

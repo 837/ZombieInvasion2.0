@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.Door.DOORDIR;
 
-public class RoomDescription {
+public class MapPartDescription {
 
   /**
    * width in tiles
@@ -43,7 +43,7 @@ public class RoomDescription {
     return new ArrayList<>(doors);
   }
 
-  public RoomDescription(TiledMap map, String name) {
+  public MapPartDescription(TiledMap map, String name) {
     this.roomMap = map;
     this.name = name;
     width = roomMap.getWidth();
@@ -55,8 +55,10 @@ public class RoomDescription {
     // NORTH
     for (int x = 0; x < width; x++) {
       Vector2 startPos = new Vector2(x, 0);
-      while (roomMap.getTileId(x, 0, Room.WALL_LAYER) == 0) {
+      while (roomMap.getTileId(x, 0, MapPart.WALL_LAYER) == 0) {
         x++;
+        if (x == width)
+          break;
       }
       Vector2 endPos = new Vector2(x - 1, 0);
       if (startPos.x < endPos.x) {
@@ -64,10 +66,12 @@ public class RoomDescription {
       }
     }
     // EAST
-    for (int y = 0; y < width; y++) {
+    for (int y = 0; y < height; y++) {
       Vector2 startPos = new Vector2(width - 1, y);
-      while (roomMap.getTileId(width - 1, y, Room.WALL_LAYER) == 0) {
+      while (roomMap.getTileId(width - 1, y, MapPart.WALL_LAYER) == 0) {
         y++;
+        if (y == height)
+          break;
       }
       Vector2 endPos = new Vector2(width - 1, y - 1);
       if (startPos.y < endPos.y) {
@@ -77,8 +81,10 @@ public class RoomDescription {
     // SOUTH
     for (int x = 0; x < width; x++) {
       Vector2 startPos = new Vector2(x, height - 1);
-      while (roomMap.getTileId(x, height - 1, Room.WALL_LAYER) == 0) {
+      while (roomMap.getTileId(x, height - 1, MapPart.WALL_LAYER) == 0) {
         x++;
+        if (x == width)
+          break;
       }
       Vector2 endPos = new Vector2(x - 1, height - 1);
       if (startPos.x < endPos.x) {
@@ -86,10 +92,12 @@ public class RoomDescription {
       }
     }
     // WEST
-    for (int y = 0; y < width; y++) {
+    for (int y = 0; y < height; y++) {
       Vector2 startPos = new Vector2(0, y);
-      while (roomMap.getTileId(0, y, Room.WALL_LAYER) == 0) {
+      while (roomMap.getTileId(0, y, MapPart.WALL_LAYER) == 0) {
         y++;
+        if (y == height)
+          break;
       }
       Vector2 endPos = new Vector2(0, y - 1);
       if (startPos.y < endPos.y) {
