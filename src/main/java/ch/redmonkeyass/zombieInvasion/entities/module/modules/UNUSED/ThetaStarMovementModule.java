@@ -1,4 +1,4 @@
-package ch.redmonkeyass.zombieInvasion.entities.module.modules;
+package ch.redmonkeyass.zombieInvasion.entities.module.modules.UNUSED;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGrid;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.GridFinderOptions;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.ThetaStarGridFinder;
+import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.heuristics.EuclideanDistance;
 
 /**
  * This module allows selected entities to be moved with a right click on a tile.
@@ -42,7 +43,7 @@ public class ThetaStarMovementModule extends Module implements UpdatableModul {
     GridFinderOptions opt = new GridFinderOptions();
     opt.allowDiagonal = false;
     opt.dontCrossCorners = true;
-    //opt.heuristic = new EuclideanDistance();
+   opt.heuristic = new EuclideanDistance();
 
     finder = new ThetaStarGridFinder<Node>(Node.class, opt);
     navGrid = new NavigationGrid<Node>(WorldHandler.getWorldMap().getMap(), true);

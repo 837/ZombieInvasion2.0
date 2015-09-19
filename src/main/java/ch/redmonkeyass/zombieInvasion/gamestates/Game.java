@@ -20,7 +20,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.ThetaStarMovementModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.UNUSED.ThetaStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugRendererGameModule;
@@ -144,7 +144,7 @@ public class Game extends BasicGameState {
       {
             switch (e.getEvent()) {
               case G_PRESSED:
-                EntityBuilder.createBuilder(EntityType.ZOMBIE).numOfEntitiesToSpawn(100)
+                EntityBuilder.createBuilder(EntityType.ZOMBIE).numOfEntitiesToSpawn(10)
                     .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
                     .createEntity();
                 logger.trace("Spawned 10 new Entities");

@@ -45,7 +45,8 @@ public class AStarMovementModule extends Module implements UpdatableModul {
     // opt.heuristic = new EuclideanDistance();
 
     finder = new AStarGridFinder<Node>(Node.class, opt);
-    navGrid = new NavigationGrid<Node>(WorldHandler.getWorldMap().getMap(), true);
+    navGrid = new NavigationGrid<Node>(WorldHandler.getWorldMap().getMap(), false);
+
   }
 
   @Override
@@ -54,6 +55,7 @@ public class AStarMovementModule extends Module implements UpdatableModul {
       events.parallelStream().forEach(event -> {
         switch (event.getEvent()) {
           case RIGHT_CLICK:
+            System.out.println("ENTITY RECEIVED RIGHT_CLICK EVENT: ");
             // Asking the Entity if it is selected
             WorldHandler.getEntityHandler()
                 .getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
@@ -61,7 +63,7 @@ public class AStarMovementModule extends Module implements UpdatableModul {
               if (isSelected) {
                 // Getting the MouseClick Position from the RIGHT_CLICK event
                 event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
-
+                  System.out.println("ENTITY isSelected: " + navGrid.toString());
                   // Calculating the click position and converting it to B2D coordinates
                   // Vector2 moveToPos =
                   // position.add(WorldHandler.getCamera().getPosition()).scl(Config.PIX2B).cpy();
@@ -80,8 +82,20 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                       actualPos = cells[(int) entityPosition.x][(int) entityPosition.y];
                       goalPos = node;
 
+
                       // Calculating a path
                       List<Node> path = finder.findPath(actualPos, goalPos, navGrid);
+
+                      int breakOutCounter = 0;
+                      while (path == null) {
+                        breakOutCounter++;
+                        path = finder.findPath(actualPos, goalPos, navGrid);
+                        if (breakOutCounter >= 2) {
+                          break;
+                        }
+                      }
+
+
 
                       // FIXME Copying the path to a new List, if you don't do that, some bad magic
                       // happens... can't explain it...
@@ -89,7 +103,7 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                         pathToEnd = new ArrayList<>(path);
                       } else {
                         pathToEnd = new ArrayList<>();
-                        pathToEnd.add(goalPos);
+                        // pathToEnd.add(goalPos);
                       }
                     });
                   });

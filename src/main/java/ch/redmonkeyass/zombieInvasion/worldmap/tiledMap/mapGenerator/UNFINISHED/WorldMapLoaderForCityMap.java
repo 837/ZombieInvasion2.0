@@ -1,9 +1,13 @@
-package ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator;
+package ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.UNFINISHED;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Rectangle;
+
+import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.MapLoader;
+import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.MapPart;
+import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.MapPartDescription;
 
 public class WorldMapLoaderForCityMap extends MapLoader {
   private ArrayList<MapPart> addedMapParts = new ArrayList<>();

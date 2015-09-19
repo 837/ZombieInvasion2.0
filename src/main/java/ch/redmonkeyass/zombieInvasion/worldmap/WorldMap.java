@@ -2,6 +2,7 @@ package ch.redmonkeyass.zombieInvasion.worldmap;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -84,7 +85,7 @@ public class WorldMap implements RenderableModul {
   private Node[][] map = null;
 
   public Node[][] getMap() {
-    return map;
+    return Arrays.copyOf(map, map.length);
   }
 
   private WorldMapLoader worldMapLoader = null;

@@ -85,7 +85,9 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
 
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     g.setColor(areaColor);
-    g.fill(area);
+    if(area.getMinX()!=0 && area.getMinY()!=0) {
+      g.fill(area);
+    }
   }
 
   private void calculateArea(Vector2 newPos) {

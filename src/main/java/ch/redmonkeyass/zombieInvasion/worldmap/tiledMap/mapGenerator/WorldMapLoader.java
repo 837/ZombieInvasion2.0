@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import com.badlogic.gdx.math.Vector2;
 
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
+import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.UNFINISHED.WorldMapLoaderForCityMap;
 
 public class WorldMapLoader {
   private Logger logger = LogManager.getLogger(WorldMapLoader.class);
