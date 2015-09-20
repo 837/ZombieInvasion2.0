@@ -40,8 +40,10 @@ public class AStarMovementModule extends Module implements UpdatableModul {
     super(entityID);
     // Creating custom GridFinderOptions. For standard options, hover "GridFinderOptions()".
     GridFinderOptions opt = new GridFinderOptions();
-    opt.allowDiagonal = true;
+    opt.allowDiagonal = false;
     opt.dontCrossCorners = true;
+    opt.diagonalMovementCost = 1.6f;
+    opt.isYDown = true;
     // opt.heuristic = new EuclideanDistance();
 
     finder = new AStarGridFinder<Node>(Node.class, opt);
@@ -86,6 +88,7 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                       // Calculating a path
                       List<Node> path = finder.findPath(actualPos, goalPos, navGrid);
 
+                      //checks if path is null, if yes, try three more times
                       int breakOutCounter = 0;
                       while (path == null) {
                         breakOutCounter++;
