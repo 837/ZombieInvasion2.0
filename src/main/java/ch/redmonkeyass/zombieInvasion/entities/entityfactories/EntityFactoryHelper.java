@@ -1,16 +1,16 @@
 package ch.redmonkeyass.zombieInvasion.entities.entityfactories;
 
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
-
 public class EntityFactoryHelper {
   /**
    * Creates a physicsModule for the entity
+   * attaches the enitie's id as userdata of the box2d body
    * 
    * @param entityBuilder
    * @param id
@@ -38,6 +38,7 @@ public class EntityFactoryHelper {
     // Remember to dispose of any shapes after you're done with them!
     // BodyDef and FixtureDef don't need disposing, but shapes do.
     shape.dispose();
+    body.setUserData(id);
     return new PhysicsModule(id, body, entityBuilder.getEntityType().getWidth());
   }
 }
