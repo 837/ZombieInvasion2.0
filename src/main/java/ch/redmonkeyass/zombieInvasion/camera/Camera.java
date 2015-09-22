@@ -1,23 +1,20 @@
 package ch.redmonkeyass.zombieInvasion.camera;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.state.StateBasedGame;
-
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.state.StateBasedGame;
 
 public class Camera {
   private final int viewport_size_X;
   private final int viewport_size_Y;
-
-  private Vector2 position;
   /**
    * update before use
    */
   Rectangle screenRect;
+  private Vector2 position;
   private float offsetMaxX = 0;
   private float offsetMaxY = 0;
   private float offsetMinX;
@@ -37,6 +34,13 @@ public class Camera {
     offsetMinY = viewport_size_Y / 2;
     position = Vector2.Zero.add(viewport_size_X / 2, viewport_size_Y / 2);
     screenRect = new Rectangle(getPosition().x, getPosition().y, viewport_size_X, viewport_size_Y);
+  }
+
+  /**
+   * @return top left corner of the camera window
+   */
+  public Vector2 getPosition() {
+    return new Vector2(position.x - viewport_size_X / 2, position.y - viewport_size_Y / 2);
   }
 
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
@@ -63,11 +67,9 @@ public class Camera {
     setPositionAndKeepWithinMapBoundaries(position.add(direction));
   }
 
-  public void setMapData(float f, float g) {
-    offsetMaxX = f * Config.B2PIX - viewport_size_X / 2;
-    offsetMaxY = g * Config.B2PIX - viewport_size_Y / 2;
-    move(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos().cpy().scl(Config.B2PIX)
-        .sub(viewport_size_X / 2, viewport_size_Y / 2));
+  private void setPositionAndKeepWithinMapBoundaries(Vector2 point) {
+    position = new Vector2(keepWithinBoundaries(offsetMinX, offsetMaxX, point.x),
+        keepWithinBoundaries(offsetMinY, offsetMaxY, point.y));
   }
 
   private float keepWithinBoundaries(float lowerBound, float upperBound, float number) {
@@ -80,17 +82,11 @@ public class Camera {
     return number;
   }
 
-  /**
-   *
-   * @return top left corner of the camera window
-   */
-  public Vector2 getPosition() {
-    return new Vector2(position.x - viewport_size_X / 2, position.y - viewport_size_Y / 2);
-  }
-
-  private void setPositionAndKeepWithinMapBoundaries(Vector2 point) {
-    position = new Vector2(keepWithinBoundaries(offsetMinX, offsetMaxX, point.x),
-        keepWithinBoundaries(offsetMinY, offsetMaxY, point.y));
+  public void setMapData(float f, float g) {
+    offsetMaxX = f * Config.B2PIX - viewport_size_X / 2;
+    offsetMaxY = g * Config.B2PIX - viewport_size_Y / 2;
+    move(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos().cpy().scl(Config.B2PIX)
+        .sub(viewport_size_X / 2, viewport_size_Y / 2));
   }
 
   /**
@@ -118,15 +114,26 @@ public class Camera {
    * @param pos in box coordinates
    * @return true if pos is on the screen window
    */
-  public boolean bOnCamera(Vector2 pos) {
+  public boolean bIsOnCamera(Vector2 pos) {
     updateScreenRectangle();
-    return screenRect.contains(pos.cpy().scl(Config.B2PIX));
+    return isOnCamera(pos.cpy().scl(Config.B2PIX));
   }
-
-
 
   private void updateScreenRectangle() {
     screenRect.setPosition(getPosition());
+  }
+
+  public boolean isOnCamera(Vector2 pos) {
+    updateScreenRectangle();
+    return screenRect.contains(pos.cpy());
+  }
+
+  /**
+   * @param r in screen coordinats/pixels
+   * @return true if the rectangle overlaps with the screen
+   */
+  public boolean overlapsWithCamera(Rectangle r) {
+    return r.overlaps(screenRect);
   }
 
   public int getViewport_size_X() {
