@@ -34,4 +34,6 @@ public class Config {
   public static final String WORLDMAP_NAME = "200x200Background.tmx";
   public static final int MAX_ROOMS = 50;
 
+  //
+  public static final String TEXTURE_PATH = "G:\\IDEtoGo\\GITHUB\\ZombieInvasion2.0\\res\\sprites";
 }

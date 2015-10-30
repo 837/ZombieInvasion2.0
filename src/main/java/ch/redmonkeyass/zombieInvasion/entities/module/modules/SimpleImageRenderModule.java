@@ -2,10 +2,6 @@ package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
 import java.util.Optional;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
-
 import com.badlogic.gdx.math.Vector2;
 
 import ch.redmonkeyass.zombieInvasion.Config;

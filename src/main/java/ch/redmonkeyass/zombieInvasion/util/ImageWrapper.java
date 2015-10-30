@@ -1,73 +1,31 @@
 package ch.redmonkeyass.zombieInvasion.util;
 
+import java.io.IOException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
-import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
 
 public class ImageWrapper {
-  Image img;
-  Image b2dScaledImg;
+  Texture texture;
   private Logger logger = LogManager.getLogger(ImageWrapper.class);
   private EntityType entity;
 
   public ImageWrapper(String data, EntityType entity) {
     this.entity = entity;
     try {
-      img = new Image(data);
-      float scaleX = 1 / (img.getWidth() / (entity.getWidth() * Config.B2PIX));
-      float scaleY = 1 / (img.getHeight() / (entity.getHeight() * Config.B2PIX));
-      if (scaleX != scaleY) {
-        logger.error("Image scaling error: Width/Height have not the same scaling factor. Entity["
-            + entity.name() + "]");
-      }
-      float scale = scaleX;
-      b2dScaledImg = img.getScaledCopy(scale);
-    } catch (SlickException e) {
+      texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(data));
+
+    } catch (IOException e) {
       logger.error("Error while creating an ImageWrapper: " + data);
     }
   }
 
-  /**
-   * 
-   * @return this img data;
-   */
-  public Image getScaled() {
-    return img;
-  }
-
-  /**
-   * 
-   * @return this img data;
-   */
-  public Image get() {
-    return img;
-  }
-
-  /**
-   * 
-   * @return getB2D Scaled Img;
-   */
-  public Image getB2DScaled() {
-    return b2dScaledImg;
-  }
-
-  /**
-   * 
-   * @return img.getWidth() / 2;
-   */
-  public float getRadiusW() {
-    return img.getWidth() / 2;
-  }
-
-  /**
-   * 
-   * @return img.getHeight() / 2;
-   */
-  public float getRadiusH() {
-    return img.getHeight() / 2;
+  public Texture getTexture() {
+    return texture;
   }
 }

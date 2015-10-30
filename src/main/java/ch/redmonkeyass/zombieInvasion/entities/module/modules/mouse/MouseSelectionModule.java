@@ -3,11 +3,6 @@ package ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
 

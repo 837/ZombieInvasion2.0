@@ -20,8 +20,8 @@ public class ModuleHandler {
   public <T> void removeModulesFrom(String entityID, Class<T>... concreteModuleClazzes) {
     Arrays.stream(concreteModuleClazzes).forEach(module -> {
       WorldHandler.getEntityHandler().removeModuleFromEntity(module, entityID);
-      Module moduleM = modulesMap.get(module).stream()
-          .filter(m -> m.getEntityID().equals(entityID)).findAny().orElse(null);
+      Module moduleM = modulesMap.get(module).stream().filter(m -> m.getEntityID().equals(entityID))
+          .findAny().orElse(null);
       modulesMap.get(module).remove(moduleM);
     });
   }

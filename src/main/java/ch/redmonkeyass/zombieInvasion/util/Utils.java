@@ -1,5 +1,14 @@
 package ch.redmonkeyass.zombieInvasion.util;
 
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Utils {
   public static int[][] rotateArray90Deg(int[][] originalArray) {
     int[][] a = originalArray;
@@ -15,5 +24,29 @@ public class Utils {
       }
     }
     return a;
+  }
+
+  /**
+   * Returns all file paths in a provided directory
+   * 
+   * @param path
+   * @return allPaths
+   */
+  public static List<Path> getAllFilePathsInDirectory(Path path) {
+    final List<Path> files = new ArrayList<>();
+    try {
+      Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+          if (!attrs.isDirectory()) {
+            files.add(file);
+          }
+          return FileVisitResult.CONTINUE;
+        }
+      });
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return files;
   }
 }

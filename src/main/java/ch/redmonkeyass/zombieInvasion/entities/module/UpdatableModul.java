@@ -1,7 +1,5 @@
 package ch.redmonkeyass.zombieInvasion.entities.module;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.state.StateBasedGame;
 /**
  * Interface for Modules which should be <b>UPDATED</b>.
  * @author Matthias
