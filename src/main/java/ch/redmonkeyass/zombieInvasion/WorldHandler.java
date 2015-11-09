@@ -1,5 +1,7 @@
 package ch.redmonkeyass.zombieInvasion;
 
+import org.newdawn.slick.opengl.TextureLoader;
+
 import com.badlogic.gdx.math.Vector2;
 
 import ch.redmonkeyass.zombieInvasion.camera.Camera;
@@ -27,7 +29,13 @@ public class WorldHandler {
   // WorldMap
   private static final WorldMap WORLD_MAP = new WorldMap(Config.WORLDMAP_NAME);
 
+  // WorldMap
+  private static final ch.redmonkeyass.zombieInvasion.util.TextureLoader textures =
+      new ch.redmonkeyass.zombieInvasion.util.TextureLoader(Config.RESSOURCE_FOLDER);
 
+  public static ch.redmonkeyass.zombieInvasion.util.TextureLoader getTextures() {
+    return textures;
+  }
 
   public static ModuleHandler getModuleHandler() {
     return MODULE_HANDLER;

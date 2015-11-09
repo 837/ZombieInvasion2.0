@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.opengl.Texture;
 
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
@@ -12,10 +13,9 @@ public class ImageWrapper {
   Image img;
   Image b2dScaledImg;
   private Logger logger = LogManager.getLogger(ImageWrapper.class);
-  private EntityType entity;
+
 
   public ImageWrapper(String data, EntityType entity) {
-    this.entity = entity;
     try {
       img = new Image(data);
       float scaleX = 1 / (img.getWidth() / (entity.getWidth() * Config.B2PIX));
@@ -30,7 +30,17 @@ public class ImageWrapper {
       logger.error("Error while creating an ImageWrapper: " + data);
     }
   }
-
+  public ImageWrapper(Texture data, EntityType entity) {
+    img = new Image(data);
+    float scaleX = 1 / (img.getWidth() / (entity.getWidth() * Config.B2PIX));
+    float scaleY = 1 / (img.getHeight() / (entity.getHeight() * Config.B2PIX));
+    if (scaleX != scaleY) {
+      logger.error("Image scaling error: Width/Height have not the same scaling factor. Entity["
+          + entity.name() + "]");
+    }
+    float scale = scaleX;
+    b2dScaledImg = img.getScaledCopy(scale);
+  }
   /**
    * 
    * @return this img data;

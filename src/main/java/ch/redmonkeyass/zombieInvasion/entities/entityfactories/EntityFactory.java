@@ -13,7 +13,9 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleM
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugRendererGameModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
+import ch.redmonkeyass.zombieInvasion.util.ImageWrapper;
 import ch.redmonkeyass.zombieInvasion.util.Images;
+import ch.redmonkeyass.zombieInvasion.util.TextureLoader;
 
 public class EntityFactory {
 
@@ -99,7 +101,7 @@ public class EntityFactory {
         .forEach(m -> WorldHandler.getModuleHandler().addModules(m));
 
     // DebugModules
-   WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
+    WorldHandler.getModuleHandler().addModules(new DebugRendererModule(id));
 
     // EventModule
     WorldHandler.getModuleHandler().addModules(new EventListenerModule(id));
