@@ -59,6 +59,18 @@ public class Camera {
                 move(direction);
               });
               break;
+            case LEFT_ARROW_PRESSED:
+              move(new Vector2(-50,0));
+              break;
+            case RIGHT_ARROW_PRESSED:
+              move(new Vector2(50,0));
+              break;
+            case UP_ARROW_PRESSED:
+              move(new Vector2(0,-50));
+              break;
+            case DOWN_ARROW_PRESSED:
+              move(new Vector2(0,50));
+              break;
           }
         });
   }

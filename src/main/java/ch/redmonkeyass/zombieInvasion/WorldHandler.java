@@ -1,7 +1,5 @@
 package ch.redmonkeyass.zombieInvasion;
 
-import org.newdawn.slick.opengl.TextureLoader;
-
 import com.badlogic.gdx.math.Vector2;
 
 import ch.redmonkeyass.zombieInvasion.camera.Camera;
