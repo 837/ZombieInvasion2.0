@@ -1,8 +1,11 @@
 package ch.redmonkeyass.zombieInvasion.eventhandling;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EventDispatcher {
   private ArrayList<Event> currentEvents = new ArrayList<>();
@@ -55,5 +58,9 @@ public class EventDispatcher {
 
   public void removePersistentEvent(Event event) {
     persistentEvents.remove(event);
+  }
+
+  public void removePersistentEventsInNextTick(Stream<Event> events) {
+    events.forEach(e -> persistentEvents.remove(e));
   }
 }

@@ -2,8 +2,13 @@ package ch.redmonkeyass.zombieInvasion.camera;
 
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import javafx.scene.input.InputMethodHighlight;
+
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.sun.security.jgss.InquireType;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -45,7 +50,7 @@ public class Camera {
 
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     WorldHandler.getEventDispatcher().getEvents().parallelStream().filter(
-        event -> event.getReceiverID().equals("GLOBAL") || event.getReceiverID().equals("MOUSE"))
+        event -> event.getReceiverID().equals("CAMERA") || event.getReceiverID().equals("MOUSE"))
         .forEach(e -> {
           switch (e.getEvent()) {
             case RIGHT_DRAGGED:
@@ -60,16 +65,51 @@ public class Camera {
               });
               break;
             case LEFT_ARROW_PRESSED:
-              move(new Vector2(-50,0));
+              move(new Vector2(-25, 0));
               break;
             case RIGHT_ARROW_PRESSED:
-              move(new Vector2(50,0));
+              move(new Vector2(25, 0));
               break;
             case UP_ARROW_PRESSED:
-              move(new Vector2(0,-50));
+              move(new Vector2(0, -25));
               break;
             case DOWN_ARROW_PRESSED:
-              move(new Vector2(0,50));
+              move(new Vector2(0, 25));
+              break;
+            case LEFT_ARROW_RELEASED:
+              WorldHandler.getEventDispatcher()
+                  .removePersistentEvent(
+                      WorldHandler.getEventDispatcher().getEvents().parallelStream()
+                          .filter(event -> (event.getReceiverID().equals("CAMERA")
+                              && event.getEvent() == EventType.LEFT_ARROW_PRESSED))
+                          .findAny().get());
+              WorldHandler.getEventDispatcher().removePersistentEvent(e);
+              break;
+            case RIGHT_ARROW_RELEASED:
+              WorldHandler.getEventDispatcher()
+                  .removePersistentEvent(
+                      WorldHandler.getEventDispatcher().getEvents().parallelStream()
+                          .filter(event -> (event.getReceiverID().equals("CAMERA")
+                              && event.getEvent() == EventType.RIGHT_ARROW_PRESSED))
+                          .findAny().get());
+              WorldHandler.getEventDispatcher().removePersistentEvent(e);
+              break;
+            case UP_ARROW_RELEASED:
+              WorldHandler.getEventDispatcher()
+                  .removePersistentEvent(WorldHandler.getEventDispatcher().getEvents()
+                      .parallelStream().filter(event -> (event.getReceiverID().equals("CAMERA")
+                          && event.getEvent() == EventType.UP_ARROW_PRESSED))
+                      .findAny().get());
+              WorldHandler.getEventDispatcher().removePersistentEvent(e);
+              break;
+            case DOWN_ARROW_RELEASED:
+              WorldHandler.getEventDispatcher()
+                  .removePersistentEvent(
+                      WorldHandler.getEventDispatcher().getEvents().parallelStream()
+                          .filter(event -> (event.getReceiverID().equals("CAMERA")
+                              && event.getEvent() == EventType.DOWN_ARROW_PRESSED))
+                          .findAny().get());
+              WorldHandler.getEventDispatcher().removePersistentEvent(e);
               break;
           }
         });
