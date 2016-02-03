@@ -36,7 +36,7 @@ public class MovementModule extends Module implements UpdatableModul {
             WorldHandler.getEntityHandler()
                 .getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class).ifPresent(path -> {
               List<Node> pathToGoal = (List<Node>) path;
-              Node actualPos, goalPos;
+              Node actualPos, nextPos, goalPos;
 
               if (!pathToGoal.isEmpty()) {
                 Vector2 position =
@@ -44,12 +44,12 @@ public class MovementModule extends Module implements UpdatableModul {
 
                 actualPos =
                     WorldHandler.getWorldMap().getMap()[(int) (position.x)][(int) (position.y)];
-                goalPos = pathToGoal.get(0);
+                nextPos = pathToGoal.get(0);
 
-                if (actualPos == goalPos) {
+                if (actualPos == nextPos) {
                   pathToGoal.remove(0);
                 } else {
-                  MovementHelper.moveToNode(goalPos, b2Body, entityWidthHeight, maxVelocity,
+                  MovementHelper.moveToNode(nextPos, b2Body, entityWidthHeight, maxVelocity,
                       acceleration);
                 }
               } else {

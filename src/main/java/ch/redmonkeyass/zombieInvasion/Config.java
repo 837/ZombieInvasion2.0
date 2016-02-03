@@ -32,7 +32,7 @@ public class Config {
 
   // WorldMap
   public static final String WORLDMAP_NAME = "200x200Background.tmx";
-  public static final int MAX_ROOMS = 50;
+  public static final int MAX_ROOMS = 30;
 
   public static final String RESSOURCE_FOLDER = System.getProperty("user.dir")+"/res";
 }

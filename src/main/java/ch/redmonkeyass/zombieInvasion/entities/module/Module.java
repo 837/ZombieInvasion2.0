@@ -2,7 +2,11 @@ package ch.redmonkeyass.zombieInvasion.entities.module;
 
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.gamestates.Game;
 
 /**
  * Every Module needs to extend this class.
@@ -11,7 +15,9 @@ import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
  *
  */
 public abstract class Module {
+
   private final String entityID;
+  public Logger logger = LogManager.getLogger("Modules");
 
   public Module(String entityID) {
     this.entityID = entityID;

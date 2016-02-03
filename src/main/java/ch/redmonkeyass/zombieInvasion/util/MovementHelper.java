@@ -39,7 +39,7 @@ public class MovementHelper {
             * WorldHandler.getWorldMap().getNodeSizeInMeter(),
         (target.getY() + (WorldHandler.getWorldMap().getNodeSizeInMeter() / 2) - positionOffSet)
             * WorldHandler.getWorldMap().getNodeSizeInMeter()).sub(b2Body.getPosition());
-
+   
     // input from sprite
     Vector2 velocity = b2Body.getLinearVelocity();
 
@@ -49,7 +49,7 @@ public class MovementHelper {
     steeringForce.x = desiredHeading.x;
     steeringForce.y = desiredHeading.y;
     steeringForce.scl(maxVelocity);
-    steeringForce.sub(velocity);
+  //  steeringForce.sub(velocity);
     steeringForce.scl(acceleration);
     steeringForce.scl(1 / Config.B2PIX);
 
@@ -57,4 +57,13 @@ public class MovementHelper {
     b2Body.applyForceToCenter(steeringForce, true);
   }
 
+  private void arrive(Vector2 target, Vector2 currentPos) {
+    float xDistance = target.x - currentPos.x;
+    float yDistance = target.y - currentPos.y;
+    float distance = (float) Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+    if (distance > 1) {
+      // ship.x += xDistance * easingAmount;
+      //  ship.y += yDistance * easingAmount;
+    }
+  }
 }

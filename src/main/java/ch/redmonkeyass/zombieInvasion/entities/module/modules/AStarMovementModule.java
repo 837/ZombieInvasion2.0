@@ -57,7 +57,6 @@ public class AStarMovementModule extends Module implements UpdatableModul {
       events.parallelStream().forEach(event -> {
         switch (event.getEvent()) {
           case RIGHT_CLICK:
-            System.out.println("ENTITY RECEIVED RIGHT_CLICK EVENT: ");
             // Asking the Entity if it is selected
             WorldHandler.getEntityHandler()
                 .getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
@@ -65,7 +64,7 @@ public class AStarMovementModule extends Module implements UpdatableModul {
               if (isSelected) {
                 // Getting the MouseClick Position from the RIGHT_CLICK event
                 event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
-                  System.out.println("ENTITY isSelected: " + navGrid.toString());
+                  logger.trace("ENTITY isSelected: " + navGrid.toString());
                   // Calculating the click position and converting it to B2D coordinates
                   // Vector2 moveToPos =
                   // position.add(WorldHandler.getCamera().getPosition()).scl(Config.PIX2B).cpy();
@@ -88,7 +87,9 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                       // Calculating a path
                       List<Node> path = finder.findPath(actualPos, goalPos, navGrid);
 
-                      //checks if path is null, if yes, try three more times
+
+
+                      // checks if path is null, if yes, try three more times
                       int breakOutCounter = 0;
                       while (path == null) {
                         breakOutCounter++;
@@ -108,6 +109,7 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                         pathToEnd = new ArrayList<>();
                         // pathToEnd.add(goalPos);
                       }
+
                     });
                   });
                 });

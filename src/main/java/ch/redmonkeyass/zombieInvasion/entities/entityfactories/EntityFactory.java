@@ -8,6 +8,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModul
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.UNUSED.ThetaStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugRendererGameModule;
@@ -53,7 +54,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 10, 10), new AStarMovementModule(id),
+        new MovementModule(id, 10, 10), new ThetaStarMovementModule(id),
         new SimpleImageRenderModule(id, Images.ADOLF),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
