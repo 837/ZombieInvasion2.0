@@ -8,15 +8,13 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModul
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.UNUSED.ThetaStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugRendererGameModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
-import ch.redmonkeyass.zombieInvasion.util.ImageWrapper;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.zombieAI.FollowPlayerAI;
 import ch.redmonkeyass.zombieInvasion.util.Images;
-import ch.redmonkeyass.zombieInvasion.util.TextureLoader;
 
 public class EntityFactory {
 
@@ -54,7 +52,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 10, 10), new ThetaStarMovementModule(id),
+        new MovementModule(id, 2, 10), new AStarMovementModule(id),
         new SimpleImageRenderModule(id, Images.ADOLF),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
@@ -74,7 +72,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 10, 10), new AStarMovementModule(id),
+        new MovementModule(id, 5, 10), new AStarMovementModule(id),
         new SimpleImageRenderModule(id, Images.HANS),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
@@ -94,7 +92,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 10, 10), new AStarMovementModule(id),
+        new MovementModule(id, 3, 100), new AStarMovementModule(id),
         new SimpleImageRenderModule(id, Images.GERHART),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
@@ -113,8 +111,8 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id),
-        new MovementModule(id, 3, 3), new SelectionModule(id),
-        new SimpleImageRenderModule(id, Images.ZOMBIE),
+        new MovementModule(id, 3, 3), new FollowPlayerAI(id), new SelectionModule(id),
+        new AStarMovementModule(id), new SimpleImageRenderModule(id, Images.ZOMBIE),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
     entityBuilder.getAdditionalModules()

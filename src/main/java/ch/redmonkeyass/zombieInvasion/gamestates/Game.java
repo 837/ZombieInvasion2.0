@@ -26,6 +26,7 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleM
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugRendererGameModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.zombieAI.FollowPlayerAI;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 import ch.redmonkeyass.zombieInvasion.input.InputHandler;
 import ch.redmonkeyass.zombieInvasion.util.ShaderTester;
@@ -52,11 +53,11 @@ public class Game extends BasicGameState {
     EntityBuilder.createBuilder(EntityType.ADOLF)
         .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
         .createEntity();
-    
+
     EntityBuilder.createBuilder(EntityType.HANS)
         .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
         .createEntity();
-    
+
     EntityBuilder.createBuilder(EntityType.GERHART)
         .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
         .createEntity();
@@ -170,6 +171,9 @@ public class Game extends BasicGameState {
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
       WorldHandler.getModuleHandler().getModulesOf(AStarMovementModule.class)
+          .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+
+      WorldHandler.getModuleHandler().getModulesOf(FollowPlayerAI.class)
           .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
 
       WorldHandler.getModuleHandler().getModulesOf(ThetaStarMovementModule.class)

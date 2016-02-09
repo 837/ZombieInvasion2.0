@@ -43,7 +43,7 @@ public class WorldMap implements RenderableModul {
 
 
   public float getNodeSizeInMeter() {
-    return nodeSizeInMeter / 2;
+    return nodeSizeInMeter;
   }
 
   public void setNodeSizeInMeter(float nodeSizeInMeter) {
@@ -109,7 +109,7 @@ public class WorldMap implements RenderableModul {
       setNodeSizeInMeter((int) (tileWidth / Config.B2PIX));
 
       // create a nodemap
-      map = new Node[mapWidth * 2][mapHeight * 2];
+      map = new Node[mapWidth][mapHeight];
 
       Node[][] testBoxMap = new Node[mapWidth][mapHeight];
 
@@ -131,6 +131,7 @@ public class WorldMap implements RenderableModul {
 
       // calculates box bodies for walls
       createBoxBodiesForAreas(areas);
+
     } catch (Exception e) {
       logger.error("Error while creating WorldMap.", e);
     }
@@ -182,10 +183,10 @@ public class WorldMap implements RenderableModul {
    */
   private void createNodeMapAndDynamicObstacleBodies(Node[][] map, int tileWidth,
       TiledMap tileMap) {
-    for (int x = 0; x < map.length / 2; x++) {
-      for (int y = 0; y < map[x].length / 2; y++) {
-        int xN = x * 2;
-        int yN = y * 2;
+    for (int x = 0; x < map.length; x++) {
+      for (int y = 0; y < map[x].length; y++) {
+        int xN = x;
+        int yN = y;
         switch (tileMap.getTileId(x, y, 0)) {
           case 0:
             break;
@@ -193,21 +194,21 @@ public class WorldMap implements RenderableModul {
             map[xN][yN] = new Node(xN, yN,
                 createBodyForSecondLayer(FieldType.NOT_WALL, (int) (xN * getNodeSizeInMeter()),
                     (int) (yN * getNodeSizeInMeter()), getNodeSizeInMeter()),
-                FieldType.NOT_WALL, tileWidth / 2);
-            map[xN][yN + 1] = new Node(xN, yN + 1,
-                createBodyForSecondLayer(FieldType.NOT_WALL, (int) ((xN) * getNodeSizeInMeter()),
-                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
-                FieldType.NOT_WALL, tileWidth / 2);
-            map[xN + 1][yN] = new Node(xN + 1, yN,
-                createBodyForSecondLayer(FieldType.NOT_WALL,
-                    (int) ((xN + 1) * getNodeSizeInMeter()), (int) ((yN) * getNodeSizeInMeter()),
-                    getNodeSizeInMeter()),
-                FieldType.NOT_WALL, tileWidth / 2);
-            map[xN + 1][yN + 1] = new Node(xN + 1, yN + 1,
-                createBodyForSecondLayer(FieldType.NOT_WALL,
-                    (int) ((xN + 1) * getNodeSizeInMeter()),
-                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
-                FieldType.NOT_WALL, tileWidth / 2);
+                FieldType.NOT_WALL, tileWidth);
+            // map[xN][yN + 1] = new Node(xN, yN + 1,
+            // createBodyForSecondLayer(FieldType.NOT_WALL, (int) ((xN) * getNodeSizeInMeter()),
+            // (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+            // FieldType.NOT_WALL, tileWidth / 2);
+            // map[xN + 1][yN] = new Node(xN + 1, yN,
+            // createBodyForSecondLayer(FieldType.NOT_WALL,
+            // (int) ((xN + 1) * getNodeSizeInMeter()), (int) ((yN) * getNodeSizeInMeter()),
+            // getNodeSizeInMeter()),
+            // FieldType.NOT_WALL, tileWidth / 2);
+            // map[xN + 1][yN + 1] = new Node(xN + 1, yN + 1,
+            // createBodyForSecondLayer(FieldType.NOT_WALL,
+            // (int) ((xN + 1) * getNodeSizeInMeter()),
+            // (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+            // FieldType.NOT_WALL, tileWidth / 2);
             break;
         }
         switch (tileMap.getTileId(x, y, 1)) {
@@ -218,22 +219,22 @@ public class WorldMap implements RenderableModul {
                 createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
                     (int) (xN * getNodeSizeInMeter()), (int) (yN * getNodeSizeInMeter()),
                     getNodeSizeInMeter()),
-                FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
-            map[xN][yN + 1] = new Node(xN, yN + 1,
-                createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
-                    (int) ((xN) * getNodeSizeInMeter()), (int) ((yN + 1) * getNodeSizeInMeter()),
-                    getNodeSizeInMeter()),
-                FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
-            map[xN + 1][yN] = new Node(xN + 1, yN,
-                createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
-                    (int) ((xN + 1) * getNodeSizeInMeter()), (int) ((yN) * getNodeSizeInMeter()),
-                    getNodeSizeInMeter()),
-                FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
-            map[xN + 1][yN + 1] = new Node(xN + 1, yN + 1,
-                createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
-                    (int) ((xN + 1) * getNodeSizeInMeter()),
-                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
-                FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
+                FieldType.DYNAMIC_OBSTACLE, tileWidth);
+            // map[xN][yN + 1] = new Node(xN, yN + 1,
+            // createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
+            // (int) ((xN) * getNodeSizeInMeter()), (int) ((yN + 1) * getNodeSizeInMeter()),
+            // getNodeSizeInMeter()),
+            // FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
+            // map[xN + 1][yN] = new Node(xN + 1, yN,
+            // createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
+            // (int) ((xN + 1) * getNodeSizeInMeter()), (int) ((yN) * getNodeSizeInMeter()),
+            // getNodeSizeInMeter()),
+            // FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
+            // map[xN + 1][yN + 1] = new Node(xN + 1, yN + 1,
+            // createBodyForSecondLayer(FieldType.DYNAMIC_OBSTACLE,
+            // (int) ((xN + 1) * getNodeSizeInMeter()),
+            // (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+            // FieldType.DYNAMIC_OBSTACLE, tileWidth / 2);
             break;
         }
         switch (tileMap.getTileId(x, y, 2)) {
@@ -243,20 +244,20 @@ public class WorldMap implements RenderableModul {
             map[xN][yN] = new Node(xN, yN,
                 createBodyForSecondLayer(FieldType.WALL, (int) (xN * getNodeSizeInMeter()),
                     (int) (yN * getNodeSizeInMeter()), getNodeSizeInMeter()),
-                FieldType.WALL, tileWidth / 2);
-            map[xN][yN + 1] = new Node(xN, yN + 1,
-                createBodyForSecondLayer(FieldType.WALL, (int) ((xN) * getNodeSizeInMeter()),
-                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
-                FieldType.WALL, tileWidth / 2);
-
-            map[xN + 1][yN] = new Node(xN + 1, yN,
-                createBodyForSecondLayer(FieldType.WALL, (int) ((xN + 1) * getNodeSizeInMeter()),
-                    (int) ((yN) * getNodeSizeInMeter()), getNodeSizeInMeter()),
-                FieldType.WALL, tileWidth / 2);
-            map[xN + 1][yN + 1] = new Node(xN + 1, yN + 1,
-                createBodyForSecondLayer(FieldType.WALL, (int) ((xN + 1) * getNodeSizeInMeter()),
-                    (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
-                FieldType.WALL, tileWidth / 2);
+                FieldType.WALL, tileWidth);
+            // map[xN][yN + 1] = new Node(xN, yN + 1,
+            // createBodyForSecondLayer(FieldType.WALL, (int) ((xN) * getNodeSizeInMeter()),
+            // (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+            // FieldType.WALL, tileWidth / 2);
+            //
+            // map[xN + 1][yN] = new Node(xN + 1, yN,
+            // createBodyForSecondLayer(FieldType.WALL, (int) ((xN + 1) * getNodeSizeInMeter()),
+            // (int) ((yN) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+            // FieldType.WALL, tileWidth / 2);
+            // map[xN + 1][yN + 1] = new Node(xN + 1, yN + 1,
+            // createBodyForSecondLayer(FieldType.WALL, (int) ((xN + 1) * getNodeSizeInMeter()),
+            // (int) ((yN + 1) * getNodeSizeInMeter()), getNodeSizeInMeter()),
+            // FieldType.WALL, tileWidth / 2);
             break;
         }
       }
@@ -572,10 +573,9 @@ public class WorldMap implements RenderableModul {
         Body body2 = WorldHandler.getB2World().createBody(bodyDef2);
 
         PolygonShape shape2 = new PolygonShape();
-        shape2.setAsBox((width * getNodeSizeInMeter() * 2) / 2,
-            (height * getNodeSizeInMeter() * 2) / 2,
+        shape2.setAsBox((width * getNodeSizeInMeter()) / 2, (height * getNodeSizeInMeter()) / 2,
             firstNC.node.getCornerInMeter(CornerType.TOP_LEFT).cpy().add(width / 2, height / 2)
-                .scl(getNodeSizeInMeter() * 2),
+                .scl(getNodeSizeInMeter()),
             0);
         obstacles.add(body2);
         body2.createFixture(shape2, 1f);

@@ -40,10 +40,10 @@ public class ThetaStarMovementModule extends Module implements UpdatableModul {
     super(entityID);
     // Creating custom GridFinderOptions. For standard options, hover "GridFinderOptions()".
     GridFinderOptions opt = new GridFinderOptions();
-    opt.allowDiagonal = true;
+    opt.allowDiagonal = false;
     opt.dontCrossCorners = true;
     opt.isYDown = true;
-    opt.diagonalMovementCost = 2.5f;
+    opt.diagonalMovementCost = 1.414f;
    //opt.heuristic = new EuclideanDistance();
 
     finder = new ThetaStarGridFinder<Node>(Node.class, opt);

@@ -40,6 +40,7 @@ public class DebugRendererModule extends Module implements RenderableModul {
           g.setColor(Color.white);
           g.drawString(getEntityID(), position.x - 18, position.y - 18);
           g.drawString(position.toString(), position.x, position.y);
+
         });
 
     // XXX DEBUG PATHFINDING

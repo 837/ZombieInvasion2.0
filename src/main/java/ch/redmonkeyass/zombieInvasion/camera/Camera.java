@@ -3,11 +3,9 @@ package ch.redmonkeyass.zombieInvasion.camera;
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
-import javafx.scene.input.InputMethodHighlight;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.security.jgss.InquireType;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;

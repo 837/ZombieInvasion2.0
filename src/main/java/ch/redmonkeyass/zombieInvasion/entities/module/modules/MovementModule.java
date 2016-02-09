@@ -17,8 +17,8 @@ import ch.redmonkeyass.zombieInvasion.util.MovementHelper;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 public class MovementModule extends Module implements UpdatableModul {
-  private float maxVelocity = 10;
-  private float acceleration = 10;
+  private float maxVelocity = 3;
+  private float acceleration = 100;
 
   public MovementModule(String entityID, float maxVelocity, float acceleration) {
     super(entityID);

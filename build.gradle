@@ -82,11 +82,11 @@ task natives(type: Sync) {
     into "$buildDir/natives"
 }
 
-task assemble(dependsOn: [
+task assembler(dependsOn: [
   natives
 ])
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.5'
+    gradleVersion = '2.12'
 }

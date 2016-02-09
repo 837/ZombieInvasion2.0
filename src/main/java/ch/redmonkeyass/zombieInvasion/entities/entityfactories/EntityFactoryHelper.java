@@ -5,12 +5,12 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 public class EntityFactoryHelper {
   /**
-   * Creates a physicsModule for the entity
-   * attaches the enitie's id as userdata of the box2d body
+   * Creates a physicsModule for the entity attaches the enitie's id as userdata of the box2d body
    * 
    * @param entityBuilder
    * @param id
@@ -27,9 +27,13 @@ public class EntityFactoryHelper {
     // Create our body in the WorldHandler using our body definition
     Body body = WorldHandler.getB2World().createBody(bodyDef);
 
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox(entityBuilder.getEntityType().getWidth() / 2,
-        entityBuilder.getEntityType().getHeight() / 2);
+    // PolygonShape shape = new PolygonShape();
+    // shape.setAsBox(entityBuilder.getEntityType().getWidth() / 2,
+    // entityBuilder.getEntityType().getHeight() / 2);
+
+    CircleShape shape = new CircleShape();
+    shape.setRadius(Math.max(entityBuilder.getEntityType().getWidth() / 2,
+        entityBuilder.getEntityType().getHeight() / 2));
 
     // Create our fixture and attach it to the body
     body.createFixture(shape, 1f);

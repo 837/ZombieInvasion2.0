@@ -1,5 +1,6 @@
 package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.AddAction;
 
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
@@ -35,6 +37,7 @@ public class AStarMovementModule extends Module implements UpdatableModul {
   List<Node> pathToEnd = null;
   AStarGridFinder<Node> finder = null;
   NavigationGrid<Node> navGrid = null;
+  Node[][] worldMap = WorldHandler.getWorldMap().getMap();
 
   public AStarMovementModule(String entityID) {
     super(entityID);
@@ -42,12 +45,12 @@ public class AStarMovementModule extends Module implements UpdatableModul {
     GridFinderOptions opt = new GridFinderOptions();
     opt.allowDiagonal = false;
     opt.dontCrossCorners = true;
-    opt.diagonalMovementCost = 1.6f;
+    opt.diagonalMovementCost = 1.414f;
     opt.isYDown = true;
     // opt.heuristic = new EuclideanDistance();
 
     finder = new AStarGridFinder<Node>(Node.class, opt);
-    navGrid = new NavigationGrid<Node>(WorldHandler.getWorldMap().getMap(), false);
+    navGrid = new NavigationGrid<Node>(worldMap, true);
 
   }
 
@@ -61,9 +64,11 @@ public class AStarMovementModule extends Module implements UpdatableModul {
             WorldHandler.getEntityHandler()
                 .getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
                 .ifPresent(isSelected -> {
+
               if (isSelected) {
                 // Getting the MouseClick Position from the RIGHT_CLICK event
                 event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+
                   logger.trace("ENTITY isSelected: " + navGrid.toString());
                   // Calculating the click position and converting it to B2D coordinates
                   // Vector2 moveToPos =
@@ -71,10 +76,12 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                   WorldHandler.getEntityHandler()
                       .getDataFrom("MOUSE", DataType.MOUSE_SELECTED_NODE, Node.class)
                       .ifPresent(node -> {
+
                     // Asking the Entity for its position
                     WorldHandler.getEntityHandler()
                         .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
                         .ifPresent(entityPos -> {
+
                       Vector2 entityPosition =
                           entityPos.scl(1f / WorldHandler.getWorldMap().getNodeSizeInMeter());
                       // Calculating the GridCells on which the Entity and where to move to
@@ -98,13 +105,33 @@ public class AStarMovementModule extends Module implements UpdatableModul {
                           break;
                         }
                       }
-
-
-
-                      // FIXME Copying the path to a new List, if you don't do that, some bad magic
+                      // XXX Copying the path to a new List, if you don't do that, some bad magic
                       // happens... can't explain it...
                       if (path != null) {
-                        pathToEnd = new ArrayList<>(path);
+
+                        ArrayList<Node> finishedPath = new ArrayList<>();
+                        ArrayList<Node> restPath = new ArrayList<>();
+                        restPath.add(actualPos);
+                        restPath.addAll(path);
+
+                        int reachableNodePos = 0;
+                        int lastNodePos = restPath.size() - 1;
+                        if (reachableNodePos == lastNodePos) {
+                          finishedPath.add(restPath.get(reachableNodePos));
+                        }
+                        while (reachableNodePos < lastNodePos) {
+                          Node start = restPath.get(reachableNodePos);
+                          reachableNodePos++;
+
+                          Node n = restPath.stream().skip(reachableNodePos - 1)
+                              .filter(e -> existsDirectPath(start, e)).reduce((a, b) -> b)
+                              .orElse(null);
+
+                          reachableNodePos = restPath.indexOf(n);
+                          finishedPath.add(restPath.get(reachableNodePos));
+                        }
+
+                        pathToEnd = new ArrayList<>(finishedPath);
                       } else {
                         pathToEnd = new ArrayList<>();
                         // pathToEnd.add(goalPos);
@@ -119,7 +146,25 @@ public class AStarMovementModule extends Module implements UpdatableModul {
         }
       });
     });
+
   }
+
+  public boolean existsDirectPath(Node start, Node target) {
+    int minX = Math.min(target.x, start.x);
+    int minY = Math.min(target.y, start.y);
+    int maxX = Math.max(target.x, start.x);
+    int maxY = Math.max(target.y, start.y);
+
+    for (int i = minX; i < maxX + 1; i++) {
+      for (int j = minY; j < maxY + 1; j++) {
+        if (!worldMap[i][j].isWalkable()) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
 
   @Override
   public Optional<Object> getData(DataType dataType) {
