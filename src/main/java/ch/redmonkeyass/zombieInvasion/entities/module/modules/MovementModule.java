@@ -6,19 +6,18 @@ import java.util.Optional;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.util.MovementHelper;
+import ch.redmonkeyass.zombieInvasion.util.movement.MovementHelper;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 public class MovementModule extends Module implements UpdatableModul {
-  private float maxVelocity = 3;
-  private float acceleration = 100;
+  private float maxVelocity;
+  private float acceleration;
 
   public MovementModule(String entityID, float maxVelocity, float acceleration) {
     super(entityID);
@@ -34,16 +33,13 @@ public class MovementModule extends Module implements UpdatableModul {
               .getDataFrom(getEntityID(), DataType.ENTITY_WIDTH_HEIGHT, Float.class)
               .ifPresent(entityWidthHeight -> {
             WorldHandler.getEntityHandler()
-                .getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class).ifPresent(path -> {
-              List<Node> pathToGoal = (List<Node>) path;
-              Node actualPos, nextPos, goalPos;
+                .getDataFrom(getEntityID(), DataType.CALCULATED_PATH, List.class)
+                .ifPresent(path -> {
+              List<Node> pathToGoal = path;
+              Node actualPos, nextPos;
 
               if (!pathToGoal.isEmpty()) {
-                Vector2 position =
-                    b2Body.getPosition().scl(1f / WorldHandler.getWorldMap().getNodeSizeInMeter());
-
-                actualPos =
-                    WorldHandler.getWorldMap().getMap()[(int) (position.x)][(int) (position.y)];
+                actualPos = WorldHandler.getWorldMap().getMapNodePos(b2Body.getPosition());
                 nextPos = pathToGoal.get(0);
 
                 if (actualPos == nextPos) {

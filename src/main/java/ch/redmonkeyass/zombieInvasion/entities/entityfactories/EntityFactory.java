@@ -2,9 +2,9 @@ package ch.redmonkeyass.zombieInvasion.entities.entityfactories;
 
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.AStarMovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
+import ch.redmonkeyass.zombieInvasion.entities.module.modules.MoveSelectedEntityToMouseClick;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
@@ -52,7 +52,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 2, 10), new AStarMovementModule(id),
+        new MovementModule(id, 5, 10), new MoveSelectedEntityToMouseClick(id),
         new SimpleImageRenderModule(id, Images.ADOLF),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
@@ -72,7 +72,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 5, 10), new AStarMovementModule(id),
+        new MovementModule(id, 5, 10), new MoveSelectedEntityToMouseClick(id),
         new SimpleImageRenderModule(id, Images.HANS),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
@@ -92,7 +92,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 3, 100), new AStarMovementModule(id),
+        new MovementModule(id, 5, 10), new MoveSelectedEntityToMouseClick(id),
         new SimpleImageRenderModule(id, Images.GERHART),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
@@ -111,8 +111,8 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id),
-        new MovementModule(id, 3, 3), new FollowPlayerAI(id), new SelectionModule(id),
-        new AStarMovementModule(id), new SimpleImageRenderModule(id, Images.ZOMBIE),
+        new MovementModule(id, 3, 3), new FollowPlayerAI(id, "HANS"), new SelectionModule(id),
+        new SimpleImageRenderModule(id, Images.ZOMBIE),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
     entityBuilder.getAdditionalModules()

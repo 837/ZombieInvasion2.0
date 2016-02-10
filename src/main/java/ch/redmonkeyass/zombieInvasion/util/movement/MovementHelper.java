@@ -1,4 +1,4 @@
-package ch.redmonkeyass.zombieInvasion.util;
+package ch.redmonkeyass.zombieInvasion.util.movement;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -14,6 +14,10 @@ import ch.redmonkeyass.zombieInvasion.worldmap.Node;
  *
  */
 public class MovementHelper {
+  /**
+   * Calculates the shortest Path with A*, then reduces it to essential nodes for movement
+   */
+  public static AStarCalculator ASTAR_CALCULATOR = new AStarCalculator();
 
   /**
    * MoveToNode moves the entity to the target node.
@@ -57,13 +61,6 @@ public class MovementHelper {
     b2Body.applyForceToCenter(steeringForce, true);
   }
 
-  private void arrive(Vector2 target, Vector2 currentPos) {
-    float xDistance = target.x - currentPos.x;
-    float yDistance = target.y - currentPos.y;
-    float distance = (float) Math.sqrt(xDistance * xDistance + yDistance * yDistance);
-    if (distance > 1) {
-      // ship.x += xDistance * easingAmount;
-      // ship.y += yDistance * easingAmount;
-    }
-  }
+
+
 }

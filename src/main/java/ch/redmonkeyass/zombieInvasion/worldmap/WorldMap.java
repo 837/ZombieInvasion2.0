@@ -11,6 +11,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -86,6 +87,11 @@ public class WorldMap implements RenderableModul {
 
   public Node[][] getMap() {
     return Arrays.copyOf(map, map.length);
+  }
+
+  public Node getMapNodePos(Vector2 entityPos) {
+    entityPos.scl(1f / WorldHandler.getWorldMap().getNodeSizeInMeter());
+    return map[(int) entityPos.x][(int) entityPos.y];
   }
 
   private WorldMapLoader worldMapLoader = null;

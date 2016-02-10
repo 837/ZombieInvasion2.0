@@ -1,10 +1,8 @@
 package ch.redmonkeyass.zombieInvasion.eventhandling;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class EventDispatcher {

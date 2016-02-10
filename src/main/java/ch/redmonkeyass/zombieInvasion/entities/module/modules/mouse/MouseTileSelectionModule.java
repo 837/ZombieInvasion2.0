@@ -25,10 +25,11 @@ import ch.redmonkeyass.zombieInvasion.worldmap.Node;
  */
 public class MouseTileSelectionModule extends Module implements UpdatableModul {
   Node selectedNode = null;
+  Node[][] map;
 
   public MouseTileSelectionModule(String entityID) {
     super(entityID);
-    // TODO Auto-generated constructor stub
+    map = WorldHandler.getWorldMap().getMap();
   }
 
   @Override
@@ -40,7 +41,7 @@ public class MouseTileSelectionModule extends Module implements UpdatableModul {
               event.getAdditionalInfo(Vector2[].class).ifPresent(positions -> {
                 positions[1].add(WorldHandler.getCamera().getPosition())
                     .scl(Config.PIX2B / WorldHandler.getWorldMap().getNodeSizeInMeter());
-                Node[][] map = WorldHandler.getWorldMap().getMap();
+
                 selectedNode = map[(int) positions[1].x][(int) positions[1].y];
               });
               break;

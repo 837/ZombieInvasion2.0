@@ -25,7 +25,7 @@ public enum DataType {
   /*
    * Movement
    */
-      MOVE_TO_POS(List.class),
+      CALCULATED_PATH(List.class), 
 
   /*
    * Entity Stati

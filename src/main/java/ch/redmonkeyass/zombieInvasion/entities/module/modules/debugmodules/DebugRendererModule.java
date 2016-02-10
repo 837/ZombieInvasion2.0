@@ -44,7 +44,7 @@ public class DebugRendererModule extends Module implements RenderableModul {
         });
 
     // XXX DEBUG PATHFINDING
-    WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.MOVE_TO_POS, List.class)
+    WorldHandler.getEntityHandler().getDataFrom(getEntityID(), DataType.CALCULATED_PATH, List.class)
         .ifPresent(path -> {
           g.setColor(Color.red);
           ((List<Node>) path).forEach(c -> g.drawRect(

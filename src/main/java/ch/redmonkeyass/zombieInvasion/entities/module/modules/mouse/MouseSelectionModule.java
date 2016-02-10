@@ -2,7 +2,6 @@ package ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse;
 
 import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -38,6 +37,7 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
     // TODO Auto-generated constructor stub
   }
 
+  @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
     WorldHandler.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
       events.forEach(e -> {
@@ -46,7 +46,7 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
             e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
               position.add(WorldHandler.getCamera().getPosition());
               area = new Rectangle(position.x, position.y, 0, 0);
-              LogManager.getLogger("zombie").trace("area start pos: " + position.toString());
+              logger.trace("area start pos: " + position.toString());
             });
             break;
 
@@ -61,7 +61,7 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
             e.getAdditionalInfo(Vector2.class).ifPresent(position -> {
               position.add(WorldHandler.getCamera().getPosition());
               calculateArea(position.cpy());
-              LogManager.getLogger("zombie").trace("area end pos: " + position);
+              logger.trace("area end pos: " + position);
               if (area.getWidth() > 10 || area.getHeight() > 10 || area.getWidth() < -10
                   || area.getHeight() < -10) {
 
@@ -83,9 +83,10 @@ public class MouseSelectionModule extends Module implements RenderableModul, Upd
     });
   }
 
+  @Override
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     g.setColor(areaColor);
-    if(area.getMinX()!=0 && area.getMinY()!=0) {
+    if (area.getMinX() != 0 && area.getMinY() != 0) {
       g.fill(area);
     }
   }

@@ -10,9 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.ResourceLoader;
 
-import ch.redmonkeyass.zombieInvasion.ZombieInvasion;
-import ch.redmonkeyass.zombieInvasion.gamestates.Game;
-
 public class TextureLoader {
   private HashMap<String, Texture> textures = new HashMap<>();
   private Logger logger = LogManager.getLogger(TextureLoader.class);

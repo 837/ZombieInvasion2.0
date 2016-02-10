@@ -2,7 +2,6 @@ package ch.redmonkeyass.zombieInvasion.entities.module.modules;
 
 import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
@@ -56,8 +55,7 @@ public class SelectionModule extends Module implements UpdatableModul {
               position.scl(Config.PIX2B);
               isSelected = fixture.testPoint(position);
 
-              LogManager.getLogger("zombie")
-                  .trace("SINGLE: Entity: " + getEntityID() + " isSelected: " + isSelected);
+              logger.trace("SINGLE: Entity: " + getEntityID() + " isSelected: " + isSelected);
             }));
             break;
 
@@ -68,8 +66,7 @@ public class SelectionModule extends Module implements UpdatableModul {
               position.scl(Config.B2PIX);
               isSelected = rectangle.contains(position.x, position.y);
 
-              LogManager.getLogger("zombie")
-                  .trace("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);
+              logger.trace("AREA: Entity: " + getEntityID() + " isSelected: " + isSelected);
             }));
             break;
         }
