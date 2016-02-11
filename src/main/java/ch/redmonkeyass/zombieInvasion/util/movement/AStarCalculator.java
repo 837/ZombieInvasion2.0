@@ -58,6 +58,9 @@ public class AStarCalculator {
           .reduce((a, b) -> b).orElse(null);
 
       reachableNodePos = restPath.indexOf(n);
+      if (reachableNodePos < 0) {
+        return finishedPath;
+      }
       finishedPath.add(restPath.get(reachableNodePos));
     }
     return finishedPath;

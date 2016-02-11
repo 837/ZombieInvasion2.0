@@ -74,7 +74,10 @@ public class EntityFactory {
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
         new MovementModule(id, 5, 10), new MoveSelectedEntityToMouseClick(id),
         new SimpleImageRenderModule(id, Images.HANS),
-        EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
+    EntityFactoryHelper.createPhysicsModule(entityBuilder, id)
+
+
+    );
 
     entityBuilder.getAdditionalModules()
         .forEach(m -> WorldHandler.getModuleHandler().addModules(m));
@@ -111,7 +114,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id),
-        new MovementModule(id, 3, 3), new FollowPlayerAI(id, "HANS"), new SelectionModule(id),
+        new MovementModule(id, 4, 4), new FollowPlayerAI(id, "HANS"),
         new SimpleImageRenderModule(id, Images.ZOMBIE),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 

@@ -88,4 +88,8 @@ public class MoveSelectedEntityToMouseClick extends Module implements UpdatableM
     return Optional.empty();
   }
 
+  @Override
+  public void prepareModuleForRemoval() {
+    pathToEnd = null;
+  }
 }

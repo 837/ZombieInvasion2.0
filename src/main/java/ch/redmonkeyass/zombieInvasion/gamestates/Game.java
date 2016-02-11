@@ -1,5 +1,8 @@
 package ch.redmonkeyass.zombieInvasion.gamestates;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.GameContainer;
@@ -7,6 +10,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import com.badlogic.gdx.math.Vector2;
 
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
@@ -29,13 +34,15 @@ import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSel
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.zombieAI.FollowPlayerAI;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 import ch.redmonkeyass.zombieInvasion.input.InputHandler;
+import ch.redmonkeyass.zombieInvasion.util.MathUtil;
 import ch.redmonkeyass.zombieInvasion.util.ShaderTester;
+import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 public class Game extends BasicGameState {
   private final int ID;
   private double next_game_tick = System.currentTimeMillis();
   private int loops;
-  private double extrapolation;
+  // private double extrapolation;
   private InputHandler inputHandler = null;
   private Logger logger = LogManager.getLogger(Game.class);
 
@@ -150,6 +157,18 @@ public class Game extends BasicGameState {
                     .createEntity();
                 logger.trace("Spawned 10 new Entities");
                 break;
+              case J_PRESSED:
+                for (int i = 0; i < 10; i++) {
+                  Node n = WorldHandler.getWorldMap().getAllWalkableNodes().stream()
+                      .skip(MathUtil.randomInt(0,
+                          WorldHandler.getWorldMap().getAllWalkableNodes().size() - 2))
+                      .findAny().get();
+
+                  EntityBuilder.createBuilder(EntityType.ZOMBIE)
+                      .startPosition(new Vector2(n.x * 2, n.y * 2)).createEntity();
+                }
+                logger.trace("Spawned 10 new Zombies at random pos");
+                break;
               case K_PRESSED:
                 WorldHandler.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null,
                     "GAME", "GLOBAL");
@@ -209,7 +228,7 @@ public class Game extends BasicGameState {
       next_game_tick = System.currentTimeMillis();
     }
 
-    extrapolation = 1 - (next_game_tick - System.currentTimeMillis()) / Config.TIME_PER_TICK;
+    // extrapolation = 1 - (next_game_tick - System.currentTimeMillis()) / Config.TIME_PER_TICK;
 
   }
 

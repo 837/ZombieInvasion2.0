@@ -1,5 +1,6 @@
 package ch.redmonkeyass.zombieInvasion.entities.entityfactories;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -22,7 +23,8 @@ public class EntityFactoryHelper {
     // StaticBody
     bodyDef.type = BodyType.DynamicBody;
     // Set our body's starting position in object space (meters)
-    bodyDef.position.set(entityBuilder.getStartPosition());
+    bodyDef.position.set(new Vector2(entityBuilder.getStartPosition())
+        .add((float) Math.random() * 0.1f, (float) Math.random() * 0.1f));
 
     // Create our body in the WorldHandler using our body definition
     Body body = WorldHandler.getB2World().createBody(bodyDef);

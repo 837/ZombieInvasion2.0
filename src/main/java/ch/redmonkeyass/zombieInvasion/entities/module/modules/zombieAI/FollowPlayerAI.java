@@ -41,17 +41,20 @@ public class FollowPlayerAI extends Module implements UpdatableModul {
 
   @Override
   public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    WorldHandler.getEntityHandler()
-        .getDataFrom(randomPlayer.getID(), DataType.POSITION, Vector2.class)
-        .ifPresent(targetPos -> {
-          WorldHandler.getEntityHandler()
-              .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class).ifPresent(entityPos -> {
+    if (randomPlayer != null) {
+      WorldHandler.getEntityHandler()
+          .getDataFrom(randomPlayer.getID(), DataType.POSITION, Vector2.class)
+          .ifPresent(targetPos -> {
+            WorldHandler.getEntityHandler()
+                .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
+                .ifPresent(entityPos -> {
 
-            pathToEnd = MovementHelper.ASTAR_CALCULATOR.calculatePath(
-                WorldHandler.getWorldMap().getMapNodePos(entityPos),
-                WorldHandler.getWorldMap().getMapNodePos(targetPos));
+              pathToEnd = MovementHelper.ASTAR_CALCULATOR.calculatePath(
+                  WorldHandler.getWorldMap().getMapNodePos(entityPos),
+                  WorldHandler.getWorldMap().getMapNodePos(targetPos));
+            });
           });
-        });
+    }
   }
 
   @Override
@@ -63,4 +66,9 @@ public class FollowPlayerAI extends Module implements UpdatableModul {
     return Optional.empty();
   }
 
+  @Override
+  public void prepareModuleForRemoval() {
+    randomPlayer = null;
+    pathToEnd = null;
+  }
 }

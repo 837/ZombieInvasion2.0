@@ -110,13 +110,17 @@ public class InputHandler {
             WorldHandler.getEventDispatcher().createEvent(0, EventType.G_RELEASED, null,
                 "INPUT_LISTENER", "GLOBAL");
             break;
+          case Input.KEY_J:
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.J_RELEASED, null,
+                "INPUT_LISTENER", "GLOBAL");
+            break;
           case Input.KEY_K:
             WorldHandler.getEventDispatcher().createEvent(0, EventType.K_RELEASED, null,
                 "INPUT_LISTENER", "GLOBAL");
             break;
           case Input.KEY_F1:
-            WorldHandler.getEventDispatcher().createEvent(0, EventType.DEBUG_CONSOLE_KEY_F1_RELEASED,
-                null, "INPUT_LISTENER", "GLOBAL");
+            WorldHandler.getEventDispatcher().createEvent(0,
+                EventType.DEBUG_CONSOLE_KEY_F1_RELEASED, null, "INPUT_LISTENER", "GLOBAL");
             break;
           case Input.KEY_RIGHT:
             WorldHandler.getEventDispatcher().createEvent(0, EventType.RIGHT_ARROW_RELEASED, null,
@@ -166,6 +170,10 @@ public class InputHandler {
             break;
           case Input.KEY_G:
             WorldHandler.getEventDispatcher().createEvent(0, EventType.G_PRESSED, null,
+                "INPUT_LISTENER", "GLOBAL");
+            break;
+          case Input.KEY_J:
+            WorldHandler.getEventDispatcher().createEvent(0, EventType.J_PRESSED, null,
                 "INPUT_LISTENER", "GLOBAL");
             break;
           case Input.KEY_K:

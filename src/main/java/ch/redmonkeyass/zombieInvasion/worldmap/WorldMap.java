@@ -89,6 +89,31 @@ public class WorldMap implements RenderableModul {
     return Arrays.copyOf(map, map.length);
   }
 
+
+  ArrayList<Node> walkableNodes = new ArrayList<>();
+  ArrayList<Node> unpassableNodes = new ArrayList<>();
+
+
+  public ArrayList<Node> getAllWalkableNodes() {
+    return walkableNodes;
+  }
+
+  public ArrayList<Node> getAllUnpassableNodes() {
+    return unpassableNodes;
+  }
+
+  public void createWalkableAndUnpassableNodeLists() {
+    for (int i = 0; i < map.length; i++) {
+      for (int j = 0; j < map[i].length; j++) {
+        if (map[i][j].isWalkable()) {
+          walkableNodes.add(map[i][j]);
+        } else {
+          unpassableNodes.add(map[i][j]);
+        }
+      }
+    }
+  }
+
   public Node getMapNodePos(Vector2 entityPos) {
     entityPos.scl(1f / WorldHandler.getWorldMap().getNodeSizeInMeter());
     return map[(int) entityPos.x][(int) entityPos.y];
@@ -138,6 +163,8 @@ public class WorldMap implements RenderableModul {
       // calculates box bodies for walls
       createBoxBodiesForAreas(areas);
 
+
+      createWalkableAndUnpassableNodeLists();
     } catch (Exception e) {
       logger.error("Error while creating WorldMap.", e);
     }

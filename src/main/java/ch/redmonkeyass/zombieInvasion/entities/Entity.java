@@ -17,7 +17,6 @@ public class Entity {
   private ArrayList<Module> modules = new ArrayList<>();
   private HashMap<DataType, Integer> moduleValueMap = new HashMap<>();
 
-
   public Entity(String ID) {
     this.ID = ID;
   }
@@ -65,24 +64,18 @@ public class Entity {
     moduleValueMap.clear();
   }
 
-  public <T> void removeModule (Class<T> module){
-    modules.parallelStream()
-        .filter(e -> e.getClass() == module)
-        .findAny()
+  public <T> void removeModule(Class<T> module) {
+    modules.parallelStream().filter(e -> e.getClass() == module).findAny()
         .ifPresent(this::removeModule);
-
   }
 
+  /**
+   * .map casts e(Optional<ArrayList<>>) to e(Optional<ArrayList<Event>>)
+   * 
+   * @return Optional<ArrayList<Event>>
+   */
+  @SuppressWarnings("unchecked")
   public Optional<ArrayList<Event>> getEvents() {
-    /*
-     * TODO this is a bit stupid... for some reason
-     * Optional.ofNullable(WorldHandler.....getDataFrom(...).orElse(null) seems to work...? wtf also method
-     * reference cast => bad return type ???
-     */
-
-    // return WorldHandler.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class);
-
-
     return WorldHandler.getEntityHandler().getDataFrom(ID, DataType.EVENTS, ArrayList.class)
         .map(e -> e);
   }
