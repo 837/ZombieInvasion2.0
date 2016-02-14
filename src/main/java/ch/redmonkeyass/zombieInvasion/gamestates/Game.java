@@ -1,7 +1,6 @@
 package ch.redmonkeyass.zombieInvasion.gamestates;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +16,7 @@ import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityBuilder;
 import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
+import ch.redmonkeyass.zombieInvasion.entities.entityfactories.waves.xmlLoader.XMLWaveLoader;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
 import ch.redmonkeyass.zombieInvasion.entities.module.modules.LightEmitter;
@@ -46,6 +46,11 @@ public class Game extends BasicGameState {
   private InputHandler inputHandler = null;
   private Logger logger = LogManager.getLogger(Game.class);
 
+
+
+  XMLWaveLoader xmlWaveLoader = null;
+
+
   public Game(int ID) {
     this.ID = ID;
   }
@@ -57,17 +62,17 @@ public class Game extends BasicGameState {
     EntityBuilder.createBuilder(EntityType.MOUSE).createEntity();
     EntityBuilder.createBuilder(EntityType.GAME).createEntity();
 
-    EntityBuilder.createBuilder(EntityType.ADOLF)
-        .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
-        .createEntity();
-
-    EntityBuilder.createBuilder(EntityType.HANS)
-        .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
-        .createEntity();
-
-    EntityBuilder.createBuilder(EntityType.GERHART)
-        .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
-        .createEntity();
+    // EntityBuilder.createBuilder(EntityType.ADOLF)
+    // .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+    // .createEntity();
+    //
+    // EntityBuilder.createBuilder(EntityType.HANS)
+    // .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+    // .createEntity();
+    //
+    // EntityBuilder.createBuilder(EntityType.GERHART)
+    // .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+    // .createEntity();
 
 
     inputHandler = new InputHandler(gc);
@@ -75,6 +80,13 @@ public class Game extends BasicGameState {
 
     WorldHandler.getCamera().setMapData(WorldHandler.getWorldMap().getMapWidthInMeter(),
         WorldHandler.getWorldMap().getMapHeightInMeter());
+
+
+    xmlWaveLoader =
+        new XMLWaveLoader(new File(Config.RESSOURCE_FOLDER + "/waves/" + Config.WAVES_FILE_NAME));
+
+    xmlWaveLoader.getWaves().get(0).getEntityBuilders().forEach(b -> b.createEntity());
+    // .forEach(e -> e.getEntityBuilders().forEach(b -> b.createEntity()));
   }
 
   @Override
@@ -173,6 +185,18 @@ public class Game extends BasicGameState {
                 WorldHandler.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null,
                     "GAME", "GLOBAL");
                 logger.trace("Removed all Entities");
+                break;
+              case SET_WAVE:
+                if (xmlWaveLoader.getWaves().size() > e.getAdditionalInfo(Integer.class).get()
+                    .intValue()) {
+                  xmlWaveLoader.getWaves().get(e.getAdditionalInfo(Integer.class).get().intValue())
+                      .getEntityBuilders().forEach(builder -> builder.createEntity());
+                  logger
+                      .trace("Set Wave to: " + e.getAdditionalInfo(Integer.class).get().intValue());
+                  logger.trace("And created all entities in it");
+                } else {
+                  logger.error("Wave not found, try smaller number!");
+                }
                 break;
             }
           });

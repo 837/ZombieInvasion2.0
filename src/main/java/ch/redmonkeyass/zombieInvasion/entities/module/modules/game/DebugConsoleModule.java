@@ -18,6 +18,7 @@ import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.entities.module.Module;
 import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.entities.module.UpdatableModul;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 
 public class DebugConsoleModule extends Module implements UpdatableModul, RenderableModul {
   private TextField consoleInputField = null;
@@ -32,13 +33,13 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
   public void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g) {
     if (consoleInputField != null) {
       g.setColor(new Color(0, 0, 255, 80));
-      g.fillRect(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y, Config.WIDTH,
-          Config.HEIGHT);
+      g.fillRect(WorldHandler.getCamera().getPosition().x, WorldHandler.getCamera().getPosition().y,
+          Config.WIDTH, Config.HEIGHT);
       g.setColor(Color.white);
       g.drawString(outPut, WorldHandler.getCamera().getPosition().x + 20,
-              WorldHandler.getCamera().getPosition().y + 90);
+          WorldHandler.getCamera().getPosition().y + 90);
       consoleInputField.setLocation((int) WorldHandler.getCamera().getPosition().x + 5,
-              (int) WorldHandler.getCamera().getPosition().y + 30);
+          (int) WorldHandler.getCamera().getPosition().y + 30);
       consoleInputField.render(gc, g);
     }
   }
@@ -54,8 +55,8 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                 Font font = new Font("Verdana", Font.BOLD, 15);
                 TrueTypeFont ttf = new TrueTypeFont(font, true);
                 consoleInputField =
-                        new TextField(gc, ttf, (int) WorldHandler.getCamera().getPosition().x + 5,
-                                (int) WorldHandler.getCamera().getPosition().y + 30, Config.WIDTH - 10, 60,
+                    new TextField(gc, ttf, (int) WorldHandler.getCamera().getPosition().x + 5,
+                        (int) WorldHandler.getCamera().getPosition().y + 30, Config.WIDTH - 10, 60,
                         componentListener -> {
 
 
@@ -74,7 +75,8 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                           outPut += "***GENERAL***\n" + "help -- displays help\n"
                               + "clear -- clears the output\n" + "***ENTITIES***\n"
                               + "add -- add ENTITY_ID MODULENAME\n"
-                              + "remove -- remove ENTITY_ID MODULENAME\n";
+                              + "remove -- remove ENTITY_ID MODULENAME\n" + "***WAVES***\n"
+                              + "setWave -- setWave WAVE_NUMBER\n";
                           break;
                         default:
                           outPut += "[" + message[0] + "] not found, try help\n";
@@ -83,8 +85,22 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                       consoleInputField.setText("");
                       break;
                     case 2:
-                      outPut += "[" + message[0] + "] not found, try help\n";
-                      break;
+                      switch (message[0]) {
+                        case "setWave":
+                          try {
+                            WorldHandler.getEventDispatcher().createEvent(0, EventType.SET_WAVE,
+                                Integer.valueOf(message[1]), "GAME", "GLOBAL");
+                            outPut += "Set Wave to: [" + message[1] + "] if it exists.\n";
+                          } catch (Exception e2) {
+                            outPut += "Input couldn't be handled. [" + message[1]
+                                + " is not an Integer]\n";
+                          }
+                          break;
+
+                        default:
+                          outPut += "[" + message[0] + "] not found, try help\n";
+                          break;
+                      }
                     case 3:
                       /*
                        * preCond: message format <action> <entity name> <additional info> <action>
@@ -110,11 +126,12 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                                 WorldHandler.getModuleHandler()
                                     .addModules(constructtoni.newInstance(entity.getID()));
                                 outPut +=
-                                    "added to: " + entity.getID() + " the module: " + message[2];
+                                    "Added to: " + entity.getID() + " the module: " + message[2];
                                 break;
                               case "remove":
-                                WorldHandler.getModuleHandler().removeModulesFrom(entity.getID(), clazz);
-                                outPut += "removed from: " + entity.getID() + " the module: "
+                                WorldHandler.getModuleHandler().removeModulesFrom(entity.getID(),
+                                    clazz);
+                                outPut += "Removed from: " + entity.getID() + " the module: "
                                     + message[2];
                                 break;
                               default:
@@ -125,13 +142,13 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                           }
                         } catch (ClassNotFoundException notFound) {
                           LogManager.getLogger("zombie").debug("class couldn't be found", notFound);
-                          outPut += "class couldn't be found";
+                          outPut += "Class couldn't be found";
                         } catch (ClassCastException badClass) {
                           LogManager.getLogger("zombie").debug("tried to load bad class", badClass);
-                          outPut += "tried to load bad class";
+                          outPut += "Tried to load bad class";
                         } catch (Exception ex) {
                           LogManager.getLogger("zombie").debug("input couldn't be handled", ex);
-                          outPut += "input couldn't be handled";
+                          outPut += "Input couldn't be handled";
                         }
                         outPut += "\n";
                       });

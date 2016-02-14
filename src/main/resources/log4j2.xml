@@ -24,6 +24,9 @@
     <Logger name="Events" level="trace" additivity="false">
         <AppenderRef ref="Console"/>
     </Logger>
+    <Logger name="Factories" level="trace" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger>
     <Root level="error">
         <AppenderRef ref="Console"/>
     </Root>

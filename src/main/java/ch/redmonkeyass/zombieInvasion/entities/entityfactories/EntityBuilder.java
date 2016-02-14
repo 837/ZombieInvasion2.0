@@ -56,4 +56,5 @@ public class EntityBuilder {
   public Vector2 getStartPosition() {
     return startPosition;
   }
+
 }

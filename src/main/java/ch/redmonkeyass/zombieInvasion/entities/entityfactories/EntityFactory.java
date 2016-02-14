@@ -74,10 +74,7 @@ public class EntityFactory {
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
         new MovementModule(id, 5, 10), new MoveSelectedEntityToMouseClick(id),
         new SimpleImageRenderModule(id, Images.HANS),
-    EntityFactoryHelper.createPhysicsModule(entityBuilder, id)
-
-
-    );
+        EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
     entityBuilder.getAdditionalModules()
         .forEach(m -> WorldHandler.getModuleHandler().addModules(m));

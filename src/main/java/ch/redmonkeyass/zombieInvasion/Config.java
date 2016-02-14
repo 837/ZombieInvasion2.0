@@ -34,5 +34,9 @@ public class Config {
   public static final String WORLDMAP_NAME = "200x200Background.tmx";
   public static final int MAX_ROOMS = 30;
 
+  //Waves
+  public static final String WAVES_FILE_NAME = "wavesXML.xml";
+  
+  //res
   public static final String RESSOURCE_FOLDER = System.getProperty("user.dir")+"/res";
 }

@@ -1,0 +1,55 @@
+<waves>
+    <wave name="wave1">
+		<entity>
+			<type>HANS</type>
+			<startpos>StartZone</startpos>
+			<numOfEntitiesToSpawn>1</numOfEntitiesToSpawn>
+		</entity>
+		 <entity>
+			<type>GERHART</type>
+			<startpos>StartZone</startpos>
+			<numOfEntitiesToSpawn>1</numOfEntitiesToSpawn>
+		</entity>
+		<entity>
+			<type>ADOLF</type>
+			<startpos>StartZone </startpos>
+			<numOfEntitiesToSpawn>1</numOfEntitiesToSpawn>
+	</entity>
+  </wave>
+  
+   <wave name="wave2">
+		<entity>
+			<type>ZOMBIE</type>
+			<startpos>Random </startpos>
+			<numOfEntitiesToSpawn>10</numOfEntitiesToSpawn>
+		</entity>
+		<entity>
+			<type>ZOMBIE</type>
+			<startpos>Random</startpos>
+			<numOfEntitiesToSpawn>1</numOfEntitiesToSpawn>
+		</entity>
+		<entity>
+			<type>ZOMBIE</type>
+			<startpos> Random</startpos>
+			<numOfEntitiesToSpawn>1</numOfEntitiesToSpawn>
+		</entity>
+  </wave>
+  
+  <wave name="wave3">
+		<entity>
+			<type>ZOMBIE</type>
+			<startpos>Random</startpos>
+			<numOfEntitiesToSpawn>1</numOfEntitiesToSpawn>
+		</entity>
+		<entity>
+			<type>ZOMBIE</type>
+			<startpos>Random</startpos>
+			<numOfEntitiesToSpawn>1</numOfEntitiesToSpawn>
+		</entity>
+		<entity>
+			<type>ZOMBIE</type>
+			<startpos>Random</startpos>
+			<numOfEntitiesToSpawn>1</numOfEntitiesToSpawn>
+		</entity>
+  </wave>
+</waves>

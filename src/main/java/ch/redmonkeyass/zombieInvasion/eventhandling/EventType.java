@@ -24,7 +24,11 @@ public enum EventType {
   /*
    * EntityEvents
    */
-  KILL_ENTITY, REMOVE_ENTITY
+  KILL_ENTITY, REMOVE_ENTITY,
+  /*
+   * Waves
+   */
+  SET_WAVE, CHANGED_WAVE
 
 }
 
