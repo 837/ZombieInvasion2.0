@@ -117,7 +117,7 @@ public class DebugConsoleModule extends Module implements UpdatableModul, Render
                             Constructor<Module> constructtoni;
 
                             clazz = (Class<Module>) Class
-                                .forName("ch.redmonkeyass.zombieInvasion.entities.module.modules."
+                                .forName("ch.redmonkeyass.zombieInvasion.module.modules."
                                     + message[2]);
                             switch (message[0]) {
                               case "add":
