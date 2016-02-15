@@ -6,7 +6,10 @@ import java.util.Optional;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Box2D;
 
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
@@ -54,6 +57,12 @@ public class MovementModule extends Module implements UpdatableModul {
               }
             });
           });
+
+          //limit max velocity
+          Vector2 vel = b2Body.getLinearVelocity();
+          if(vel.len() > maxVelocity){
+            b2Body.setLinearVelocity(vel.nor().scl(maxVelocity));
+          }
         });
   }
 
