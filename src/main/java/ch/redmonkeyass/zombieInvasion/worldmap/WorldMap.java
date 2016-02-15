@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.Array;
 
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.util.Comparables;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node.CornerType;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.MapBodyBuilder;
@@ -463,7 +463,7 @@ public class WorldMap implements RenderableModul {
   }
 
   /**
-   * Creates rectangles based on Abi´s algorithm
+   * Creates rectangles based on Abiï¿½s algorithm
    * 
    * @param areas
    */

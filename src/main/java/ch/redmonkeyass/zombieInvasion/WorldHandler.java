@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ch.redmonkeyass.zombieInvasion.camera.Camera;
 import ch.redmonkeyass.zombieInvasion.entities.EntityHandler;
-import ch.redmonkeyass.zombieInvasion.entities.module.ModuleHandler;
+import ch.redmonkeyass.zombieInvasion.module.ModuleHandler;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventDispatcher;
 import ch.redmonkeyass.zombieInvasion.worldmap.WorldMap;
 

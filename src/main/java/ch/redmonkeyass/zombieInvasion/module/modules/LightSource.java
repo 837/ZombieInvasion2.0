@@ -1,4 +1,4 @@
-package ch.redmonkeyass.zombieInvasion.entities.module.modules;
+package ch.redmonkeyass.zombieInvasion.module.modules;
 
 import java.util.Optional;
 
@@ -14,8 +14,8 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.entities.module.Module;
-import ch.redmonkeyass.zombieInvasion.entities.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.Module;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
 
 /**
  * Created by P on 22.09.2015.

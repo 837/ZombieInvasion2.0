@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.PhysicsModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.PhysicsModule;
 
 public class EntityFactoryHelper {
   /**

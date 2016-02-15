@@ -2,18 +2,18 @@ package ch.redmonkeyass.zombieInvasion.entities.entityfactories;
 
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.EntityStatusModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.EventListenerModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.MoveSelectedEntityToMouseClick;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.MovementModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.SelectionModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.SimpleImageRenderModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.debugmodules.DebugRendererModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugConsoleModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.game.DebugRendererGameModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseSelectionModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.mouse.MouseTileSelectionModule;
-import ch.redmonkeyass.zombieInvasion.entities.module.modules.zombieAI.FollowPlayerAI;
+import ch.redmonkeyass.zombieInvasion.module.modules.EntityStatusModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.EventListenerModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.MoveSelectedEntityToMouseClick;
+import ch.redmonkeyass.zombieInvasion.module.modules.MovementModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.SelectionModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.SimpleImageRenderModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.debugmodules.DebugRendererModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.game.DebugConsoleModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.game.DebugRendererGameModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.mouse.MouseSelectionModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.mouse.MouseTileSelectionModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.zombieAI.FollowPlayerAI;
 import ch.redmonkeyass.zombieInvasion.util.Images;
 
 public class EntityFactory {
