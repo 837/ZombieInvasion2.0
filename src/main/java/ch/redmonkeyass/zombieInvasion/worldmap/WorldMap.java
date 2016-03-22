@@ -34,6 +34,11 @@ public class WorldMap implements RenderableModul {
   private float mapWidthInMeter = 0;
   private float mapHeightInMeter = 0;
 
+  @Override
+  public boolean castShadow() {
+    return false;
+  }
+
   Array<Body> obstacles = new Array<>();
 
   private Logger logger = LogManager.getLogger(WorldMap.class);
