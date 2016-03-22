@@ -72,7 +72,7 @@ public class Game extends BasicGameState {
         this.ID = ID;
     }
 
-    ShaderTester st = new ShaderTester();
+    //ShaderTester st = new ShaderTester();
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -94,7 +94,6 @@ public class Game extends BasicGameState {
         // EntityBuilder.createBuilder(EntityType.GERHART)
         // .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
         // .createEntity();
-
         Matrix4f model = new Matrix4f();
         Matrix4f view = new Matrix4f();
         Matrix4f projection = toOrtho2D(null, 0, 0, w, h, 1, -1);
@@ -104,6 +103,7 @@ public class Game extends BasicGameState {
         mvpMatrixBuffer.flip();//prepare for read
 
         shadowsShaderManager = new ShadowsShaderManager(mvpMatrixBuffer,w,h);
+
         inputHandler = new InputHandler(gc);
 
 
@@ -124,7 +124,6 @@ public class Game extends BasicGameState {
         g.translate(-WorldHandler.getCamera().getPosition().x,
                 -WorldHandler.getCamera().getPosition().y);
 
-        shadowPass(gc,sbg,g);
 
         // WorldMap
         WorldHandler.getWorldMap().RENDER(gc, sbg, g);
@@ -170,17 +169,23 @@ public class Game extends BasicGameState {
                 .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
         // XXX TEST END
+        shadowPass(gc,sbg,g);
+        g.drawImage(shadows,0,0);
     }
 
     public void shadowPass(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
+        shadowCastingBuffer.translate(-WorldHandler.getCamera().getPosition().x,
+                -WorldHandler.getCamera().getPosition().y);
         //draw all shadow casting textures to a buffer
-        WorldHandler.getModuleHandler().getModulesOf(RenderableModul.class).ifPresent(
+        WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class).ifPresent(
                 renderables -> renderables.forEach(r -> {if(r.castShadow()) r.RENDER(gc,sbg, shadowCastingBuffer);})
         );
 
         shadowsShaderManager.renderShadows(shadowCasterBuffers,shadowsBuffer);
-        g.drawImage(shadows,0,0);
+
+        g.drawImage(shadows,-WorldHandler.getCamera().getPosition().x,
+                -WorldHandler.getCamera().getPosition().y);
     }
 
 
