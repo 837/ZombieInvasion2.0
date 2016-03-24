@@ -18,6 +18,7 @@ void main() {
 
     //radius of the blur depends on the distance from the center
     float radius = texture2D(sampler,UV).b;
+    float inShadow = 1 - texture2D(sampler,UV).r;
 
     //linearly interpolate the amount of blur
     float blur = mix(0f,5f,radius)/resolution;
@@ -46,5 +47,5 @@ void main() {
 
 
     //discard alpha for our simple demo, multiply by vertex color and return
-    color = vec4(vec3(sum.r), 1.0);
+    color = vec4(vec3(sum.r), inShadow);
 }
