@@ -33,11 +33,15 @@ public class ShadowsShaderManager {
     final FloatBuffer mvpMatrixBuffer;
     private final int w;
     private final int h;
+    private final int trueW;
+    private final int trueH;
 
-    public ShadowsShaderManager(FloatBuffer mvpMatrixBuffer, int w, int h) {
+    public ShadowsShaderManager(FloatBuffer mvpMatrixBuffer, int w, int h, int trueW, int trueH) {
         this.mvpMatrixBuffer = mvpMatrixBuffer;
         this.h = h;
         this.w = w;
+        this.trueW = trueW;
+        this.trueH = trueH;
 
         distanceProgram = new ShaderProgram("res/shaderinos/passthroughVBO.vert", "res/shaderinos/calcDistances.frag");
         distortionProgram = new ShaderProgram("res/shaderinos/passthroughVBO.vert", "res/shaderinos/distortImage.frag");
@@ -58,7 +62,7 @@ public class ShadowsShaderManager {
 
         distanceFBO = new FrameBuffer(FrameBuffer.type.FLOAT, false, w, h, GL_LINEAR);
         distortionFBO = new FrameBuffer(FrameBuffer.type.FLOAT, false, w, h, GL_NEAREST);
-        shadowsFBO = new FrameBuffer(FrameBuffer.type.FLOAT, false, w, h, GL_LINEAR);
+        shadowsFBO = new FrameBuffer(FrameBuffer.type.FLOAT, false, trueW, trueH, GL_LINEAR);
         blurFBO = new FrameBuffer(FrameBuffer.type.FLOAT, false, w, h, GL_LINEAR);
 
         final int nReductions = (int) (Math.log(w) / Math.log(2) + 1e-12);

@@ -3,7 +3,6 @@ package ch.redmonkeyass.zombieInvasion.gamestates;
 import java.io.File;
 import java.nio.FloatBuffer;
 
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.util.shadows.ShadowsShaderManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,27 +41,26 @@ import ch.redmonkeyass.zombieInvasion.module.modules.zombieAI.FollowPlayerAI;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 import ch.redmonkeyass.zombieInvasion.input.InputHandler;
 import ch.redmonkeyass.zombieInvasion.util.MathUtil;
-import ch.redmonkeyass.zombieInvasion.util.ShaderTester;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 
 import static ch.redmonkeyass.zombieInvasion.util.shadows.ShadowsShaderManager.toOrtho2D;
+import static org.lwjgl.opengl.GL11.*;
 
 public class Game extends BasicGameState {
     private final int ID;
     private double next_game_tick = System.currentTimeMillis();
     private int loops;
-    private final int h = 1024;
-    private final int w = 1024;
+    private final int shadowsRadius = 1024;
+    private final int h = shadowsRadius;
     // private double extrapolation;
     private InputHandler inputHandler = null;
     private Logger logger = LogManager.getLogger(Game.class);
-    private Image shadowCasterBuffers;
-    FBOGraphics shadowCastingBuffer;
-    private Image shadows;
-    private FBOGraphics shadowsBuffer;
+    private Image shadowCastersTexture;
+    FBOGraphics shadowCastersFBO;
+    private Image shadowTexture;
+    private FBOGraphics shadowFBO;
     ShadowsShaderManager shadowsShaderManager;
     FloatBuffer mvpMatrixBuffer = BufferUtils.createFloatBuffer(16);
-
 
 
     XMLWaveLoader xmlWaveLoader = null;
@@ -78,10 +76,10 @@ public class Game extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         EntityBuilder.createBuilder(EntityType.MOUSE).createEntity();
         EntityBuilder.createBuilder(EntityType.GAME).createEntity();
-        shadowCasterBuffers = new Image(w, h);
-        shadowCastingBuffer = new FBOGraphics(shadowCasterBuffers);
-        shadows = new Image(w, h);
-        shadowsBuffer = new FBOGraphics(shadows);
+        shadowCastersTexture = new Image(Config.WIDTH, Config.HEIGHT);
+        shadowCastersFBO = new FBOGraphics(shadowCastersTexture);
+        shadowTexture = new Image(Config.WIDTH, Config.HEIGHT);
+        shadowFBO = new FBOGraphics(shadowTexture);
 
         // EntityBuilder.createBuilder(EntityType.ADOLF)
         // .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
@@ -96,13 +94,17 @@ public class Game extends BasicGameState {
         // .createEntity();
         Matrix4f model = new Matrix4f();
         Matrix4f view = new Matrix4f();
-        Matrix4f projection = toOrtho2D(null, 0, 0, w, h, 1, -1);
+        Matrix4f projection = toOrtho2D(null, 0, 0, shadowsRadius, h, 1, -1);
         // MVP = M * V * P;
         Matrix4f mvp = Matrix4f.mul(model, Matrix4f.mul(view, projection, null), null);
         mvp.store(mvpMatrixBuffer);
         mvpMatrixBuffer.flip();//prepare for read
 
-        shadowsShaderManager = new ShadowsShaderManager(mvpMatrixBuffer,w,h);
+        shadowsShaderManager = new ShadowsShaderManager(mvpMatrixBuffer, shadowsRadius, h, Config.WIDTH, Config.HEIGHT);
+        glDisable(GL_DEPTH_TEST);
+        glClearColor(0, 0, 0, 1);
+        int glError = glGetError();
+        if (glError != 0) System.err.println("gl error: " + glError);
 
         inputHandler = new InputHandler(gc);
 
@@ -114,7 +116,7 @@ public class Game extends BasicGameState {
         xmlWaveLoader =
                 new XMLWaveLoader(new File(Config.RESSOURCE_FOLDER + "/waves/" + Config.WAVES_FILE_NAME));
 
-        xmlWaveLoader.getWaves().get(0).getEntityBuilders().forEach(b -> b.createEntity());
+        xmlWaveLoader.getWaves().get(0).getEntityBuilders().forEach(EntityBuilder::createEntity);
         // .forEach(e -> e.getEntityBuilders().forEach(b -> b.createEntity()));
     }
 
@@ -128,9 +130,9 @@ public class Game extends BasicGameState {
         // WorldMap
         WorldHandler.getWorldMap().RENDER(gc, sbg, g);
 
-        // XXX TEST START
-        WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
-                .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+        // not need anymoere
+//        WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
+//                .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
         WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
                 .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
@@ -169,23 +171,36 @@ public class Game extends BasicGameState {
                 .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
         // XXX TEST END
-        shadowPass(gc,sbg,g);
-        g.drawImage(shadows,0,0);
+        shadowPass(gc, sbg, g);
+        //g.drawImage(shadowTexture, 0, 0);
+        g.drawImage(shadowTexture, WorldHandler.getCamera().getPosition().x,
+                WorldHandler.getCamera().getPosition().y);
+        g.drawImage(shadowCastersTexture, WorldHandler.getCamera().getPosition().x,
+                WorldHandler.getCamera().getPosition().y);
+
+
+        shadowFBO.clear();
+
+        int glError = glGetError();
+        if (glError != 0) System.err.println("gl error: " + glError);
     }
 
-    public void shadowPass(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+    /**
+     * shadow will be stored in the Image associated to shadowFBO
+     */
+    private void shadowPass(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
-        shadowCastingBuffer.translate(-WorldHandler.getCamera().getPosition().x,
+        shadowCastersFBO.translate(-WorldHandler.getCamera().getPosition().x,
                 -WorldHandler.getCamera().getPosition().y);
+        shadowCastersFBO.clear();
+
         //draw all shadow casting textures to a buffer
         WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class).ifPresent(
-                renderables -> renderables.forEach(r -> {if(r.castShadow()) r.RENDER(gc,sbg, shadowCastingBuffer);})
+                renderables -> renderables.forEach(r -> {
+                    if (r.castShadow()) r.RENDER(gc, sbg, shadowCastersFBO);
+                })
         );
-
-        shadowsShaderManager.renderShadows(shadowCasterBuffers,shadowsBuffer);
-
-        g.drawImage(shadows,-WorldHandler.getCamera().getPosition().x,
-                -WorldHandler.getCamera().getPosition().y);
+        shadowsShaderManager.renderShadows(shadowCastersTexture, shadowFBO);
     }
 
 
