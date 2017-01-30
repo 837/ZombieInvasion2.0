@@ -1,18 +1,16 @@
 package ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator;
 
 
+import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
+import com.badlogic.gdx.math.Vector2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.badlogic.gdx.math.Vector2;
-
-import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
 
 public class MapLoader {
   protected TiledMap backgroundMap;

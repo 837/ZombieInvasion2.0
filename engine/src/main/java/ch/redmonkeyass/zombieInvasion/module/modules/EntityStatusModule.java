@@ -1,15 +1,14 @@
 package ch.redmonkeyass.zombieInvasion.module.modules;
 
-import java.util.Optional;
-
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import ch.redmonkeyass.zombieInvasion.module.Module;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import java.util.Optional;
 
 public class EntityStatusModule extends Module implements UpdatableModul {
   private Entity_Status status = Entity_Status.LIVING;

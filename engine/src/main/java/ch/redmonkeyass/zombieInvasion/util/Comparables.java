@@ -1,10 +1,9 @@
 package ch.redmonkeyass.zombieInvasion.util;
 
-import java.util.Comparator;
-
+import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import com.badlogic.gdx.math.Vector2;
 
-import ch.redmonkeyass.zombieInvasion.worldmap.Node;
+import java.util.Comparator;
 
 public class Comparables {
   public static class SortSmallestY implements Comparator<Vector2> {

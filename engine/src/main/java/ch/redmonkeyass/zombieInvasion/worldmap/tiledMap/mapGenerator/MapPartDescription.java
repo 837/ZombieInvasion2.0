@@ -1,11 +1,10 @@
 package ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator;
 
-import java.util.ArrayList;
-
-import com.badlogic.gdx.math.Vector2;
-
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.Door.DOORDIR;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.ArrayList;
 
 public class MapPartDescription {
 

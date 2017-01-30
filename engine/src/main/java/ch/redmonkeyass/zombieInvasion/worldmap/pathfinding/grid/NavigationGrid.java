@@ -1,12 +1,12 @@
 package ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.NavigationGraph;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.NavigationNode;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.PathFinderOptions;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.GridFinderOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A {@link NavigationGraph} which is represented as a grid or a table.

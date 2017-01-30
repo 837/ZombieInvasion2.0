@@ -1,23 +1,5 @@
 package ch.redmonkeyass.zombieInvasion.worldmap;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.utils.Array;
-
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
@@ -27,6 +9,22 @@ import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.MapBodyBuilder;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.WorldMapLoader;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.WorldMapLoader.MAP_LOADER_TYPE;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.utils.Array;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.state.StateBasedGame;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class WorldMap implements RenderableModul {
   private TiledMap tileMap;

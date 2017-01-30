@@ -1,14 +1,14 @@
 package ch.redmonkeyass.zombieInvasion.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashMap;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.ResourceLoader;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashMap;
 
 public class TextureLoader {
   private HashMap<String, Texture> textures = new HashMap<>();

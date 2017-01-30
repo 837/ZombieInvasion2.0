@@ -1,19 +1,17 @@
 package ch.redmonkeyass.game.module.modules;
 
-import java.util.Optional;
-
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.state.StateBasedGame;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
 import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.state.StateBasedGame;
+
+import java.util.Optional;
 
 /**
  * SelectionModule gives an entity the ability to get selected.

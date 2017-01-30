@@ -1,11 +1,10 @@
 package ch.redmonkeyass.zombieInvasion.module;
 
-import java.util.Optional;
-
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import java.util.Optional;
 
 /**
  * Every Module needs to extend this class.

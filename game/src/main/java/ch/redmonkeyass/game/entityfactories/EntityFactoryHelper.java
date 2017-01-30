@@ -1,13 +1,12 @@
 package ch.redmonkeyass.game.entityfactories;
 
+import ch.redmonkeyass.game.module.modules.PhysicsModule;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.game.module.modules.PhysicsModule;
 
 public class EntityFactoryHelper {
   /**

@@ -1,9 +1,12 @@
 package ch.redmonkeyass.game.module.modules.game;
 
-import java.awt.Font;
-import java.lang.reflect.Constructor;
-import java.util.Optional;
-
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import ch.redmonkeyass.zombieInvasion.module.Module;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
 import org.apache.logging.log4j.LogManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -12,13 +15,9 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import java.awt.*;
+import java.lang.reflect.Constructor;
+import java.util.Optional;
 
 public class DebugConsoleModule extends Module implements UpdatableModul, RenderableModul {
   private TextField consoleInputField = null;

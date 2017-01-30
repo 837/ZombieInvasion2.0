@@ -1,12 +1,10 @@
 package ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.badlogic.gdx.math.Vector2;
-
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.UNFINISHED.WorldMapLoaderForCityMap;
+import com.badlogic.gdx.math.Vector2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WorldMapLoader {
   private Logger logger = LogManager.getLogger(WorldMapLoader.class);

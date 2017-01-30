@@ -1,11 +1,10 @@
 package ch.redmonkeyass.game.entityfactories;
 
-import java.util.ArrayList;
-
 import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
+import ch.redmonkeyass.zombieInvasion.module.Module;
 import com.badlogic.gdx.math.Vector2;
 
-import ch.redmonkeyass.zombieInvasion.module.Module;
+import java.util.ArrayList;
 
 public class EntityBuilder {
   private Vector2 startPosition;

@@ -1,12 +1,12 @@
 package ch.redmonkeyass.zombieInvasion.entities;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.module.Module;
 import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
+import ch.redmonkeyass.zombieInvasion.module.Module;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 public class EntityHandler {
   private ArrayList<Entity> entities = new ArrayList<>(500);

@@ -1,19 +1,18 @@
 package ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.util.Comparables;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.Door.DOORDIR;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator.Door.DOORSTATE;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class WorldMapLoaderForRandomGeneratedRoomsMap extends MapLoader {
   private ArrayList<MapPart> addedRooms = new ArrayList<>();

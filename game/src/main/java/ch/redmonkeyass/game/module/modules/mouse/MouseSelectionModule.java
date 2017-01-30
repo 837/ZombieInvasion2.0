@@ -1,21 +1,19 @@
 package ch.redmonkeyass.game.module.modules.mouse;
 
-import java.util.Optional;
-
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import ch.redmonkeyass.zombieInvasion.module.Module;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
+import com.badlogic.gdx.math.Vector2;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.badlogic.gdx.math.Vector2;
-
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import java.util.Optional;
 
 /**
  * MouseSelectionModule gives a mouse the ability to send selection Events to entities.

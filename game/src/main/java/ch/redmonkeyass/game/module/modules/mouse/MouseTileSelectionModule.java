@@ -1,18 +1,16 @@
 package ch.redmonkeyass.game.module.modules.mouse;
 
-import java.util.Optional;
-
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.state.StateBasedGame;
-
-import com.badlogic.gdx.math.Vector2;
-
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
 import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
+import com.badlogic.gdx.math.Vector2;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.state.StateBasedGame;
+
+import java.util.Optional;
 
 /**
  * MouseTileSelectionModule gives a mouse the ability to select a node.

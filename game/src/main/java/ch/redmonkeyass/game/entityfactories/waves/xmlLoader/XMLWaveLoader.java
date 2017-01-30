@@ -1,11 +1,11 @@
 package ch.redmonkeyass.game.entityfactories.waves.xmlLoader;
 
-import java.io.File;
-import java.util.ArrayList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import ch.redmonkeyass.game.entityfactories.EntityBuilder;
+import ch.redmonkeyass.game.entityfactories.waves.Wave;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
+import ch.redmonkeyass.zombieInvasion.util.MathUtil;
+import com.badlogic.gdx.math.Vector2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -13,13 +13,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.badlogic.gdx.math.Vector2;
-
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.game.entityfactories.EntityBuilder;
-import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
-import ch.redmonkeyass.game.entityfactories.waves.Wave;
-import ch.redmonkeyass.zombieInvasion.util.MathUtil;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.util.ArrayList;
 
 public class XMLWaveLoader {
   private ArrayList<Wave> waves = new ArrayList<>();

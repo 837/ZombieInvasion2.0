@@ -1,17 +1,16 @@
 package ch.redmonkeyass.game.module.modules;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
+import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
+import ch.redmonkeyass.zombieInvasion.module.Module;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
-import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
-import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * EventListenerModule gives an Entity the ability to listen to events.

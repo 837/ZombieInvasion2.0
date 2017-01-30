@@ -1,21 +1,19 @@
 package ch.redmonkeyass.game.module.modules.debugmodules;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
-
-import com.badlogic.gdx.math.Vector2;
-
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
 import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
+import com.badlogic.gdx.math.Vector2;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.state.StateBasedGame;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * DebugRendererModule is exactly what it sounds like. Renders all the debug stuff. put in it

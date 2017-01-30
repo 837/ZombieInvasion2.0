@@ -1,17 +1,12 @@
 package ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.finders;
 
+import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.*;
+import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
+import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGridGraph;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.BHeap;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.NavigationGraph;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.NavigationNode;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.PathFinder;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.PathFinderOptions;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.Util;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.GridCell;
-import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGridGraph;
 
 /**
  * A finder which will use theta star algorithm on a grid (any angle path finding).

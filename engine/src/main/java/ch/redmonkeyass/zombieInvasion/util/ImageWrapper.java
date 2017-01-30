@@ -1,13 +1,12 @@
 package ch.redmonkeyass.zombieInvasion.util;
 
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.opengl.Texture;
-
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
 
 public class ImageWrapper {
   Image img;

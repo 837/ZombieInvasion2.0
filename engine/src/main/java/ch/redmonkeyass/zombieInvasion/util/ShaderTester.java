@@ -1,9 +1,8 @@
 package ch.redmonkeyass.zombieInvasion.util;
 
+import ch.redmonkeyass.zombieInvasion.Config;
 import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.GL11;
-
-import ch.redmonkeyass.zombieInvasion.Config;
 
 /**
  * test functionality of GL_Helper Created by P on 28.07.2015.

@@ -1,10 +1,10 @@
 package ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders;
 
-import java.util.List;
-
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.finders.AStarFinder;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGridGraph;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGridGraphNode;
+
+import java.util.List;
 
 /**
  * A helper class to which lets you find a path based on coordinates rather than nodes on {@link NavigationGridGraph}'s.

@@ -1,17 +1,6 @@
 package ch.redmonkeyass.zombieInvasion.util;
 
-import static org.lwjgl.opengl.EXTFramebufferObject.glBindFramebufferEXT;
-import static org.lwjgl.opengl.EXTFramebufferObject.glFramebufferTexture2DEXT;
-import static org.lwjgl.opengl.GL11.GL_INT;
-import static org.lwjgl.opengl.GL11.GL_LINEAR;
-import static org.lwjgl.opengl.GL11.GL_RGBA;
-import static org.lwjgl.opengl.GL11.GL_RGBA8;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glGenTextures;
-import static org.lwjgl.opengl.GL11.glTexImage2D;
-import static org.lwjgl.opengl.GL11.glTexParameterf;
+import org.lwjgl.opengl.*;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -19,12 +8,9 @@ import java.nio.IntBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.lwjgl.opengl.ARBFragmentShader;
-import org.lwjgl.opengl.ARBShaderObjects;
-import org.lwjgl.opengl.ARBVertexShader;
-import org.lwjgl.opengl.EXTFramebufferObject;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLContext;
+import static org.lwjgl.opengl.EXTFramebufferObject.glBindFramebufferEXT;
+import static org.lwjgl.opengl.EXTFramebufferObject.glFramebufferTexture2DEXT;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * provides functionality to -load shaderprograms -create FBO with textures Created by P on

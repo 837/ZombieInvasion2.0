@@ -1,8 +1,8 @@
 package ch.redmonkeyass.game.entityfactories.waves;
 
-import java.util.ArrayList;
-
 import ch.redmonkeyass.game.entityfactories.EntityBuilder;
+
+import java.util.ArrayList;
 
 public class Wave {
   private String name;

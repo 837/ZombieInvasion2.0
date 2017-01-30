@@ -1,13 +1,13 @@
 package ch.redmonkeyass.zombieInvasion.util.movement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGrid;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.AStarGridFinder;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.GridFinderOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AStarCalculator {
   AStarGridFinder<Node> finder = null;
