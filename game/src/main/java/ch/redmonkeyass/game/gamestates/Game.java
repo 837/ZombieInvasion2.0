@@ -1,27 +1,8 @@
 package ch.redmonkeyass.game.gamestates;
 
-import java.io.File;
-
-import ch.redmonkeyass.game.module.modules.*;
-import ch.redmonkeyass.zombieInvasion.util.shadows.ShadowsShaderManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.util.vector.Matrix4f;
-import org.newdawn.slick.*;
-import org.newdawn.slick.opengl.pbuffer.FBOGraphics;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.StateBasedGame;
-
-import com.badlogic.gdx.math.Vector2;
-
-import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.game.entityfactories.EntityBuilder;
-import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
 import ch.redmonkeyass.game.entityfactories.waves.xmlLoader.XMLWaveLoader;
-import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
-import ch.redmonkeyass.zombieInvasion.input.InputHandler;
+import ch.redmonkeyass.game.module.modules.*;
 import ch.redmonkeyass.game.module.modules.UNUSED.ThetaStarMovementModule;
 import ch.redmonkeyass.game.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.game.module.modules.game.DebugConsoleModule;
@@ -29,15 +10,25 @@ import ch.redmonkeyass.game.module.modules.game.DebugRendererGameModule;
 import ch.redmonkeyass.game.module.modules.mouse.MouseSelectionModule;
 import ch.redmonkeyass.game.module.modules.mouse.MouseTileSelectionModule;
 import ch.redmonkeyass.game.module.modules.zombieAI.FollowPlayerAI;
+import ch.redmonkeyass.zombieInvasion.Config;
+import ch.redmonkeyass.zombieInvasion.WorldHandler;
+import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
+import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
+import ch.redmonkeyass.zombieInvasion.input.InputHandler;
 import ch.redmonkeyass.zombieInvasion.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.util.MathUtil;
+import ch.redmonkeyass.zombieInvasion.util.shadows.ShadowsShaderManager;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import com.badlogic.gdx.math.Vector2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.util.vector.Matrix4f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.opengl.pbuffer.FBOGraphics;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -49,22 +40,20 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Game extends BasicGameState {
     private final int ID;
-    private double next_game_tick = System.currentTimeMillis();
-    private int loops;
     private final int shadowsRadius = 1024;
     private final int h = shadowsRadius;
+    FBOGraphics shadowCastersFBO;
+    ShadowsShaderManager shadowsShaderManager;
+    FloatBuffer mvpMatrixBuffer = BufferUtils.createFloatBuffer(16);
+    XMLWaveLoader xmlWaveLoader = null;
+    private double next_game_tick = System.currentTimeMillis();
+    private int loops;
     // private double extrapolation;
     private InputHandler inputHandler = null;
     private Logger logger = LogManager.getLogger(Game.class);
     private Image shadowCastersTexture;
-    FBOGraphics shadowCastersFBO;
     private Image shadowTexture;
     private FBOGraphics shadowFBO;
-    ShadowsShaderManager shadowsShaderManager;
-    FloatBuffer mvpMatrixBuffer = BufferUtils.createFloatBuffer(16);
-
-
-    XMLWaveLoader xmlWaveLoader = null;
 
 
     public Game(int ID) {
@@ -173,12 +162,11 @@ public class Game extends BasicGameState {
 
         // XXX TEST END
         shadowPass(gc, sbg, g);
-        //g.drawImage(shadowTexture, 0, 0);
-        g.drawImage(shadowTexture, WorldHandler.getCamera().getPosition().x,
-                WorldHandler.getCamera().getPosition().y);
+//        g.drawImage(shadowTexture, 0, 0);
+//        g.drawImage(shadowTexture, WorldHandler.getCamera().getPosition().x,
+//                WorldHandler.getCamera().getPosition().y);
         g.drawImage(shadowCastersTexture, WorldHandler.getCamera().getPosition().x,
                 WorldHandler.getCamera().getPosition().y);
-
 
         shadowFBO.clear();
 
@@ -201,7 +189,7 @@ public class Game extends BasicGameState {
                     if (r.castShadow()) r.RENDER(gc, sbg, shadowCastersFBO);
                 })
         );
-        shadowsShaderManager.renderShadows(shadowCastersTexture, shadowFBO);
+//        shadowsShaderManager.renderShadows(shadowCastersTexture, shadowFBO);
     }
 
 
