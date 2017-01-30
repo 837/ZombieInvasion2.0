@@ -28,6 +28,11 @@ import ch.redmonkeyass.zombieInvasion.util.ImageWrapper;
 public class SimpleImageRenderModule extends Module implements RenderableModul {
   private final ImageWrapper imageToRenderWrapper;
 
+  @Override
+  public boolean castShadow() {
+    return true;
+  }
+
   public SimpleImageRenderModule(String entityID, ImageWrapper imageToRenderWrapper) {
     super(entityID);
     this.imageToRenderWrapper = imageToRenderWrapper;

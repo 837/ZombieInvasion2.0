@@ -7,8 +7,8 @@ public class Config {
   public static final int GAME = 2;
 
   // Application Properties
-  public static final int WIDTH = 1920;
-  public static final int HEIGHT = 1080;
+  public static final int WIDTH = 1024;
+  public static final int HEIGHT = 1024;
   public static final int FPS = 60;
   public static final double VERSION = 0.9;
   public static final float TICKS_PER_SECOND = 30;
