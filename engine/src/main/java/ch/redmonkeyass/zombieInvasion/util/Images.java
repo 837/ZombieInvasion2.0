@@ -1,7 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.util;
 
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
+import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
 
 public class Images {
   /*

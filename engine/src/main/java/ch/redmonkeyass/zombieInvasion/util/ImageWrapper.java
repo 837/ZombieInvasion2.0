@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.opengl.Texture;
 
 import ch.redmonkeyass.zombieInvasion.Config;
-import ch.redmonkeyass.zombieInvasion.entities.entityfactories.EntityType;
+import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
 
 public class ImageWrapper {
   Image img;
