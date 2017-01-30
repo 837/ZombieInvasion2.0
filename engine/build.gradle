@@ -2,3 +2,28 @@
 buildscript {
    
 }
+def listNativePaths() {
+    ArrayList<Object> paths = new ArrayList<>();
+    configurations.compile.each { file ->
+        if (file.name.contains("natives")) {
+            zipTree(file).matching {
+                exclude {
+                    it.path.contains('META-INF')
+                }
+            }.each {
+                paths.add(it)
+            }
+        }
+    }
+    return paths
+}
+
+task natives(type: Sync) {
+    from listNativePaths()
+    into "$buildDir/natives"
+}
+
+task assembler(dependsOn: [
+        natives
+])
+
