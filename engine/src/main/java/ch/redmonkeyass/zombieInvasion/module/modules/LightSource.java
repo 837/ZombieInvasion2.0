@@ -1,4 +1,4 @@
-package ch.redmonkeyass.game.module.modules;
+package ch.redmonkeyass.zombieInvasion.module.modules;
 
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;

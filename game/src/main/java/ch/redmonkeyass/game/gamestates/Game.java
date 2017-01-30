@@ -16,6 +16,8 @@ import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 import ch.redmonkeyass.zombieInvasion.input.InputHandler;
 import ch.redmonkeyass.zombieInvasion.module.modules.EntityStatusModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.EventListenerModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.LightEmitter;
 import ch.redmonkeyass.zombieInvasion.util.MathUtil;
 import ch.redmonkeyass.zombieInvasion.util.shadows.ShadowsShaderManager;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;

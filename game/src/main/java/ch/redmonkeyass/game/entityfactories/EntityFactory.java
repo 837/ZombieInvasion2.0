@@ -1,6 +1,9 @@
 package ch.redmonkeyass.game.entityfactories;
 
-import ch.redmonkeyass.game.module.modules.*;
+import ch.redmonkeyass.game.module.modules.MoveSelectedEntityToMouseClick;
+import ch.redmonkeyass.game.module.modules.MovementModule;
+import ch.redmonkeyass.game.module.modules.SelectionModule;
+import ch.redmonkeyass.game.module.modules.SimpleImageRenderModule;
 import ch.redmonkeyass.game.module.modules.debugmodules.DebugRendererModule;
 import ch.redmonkeyass.game.module.modules.game.DebugConsoleModule;
 import ch.redmonkeyass.game.module.modules.game.DebugRendererGameModule;
@@ -10,6 +13,7 @@ import ch.redmonkeyass.game.module.modules.zombieAI.FollowPlayerAI;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.module.modules.EntityStatusModule;
+import ch.redmonkeyass.zombieInvasion.module.modules.EventListenerModule;
 import ch.redmonkeyass.zombieInvasion.util.Images;
 
 public class EntityFactory {
