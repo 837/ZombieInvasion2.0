@@ -1,97 +1,68 @@
+//ext.set('nativeLibsDir', "natives")
+//systemProperty "java.library.path", project.nativeLibsDir
+subprojects {
+    ext.kotlin_version = '1.0.5-2'
+    ext.gdxVersion = '1.6.2'
+    ext.log4jVersion = '2.3'
+    ext.lwjglVersion = '2.9.3'
+    ext.box2dLightsVersion = '1.3'
+    ext.set('nativeLibsDir', "natives")
 
-buildscript {
-   
-}
+
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+
+    group 'ch.redmonkeyass.zombieinvasion'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
 
 
+    buildscript {
+    }
 
-// Apply the java plugin to add support for Java
-apply plugin: 'java'
-  compileJava {
-  sourceCompatibility = '1.8'
-  targetCompatibility = '1.8'
-}
-apply plugin: 'maven'
-apply plugin: "eclipse"
-apply plugin: "idea"
-apply plugin: "application"
-
-def gdxVersion = "1.6.2"
-def log4jVersion = "2.3"
-def lwjglVersion = "2.9.3"
-def box2dLightsVersion = "1.3"
-
-//GLOBAL VARS
-mainClassName = 'ch.redmonkeyass.zombieInvasion.ZombieInvasion'
-
+//GLOBAL VA
 // In this section you declare where to find the dependencies of your project
-repositories {
-   mavenCentral()
-   flatDir {
-       dirs 'libs'
-   }
-}
-
-run {        
-   systemProperty 'java.library.path', file('build/natives')
-}
+    repositories {
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
+        jcenter()
+    }
 
 // In this section you declare the dependencies for your production and test code
-dependencies {
-   compile "com.badlogicgames.gdx:gdx-box2d:${gdxVersion}"
-   compile "com.badlogicgames.gdx:gdx-box2d-platform:${gdxVersion}:natives-desktop"
-   
-   compile "com.badlogicgames.gdx:gdx:${gdxVersion}"
-   compile "com.badlogicgames.gdx:gdx-backend-lwjgl:${gdxVersion}"
-   compile "com.badlogicgames.gdx:gdx-platform:${gdxVersion}:natives-desktop"
-   compile "com.badlogicgames.box2dlights:box2dlights:${box2dLightsVersion}"
-   
-   compile group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
-   compile group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
-   compile "org.lwjgl.lwjgl:lwjgl:${lwjglVersion}"
-   compile "org.jbox2d:jbox2d:2.1.2.2"
-   
-   compile files("libs/JBTCore.jar")
-   // compile files("libs/lwjgl-natives.jar")
-   compile files("libs/slick.jar")
-   
-   
-  compile 'com.google.code.gson:gson:2.3.1'
-   
-   
-   
-   //compile "org.slick2d:slick2d-core:1.0.2-SNAPSHOT"
-    
-   //pathfinding
-   // compile "com.github.xaguzman:pathfinding:0.2.5"
-}
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx-box2d:${gdxVersion}"
+        compile "com.badlogicgames.gdx:gdx-box2d-platform:${gdxVersion}:natives-desktop"
 
-def listNativePaths() {
-    ArrayList<Object> paths = new ArrayList<>();
-    configurations.compile.each { file ->
-        if (file.name.contains("natives")) {
-            zipTree(file).matching {
-                exclude {
-                    it.path.contains('META-INF')
-                }
-            }.each {
-                paths.add(it)
-            }
-        }
+        compile "com.badlogicgames.gdx:gdx:${gdxVersion}"
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:${gdxVersion}"
+        compile "com.badlogicgames.gdx:gdx-platform:${gdxVersion}:natives-desktop"
+        compile "com.badlogicgames.box2dlights:box2dlights:${box2dLightsVersion}"
+
+        compile group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
+        compile group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
+        compile "org.lwjgl.lwjgl:lwjgl:${lwjglVersion}"
+        compile "org.jbox2d:jbox2d:2.1.2.2"
+
+        compile files("libs/JBTCore.jar")
+        // compile files("libs/lwjgl-natives.jar")
+        compile files("libs/slick.jar")
+
+
+        compile 'com.google.code.gson:gson:2.3.1'
+
+        //compile "org.slick2d:slick2d-core:1.0.2-SNAPSHOT"
+
+        //pathfinding
+        // compile "com.github.xaguzman:pathfinding:0.2.5"
     }
-    return paths
-}
-
-task natives(type: Sync) {
-    from listNativePaths()
-    into "$buildDir/natives"
-}
-
-task assembler(dependsOn: [
-  natives
-])
 
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.12'
+
 }
