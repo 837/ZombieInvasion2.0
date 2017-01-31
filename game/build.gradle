@@ -1,14 +1,10 @@
 dependencies {
     compile project(':engine')
+
 }
 
-apply plugin: "application"
 
-jar {
-    manifest {
-        attributes(
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'ch.redmonkeyass.game.ZombieInvasion'
-        )
-    }
+run {
+    systemProperty 'java.library.path', file("${projectDir}/../natives")
+    mainClassName = 'ch.redmonkeyass.game.ZombieInvasion'
 }

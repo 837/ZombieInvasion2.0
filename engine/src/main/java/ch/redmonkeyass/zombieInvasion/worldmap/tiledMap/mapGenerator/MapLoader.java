@@ -1,6 +1,7 @@
 package ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.mapGenerator;
 
 
+import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import org.apache.logging.log4j.LogManager;
@@ -61,7 +62,7 @@ public class MapLoader {
   protected TiledMap loadTiledMap(String tmxFileName) throws Exception {
     // Loads the mapFile into a string, adds width/height property to objectLayer, saves the file
     // again.
-    String ref = new File("res/tiledMap/" + tmxFileName).getAbsolutePath();
+    String ref = new File(Config.RESSOURCE_FOLDER + "tiledmap\\"+tmxFileName).getAbsolutePath();
     String loadFileContentForFix = new String(Files.readAllBytes(Paths.get(ref)));
     loadFileContentForFix =
         loadFileContentForFix.replaceAll("<objectgroup width=\"1\" height=\"1\"", "<objectgroup");

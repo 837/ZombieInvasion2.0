@@ -1,41 +1,38 @@
-//ext.set('nativeLibsDir', "natives")
-//systemProperty "java.library.path", project.nativeLibsDir
-subprojects {
-    ext.kotlin_version = '1.0.5-2'
-    ext.gdxVersion = '1.6.2'
-    ext.log4jVersion = '2.3'
-    ext.lwjglVersion = '2.9.3'
-    ext.box2dLightsVersion = '1.3'
-    ext.set('nativeLibsDir', "natives")
+dependencies {
 
+}
 
+allprojects {
     apply plugin: 'java'
-
-    sourceCompatibility = 1.8
+    compileJava {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    apply plugin: 'maven'
+    apply plugin: "eclipse"
+    apply plugin: "idea"
+    apply plugin: "application"
 
     group 'ch.redmonkeyass.zombieinvasion'
     version '1.0-SNAPSHOT'
 
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
+}
 
+subprojects {
+    def kotlin_version = '1.0.5-2'
+    def gdxVersion = "1.6.2"
+    def log4jVersion = "2.3"
+    def lwjglVersion = "2.9.3"
+    def box2dLightsVersion = "1.3"
 
-    buildscript {
-    }
-
-//GLOBAL VA
-// In this section you declare where to find the dependencies of your project
     repositories {
         mavenCentral()
         flatDir {
-            dirs 'libs'
+            dirs '../libs'
         }
         jcenter()
     }
 
-// In this section you declare the dependencies for your production and test code
     dependencies {
         compile "com.badlogicgames.gdx:gdx-box2d:${gdxVersion}"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:${gdxVersion}:natives-desktop"
@@ -50,19 +47,36 @@ subprojects {
         compile "org.lwjgl.lwjgl:lwjgl:${lwjglVersion}"
         compile "org.jbox2d:jbox2d:2.1.2.2"
 
-        compile files("libs/JBTCore.jar")
-        // compile files("libs/lwjgl-natives.jar")
-        compile files("libs/slick.jar")
-
-
         compile 'com.google.code.gson:gson:2.3.1'
 
-        //compile "org.slick2d:slick2d-core:1.0.2-SNAPSHOT"
+        compile 'com.typesafe:config:1.3.1'
 
-        //pathfinding
-        // compile "com.github.xaguzman:pathfinding:0.2.5"
+        compile files("../libs/JBTCore.jar")
+        compile files("../libs/slick.jar")
     }
 
+    task natives(type: Sync) {
+        from listNativePaths()
+        into "$buildDir/natives"
+    }
 
+    task assembler(dependsOn: [
+            natives
+    ])
+}
 
+def listNativePaths() {
+    ArrayList<Object> paths = new ArrayList<>();
+    configurations.compile.each { file ->
+        if (file.name.contains("natives")) {
+            zipTree(file).matching {
+                exclude {
+                    it.path.contains('META-INF')
+                }
+            }.each {
+                paths.add(it)
+            }
+        }
+    }
+    return paths
 }
