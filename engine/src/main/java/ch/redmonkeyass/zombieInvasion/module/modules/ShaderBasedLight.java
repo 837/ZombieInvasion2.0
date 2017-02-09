@@ -2,7 +2,7 @@ package ch.redmonkeyass.zombieInvasion.module.modules;
 
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModule;
 import ch.redmonkeyass.zombieInvasion.util.shadows.ShadowsShaderManager;
 import com.badlogic.gdx.math.Rectangle;
 import org.lwjgl.util.vector.Vector2f;
@@ -41,7 +41,7 @@ import java.nio.FloatBuffer;
  *  (render shadow casting to texture, render shadows and shadowcasters, render non shadow casting)
  *
  */
-public class ShaderBasedLight implements RenderableModul{
+public class ShaderBasedLight implements RenderableModule {
     private FBOGraphics shadowFBO;
     private Image shadowTexture;
     private final int lightRadius;

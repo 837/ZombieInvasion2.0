@@ -4,7 +4,7 @@ import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.Entity;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModule;
 import ch.redmonkeyass.zombieInvasion.util.movement.MovementHelper;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import com.badlogic.gdx.math.Vector2;
@@ -26,7 +26,7 @@ import java.util.Optional;
  * @author Matthias
  *
  */
-public class FollowPlayerAI extends Module implements UpdatableModul {
+public class FollowPlayerAI extends Module implements UpdatableModule {
   Entity randomPlayer = null;
 
   List<Node> pathToEnd = null;

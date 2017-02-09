@@ -2,7 +2,7 @@ package ch.redmonkeyass.zombieInvasion.worldmap;
 
 import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModule;
 import ch.redmonkeyass.zombieInvasion.util.Comparables;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node.CornerType;
 import ch.redmonkeyass.zombieInvasion.worldmap.tiledMap.MapBodyBuilder;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class WorldMap implements RenderableModul {
+public class WorldMap implements RenderableModule {
   private TiledMap tileMap;
   private float nodeSizeInMeter = 0;
   private float mapWidthInMeter = 0;

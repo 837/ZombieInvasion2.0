@@ -4,7 +4,7 @@ import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModule;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import com.badlogic.gdx.math.Vector2;
 import org.newdawn.slick.Color;
@@ -22,7 +22,7 @@ import java.util.Optional;
  * @author Matthias
  *
  */
-public class DebugRendererModule extends Module implements RenderableModul {
+public class DebugRendererModule extends Module implements RenderableModule {
 
   public DebugRendererModule(String entityID) {
     super(entityID);

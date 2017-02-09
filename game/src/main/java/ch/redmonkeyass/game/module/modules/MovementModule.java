@@ -3,7 +3,7 @@ package ch.redmonkeyass.game.module.modules;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModule;
 import ch.redmonkeyass.zombieInvasion.util.movement.MovementHelper;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import com.badlogic.gdx.math.Vector2;
@@ -14,7 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import java.util.List;
 import java.util.Optional;
 
-public class MovementModule extends Module implements UpdatableModul {
+public class MovementModule extends Module implements UpdatableModule {
   private float maxVelocity;
   private float acceleration;
 

@@ -9,7 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Matthias
  */
-public interface RenderableModul {
+public interface RenderableModule {
     void RENDER(GameContainer gc, StateBasedGame sbg, Graphics g);
 
     default boolean castShadow() {

@@ -4,7 +4,7 @@ import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModule;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import com.badlogic.gdx.math.Vector2;
 import org.newdawn.slick.GameContainer;
@@ -21,7 +21,7 @@ import java.util.Optional;
  * @author Matthias
  *
  */
-public class MouseTileSelectionModule extends Module implements UpdatableModul {
+public class MouseTileSelectionModule extends Module implements UpdatableModule {
   Node selectedNode = null;
   Node[][] map;
 

@@ -4,8 +4,8 @@ import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModule;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModule;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -26,7 +26,7 @@ import java.util.Optional;
  * <p>
  * Created by P on 18.06.2015.
  */
-public class LightEmitter extends Module implements UpdatableModul, RenderableModul {
+public class LightEmitter extends Module implements UpdatableModule, RenderableModule {
   World b2World = WorldHandler.getB2World();
   ArrayList<Vector2> line = new ArrayList<>();
   ArrayList<Vector2> visibilityPolygon = new ArrayList<>();

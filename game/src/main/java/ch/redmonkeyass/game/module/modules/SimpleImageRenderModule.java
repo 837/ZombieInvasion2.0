@@ -4,7 +4,7 @@ import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModule;
 import ch.redmonkeyass.zombieInvasion.util.ImageWrapper;
 import com.badlogic.gdx.math.Vector2;
 import org.newdawn.slick.GameContainer;
@@ -23,7 +23,7 @@ import java.util.Optional;
  * @author Matthias
  *
  */
-public class SimpleImageRenderModule extends Module implements RenderableModul {
+public class SimpleImageRenderModule extends Module implements RenderableModule {
   private final ImageWrapper imageToRenderWrapper;
 
   @Override

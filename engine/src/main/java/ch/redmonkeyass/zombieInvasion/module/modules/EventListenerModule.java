@@ -4,7 +4,7 @@ import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.eventhandling.Event;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModule;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author Matthias
  *
  */
-public class EventListenerModule extends Module implements UpdatableModul {
+public class EventListenerModule extends Module implements UpdatableModule {
   private ArrayList<Event> events = new ArrayList<>();
 
   public EventListenerModule(String entityID) {

@@ -16,7 +16,7 @@ public class ZombieInvasion extends StateBasedGame {
 
 
 	// Class Constructor
-	public ZombieInvasion(String appName) {
+	public ZombieInvasion(final String appName) {
 		super(appName);
 	}
 

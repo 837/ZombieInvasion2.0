@@ -7,6 +7,6 @@ import org.newdawn.slick.state.StateBasedGame;
  * @author Matthias
  *
  */
-public interface UpdatableModul {
+public interface UpdatableModule {
   abstract public void UPDATE(GameContainer gc, StateBasedGame sbg);
 }

@@ -4,7 +4,7 @@ import ch.redmonkeyass.zombieInvasion.Config;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModule;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -20,7 +20,7 @@ import java.util.Optional;
  * @author Matthias
  *
  */
-public class DebugRendererGameModule extends Module implements RenderableModul {
+public class DebugRendererGameModule extends Module implements RenderableModule {
 
   public DebugRendererGameModule(String entityID) {
     super(entityID);

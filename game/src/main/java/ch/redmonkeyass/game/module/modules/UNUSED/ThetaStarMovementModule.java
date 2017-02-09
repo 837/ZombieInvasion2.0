@@ -3,7 +3,7 @@ package ch.redmonkeyass.game.module.modules.UNUSED;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.UpdatableModul;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModule;
 import ch.redmonkeyass.zombieInvasion.worldmap.Node;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.NavigationGrid;
 import ch.redmonkeyass.zombieInvasion.worldmap.pathfinding.grid.finders.GridFinderOptions;
@@ -29,7 +29,7 @@ import java.util.Optional;
  * @author Matthias
  *
  */
-public class ThetaStarMovementModule extends Module implements UpdatableModul {
+public class ThetaStarMovementModule extends Module implements UpdatableModule {
   List<Node> pathToEnd = null;
   ThetaStarGridFinder<Node> finder = null;
   NavigationGrid<Node> navGrid = null;

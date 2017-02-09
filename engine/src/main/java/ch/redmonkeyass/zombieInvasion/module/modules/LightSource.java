@@ -3,7 +3,7 @@ package ch.redmonkeyass.zombieInvasion.module.modules;
 import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entities.datahandling.DataType;
 import ch.redmonkeyass.zombieInvasion.module.Module;
-import ch.redmonkeyass.zombieInvasion.module.RenderableModul;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModule;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -25,7 +25,7 @@ import java.util.Optional;
  * DataType.COLLISION_FIXTURE,<br>
  * DataType.POSITION<br>
  */
-public class LightSource extends Module implements RenderableModul {
+public class LightSource extends Module implements RenderableModule {
 
   private final int radius;
   private String _entityID;

@@ -15,6 +15,8 @@ import ch.redmonkeyass.zombieInvasion.WorldHandler;
 import ch.redmonkeyass.zombieInvasion.entityfactories.EntityType;
 import ch.redmonkeyass.zombieInvasion.eventhandling.EventType;
 import ch.redmonkeyass.zombieInvasion.input.InputHandler;
+import ch.redmonkeyass.zombieInvasion.module.RenderableModule;
+import ch.redmonkeyass.zombieInvasion.module.UpdatableModule;
 import ch.redmonkeyass.zombieInvasion.module.modules.EntityStatusModule;
 import ch.redmonkeyass.zombieInvasion.module.modules.EventListenerModule;
 import ch.redmonkeyass.zombieInvasion.module.modules.LightEmitter;
@@ -41,276 +43,270 @@ import static ch.redmonkeyass.zombieInvasion.util.shadows.ShadowsShaderManager.t
 import static org.lwjgl.opengl.GL11.*;
 
 public class Game extends BasicGameState {
-    private final int ID;
-    private final int shadowsRadius = 1024;
-    private final int h = shadowsRadius;
-    FBOGraphics shadowCastersFBO;
-    ShadowsShaderManager shadowsShaderManager;
-    FloatBuffer mvpMatrixBuffer = BufferUtils.createFloatBuffer(16);
-    XMLWaveLoader xmlWaveLoader = null;
-    private double next_game_tick = System.currentTimeMillis();
-    private int loops;
-    // private double extrapolation;
-    private InputHandler inputHandler = null;
-    private Logger logger = LogManager.getLogger(Game.class);
-    private Image shadowCastersTexture;
-    private Image shadowTexture;
-    private FBOGraphics shadowFBO;
+	private final int ID;
+	private final int shadowsRadius = 1024;
+	private final int h = shadowsRadius;
+	FBOGraphics shadowCastersFBO;
+	ShadowsShaderManager shadowsShaderManager;
+	FloatBuffer mvpMatrixBuffer = BufferUtils.createFloatBuffer(16);
+	XMLWaveLoader xmlWaveLoader = null;
+	private double next_game_tick = System.currentTimeMillis();
+	private int loops;
+	// private double extrapolation;
+	private InputHandler inputHandler = null;
+	private Logger logger = LogManager.getLogger(Game.class);
+	private Image shadowCastersTexture;
+	private Image shadowTexture;
+	private FBOGraphics shadowFBO;
 
 
-    public Game(int ID) {
-        this.ID = ID;
-    }
+	public Game(int ID) {
+		this.ID = ID;
+	}
 
-    //ShaderTester st = new ShaderTester();
+	//ShaderTester st = new ShaderTester();
 
-    @Override
-    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        EntityBuilder.createBuilder(EntityType.MOUSE).createEntity();
-        EntityBuilder.createBuilder(EntityType.GAME).createEntity();
-        shadowCastersTexture = new Image(Config.WIDTH, Config.HEIGHT);
-        shadowCastersFBO = new FBOGraphics(shadowCastersTexture);
-        shadowTexture = new Image(Config.WIDTH, Config.HEIGHT);
-        shadowFBO = new FBOGraphics(shadowTexture);
+	@Override
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		EntityBuilder.createBuilder(EntityType.MOUSE).createEntity();
+		EntityBuilder.createBuilder(EntityType.GAME).createEntity();
+		shadowCastersTexture = new Image(Config.WIDTH, Config.HEIGHT);
+		shadowCastersFBO = new FBOGraphics(shadowCastersTexture);
+		shadowTexture = new Image(Config.WIDTH, Config.HEIGHT);
+		shadowFBO = new FBOGraphics(shadowTexture);
 
-        // EntityBuilder.createBuilder(EntityType.ADOLF)
-        // .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
-        // .createEntity();
-        //
-        // EntityBuilder.createBuilder(EntityType.HANS)
-        // .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
-        // .createEntity();
-        //
-        // EntityBuilder.createBuilder(EntityType.GERHART)
-        // .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
-        // .createEntity();
-        Matrix4f model = new Matrix4f();
-        Matrix4f view = new Matrix4f();
-        Matrix4f projection = toOrtho2D(null, 0, 0, shadowsRadius, h, 1, -1);
-        // MVP = M * V * P;
-        Matrix4f mvp = Matrix4f.mul(model, Matrix4f.mul(view, projection, null), null);
-        mvp.store(mvpMatrixBuffer);
-        mvpMatrixBuffer.flip();//prepare for read
+		// EntityBuilder.createBuilder(EntityType.ADOLF)
+		// .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+		// .createEntity();
+		//
+		// EntityBuilder.createBuilder(EntityType.HANS)
+		// .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+		// .createEntity();
+		//
+		// EntityBuilder.createBuilder(EntityType.GERHART)
+		// .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+		// .createEntity();
+		Matrix4f model = new Matrix4f();
+		Matrix4f view = new Matrix4f();
+		Matrix4f projection = toOrtho2D(null, 0, 0, shadowsRadius, h, 1, -1);
+		// MVP = M * V * P;
+		Matrix4f mvp = Matrix4f.mul(model, Matrix4f.mul(view, projection, null), null);
+		mvp.store(mvpMatrixBuffer);
+		mvpMatrixBuffer.flip();//prepare for read
 
-        shadowsShaderManager = new ShadowsShaderManager(mvpMatrixBuffer, shadowsRadius, h, Config.WIDTH, Config.HEIGHT);
-        glDisable(GL_DEPTH_TEST);
-        glClearColor(0, 0, 0, 1);
-        int glError = glGetError();
-        if (glError != 0) System.err.println("gl error: " + glError);
+		shadowsShaderManager = new ShadowsShaderManager(mvpMatrixBuffer, shadowsRadius, h, Config.WIDTH, Config.HEIGHT);
+		glDisable(GL_DEPTH_TEST);
+		glClearColor(0, 0, 0, 1);
+		int glError = glGetError();
+		if (glError != 0) System.err.println("gl error: " + glError);
 
-        inputHandler = new InputHandler(gc);
-
-
-        WorldHandler.getCamera().setMapData(WorldHandler.getWorldMap().getMapWidthInMeter(),
-                WorldHandler.getWorldMap().getMapHeightInMeter());
+		inputHandler = new InputHandler(gc);
 
 
-        xmlWaveLoader =
-                new XMLWaveLoader(new File(Config.RESSOURCE_FOLDER + "/waves/" + Config.WAVES_FILE_NAME));
-
-        xmlWaveLoader.getWaves().get(0).getEntityBuilders().forEach(EntityBuilder::createEntity);
-        // .forEach(e -> e.getEntityBuilders().forEach(b -> b.createEntity()));
-    }
-
-    @Override
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-
-        g.translate(-WorldHandler.getCamera().getPosition().x,
-                -WorldHandler.getCamera().getPosition().y);
+		WorldHandler.getCamera().setMapData(WorldHandler.getWorldMap().getMapWidthInMeter(),
+				WorldHandler.getWorldMap().getMapHeightInMeter());
 
 
-        // WorldMap
-        WorldHandler.getWorldMap().RENDER(gc, sbg, g);
+		xmlWaveLoader =
+				new XMLWaveLoader(new File(Config.RESSOURCE_FOLDER + "/waves/" + Config.WAVES_FILE_NAME));
 
-        // not need anymoere
+		xmlWaveLoader.getWaves().get(0).getEntityBuilders().forEach(EntityBuilder::createEntity);
+		// .forEach(e -> e.getEntityBuilders().forEach(b -> b.createEntity()));
+	}
+
+	@Override
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+
+		g.translate(-WorldHandler.getCamera().getPosition().x,
+				-WorldHandler.getCamera().getPosition().y);
+
+
+		// WorldMap
+		WorldHandler.getWorldMap().RENDER(gc, sbg, g);
+
+		// not need anymore
 //        WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class)
 //                .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
 
-        WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
-                .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+		renderModule(LightEmitter.class, gc, sbg, g);
 
-        //
-        // GL11.glEnable(GL11.GL_BLEND);
-        // GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
-        //
-        // GL11.glBegin(GL11.GL_QUADS);
-        // GL11.glColor4f(0, 0, 0, 0);
-        // GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
-        // WorldHandler.getCamera().getPosition().y);
-        // GL11.glVertex2f(
-        // WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
-        // WorldHandler.getCamera().getPosition().y);
-        // GL11.glVertex2f(
-        // WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
-        // WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
-        // GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
-        // WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
-        // GL11.glEnd();
-        // GL11.glDisable(GL11.GL_BLEND);
-        // g.setDrawMode(Graphics.MODE_NORMAL);
+		//
+		// GL11.glEnable(GL11.GL_BLEND);
+		// GL11.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE_MINUS_DST_ALPHA);
+		//
+		// GL11.glBegin(GL11.GL_QUADS);
+		// GL11.glColor4f(0, 0, 0, 0);
+		// GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
+		// WorldHandler.getCamera().getPosition().y);
+		// GL11.glVertex2f(
+		// WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
+		// WorldHandler.getCamera().getPosition().y);
+		// GL11.glVertex2f(
+		// WorldHandler.getCamera().getPosition().x + WorldHandler.getCamera().getViewport_size_X(),
+		// WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
+		// GL11.glVertex2f(WorldHandler.getCamera().getPosition().x,
+		// WorldHandler.getCamera().getPosition().y + WorldHandler.getCamera().getViewport_size_Y());
+		// GL11.glEnd();
+		// GL11.glDisable(GL11.GL_BLEND);
+		// g.setDrawMode(Graphics.MODE_NORMAL);
 
 
-        WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
-                .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+		renderModule(MouseSelectionModule.class, gc, sbg, g);
+		renderModule(DebugRendererModule.class, gc, sbg, g);
+		renderModule(DebugRendererGameModule.class, gc, sbg, g);
+		renderModule(DebugConsoleModule.class, gc, sbg, g);
 
-        WorldHandler.getModuleHandler().getModulesOf(DebugRendererModule.class)
-                .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-
-        WorldHandler.getModuleHandler().getModulesOf(DebugRendererGameModule.class)
-                .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-
-        WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
-                .ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
-
-        // XXX TEST END
-        shadowPass(gc, sbg, g);
+		// XXX TEST END
+		shadowPass(gc, sbg, g);
 //        g.drawImage(shadowTexture, 0, 0);
 //        g.drawImage(shadowTexture, WorldHandler.getCamera().getPosition().x,
 //                WorldHandler.getCamera().getPosition().y);
-        g.drawImage(shadowCastersTexture, WorldHandler.getCamera().getPosition().x,
-                WorldHandler.getCamera().getPosition().y);
+		g.drawImage(shadowCastersTexture, WorldHandler.getCamera().getPosition().x,
+				WorldHandler.getCamera().getPosition().y);
 
-        shadowFBO.clear();
+		shadowFBO.clear();
 
-        int glError = glGetError();
-        if (glError != 0) System.err.println("gl error: " + glError);
-    }
+		int glError = glGetError();
+		if (glError != 0) System.err.println("gl error: " + glError);
+	}
 
-    /**
-     * shadow will be stored in the Image associated to shadowFBO
-     */
-    private void shadowPass(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+	/**
+	 * shadow will be stored in the Image associated to shadowFBO
+	 */
+	private void shadowPass(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
-        shadowCastersFBO.translate(-WorldHandler.getCamera().getPosition().x,
-                -WorldHandler.getCamera().getPosition().y);
-        shadowCastersFBO.clear();
+		shadowCastersFBO.translate(-WorldHandler.getCamera().getPosition().x,
+				-WorldHandler.getCamera().getPosition().y);
+		shadowCastersFBO.clear();
 
-        //draw all shadow casting textures to a buffer
-        WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class).ifPresent(
-                renderables -> renderables.forEach(r -> {
-                    if (r.castShadow()) r.RENDER(gc, sbg, shadowCastersFBO);
-                })
-        );
+		//draw all shadow casting textures to a buffer
+		WorldHandler.getModuleHandler().getModulesOf(SimpleImageRenderModule.class).ifPresent(
+				renderables -> renderables.forEach(r -> {
+					if (r.castShadow()) r.RENDER(gc, sbg, shadowCastersFBO);
+				})
+		);
 //        shadowsShaderManager.renderShadows(shadowCastersTexture, shadowFBO);
-    }
+	}
 
+	/**
+	 * Render test method
+	 *
+	 * @param clazz
+	 * @param gc
+	 * @param sbg
+	 * @param g
+	 */
+	public void renderModule(Class<? extends RenderableModule> clazz, GameContainer gc, StateBasedGame sbg, Graphics g) {
+		WorldHandler.getModuleHandler().getModulesOf(clazz)
+				.ifPresent(modules -> modules.forEach(m -> m.RENDER(gc, sbg, g)));
+	}
 
-    @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int d) throws SlickException {
-        loops = 0;
-        while (System.currentTimeMillis() > next_game_tick && loops < Config.MAX_FRAMESKIP) {
+	@Override
+	public void update(GameContainer gc, StateBasedGame sbg, int d) throws SlickException {
+		loops = 0;
+		while (System.currentTimeMillis() > next_game_tick && loops < Config.MAX_FRAMESKIP) {
 
-            // GAME UPDATE CODE GOES HERE
+			// GAME UPDATE CODE GOES HERE
 
-            // XXX TEST START
+			// XXX TEST START
 
-            WorldHandler.getCamera().UPDATE(gc, sbg);
+			WorldHandler.getCamera().UPDATE(gc, sbg);
 
-            // EventModule
-            WorldHandler.getModuleHandler().getModulesOf(EventListenerModule.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+			// EventModule
+			updateModule(EventListenerModule.class, gc, sbg);
 
-            WorldHandler.getEventDispatcher().getEvents().parallelStream()
-                    .filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e ->
+			WorldHandler.getEventDispatcher().getEvents().parallelStream()
+					.filter(event -> event.getReceiverID().equals("GLOBAL")).forEach(e ->
 
-            {
-                switch (e.getEvent()) {
-                    case G_PRESSED:
-                        EntityBuilder.createBuilder(EntityType.ZOMBIE).numOfEntitiesToSpawn(10)
-                                .startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
-                                .createEntity();
-                        logger.trace("Spawned 10 new Entities");
-                        break;
-                    case J_PRESSED:
-                        for (int i = 0; i < 10; i++) {
-                            Node n = WorldHandler.getWorldMap().getAllWalkableNodes().stream()
-                                    .skip(MathUtil.randomInt(0,
-                                            WorldHandler.getWorldMap().getAllWalkableNodes().size() - 2))
-                                    .findAny().get();
+			{
+				switch (e.getEvent()) {
+					case G_PRESSED:
+						EntityBuilder.createBuilder(EntityType.ZOMBIE).numOfEntitiesToSpawn(10)
+								.startPosition(WorldHandler.getWorldMap().getWorldMapLoader().getStartRoomPos())
+								.createEntity();
+						logger.trace("Spawned 10 new Entities");
+						break;
+					case J_PRESSED:
+						for (int i = 0; i < 10; i++) {
+							Node n = WorldHandler.getWorldMap().getAllWalkableNodes().stream()
+									.skip(MathUtil.randomInt(0,
+											WorldHandler.getWorldMap().getAllWalkableNodes().size() - 2))
+									.findAny().get();
 
-                            EntityBuilder.createBuilder(EntityType.ZOMBIE)
-                                    .startPosition(new Vector2(n.x * 2, n.y * 2)).createEntity();
-                        }
-                        logger.trace("Spawned 10 new Zombies at random pos");
-                        break;
-                    case K_PRESSED:
-                        WorldHandler.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null,
-                                "GAME", "GLOBAL");
-                        logger.trace("Removed all Entities");
-                        break;
-                    case SET_WAVE:
-                        if (xmlWaveLoader.getWaves().size() > e.getAdditionalInfo(Integer.class).get()
-                                .intValue()) {
-                            xmlWaveLoader.getWaves().get(e.getAdditionalInfo(Integer.class).get().intValue())
-                                    .getEntityBuilders().forEach(builder -> builder.createEntity());
-                            logger
-                                    .trace("Set Wave to: " + e.getAdditionalInfo(Integer.class).get().intValue());
-                            logger.trace("And created all entities in it");
-                        } else {
-                            logger.error("Wave not found, try smaller number!");
-                        }
-                        break;
-                }
-            });
+							EntityBuilder.createBuilder(EntityType.ZOMBIE)
+									.startPosition(new Vector2(n.x * 2, n.y * 2)).createEntity();
+						}
+						logger.trace("Spawned 10 new Zombies at random pos");
+						break;
+					case K_PRESSED:
+						WorldHandler.getEventDispatcher().createEvent(0, EventType.KILL_ENTITY, null,
+								"GAME", "GLOBAL");
+						logger.trace("Removed all Entities");
+						break;
+					case SET_WAVE:
+						if (xmlWaveLoader.getWaves().size() > e.getAdditionalInfo(Integer.class).get()
+								.intValue()) {
+							xmlWaveLoader.getWaves().get(e.getAdditionalInfo(Integer.class).get().intValue())
+									.getEntityBuilders().forEach(builder -> builder.createEntity());
+							logger
+									.trace("Set Wave to: " + e.getAdditionalInfo(Integer.class).get().intValue());
+							logger.trace("And created all entities in it");
+						} else {
+							logger.error("Wave not found, try smaller number!");
+						}
+						break;
+				}
+			});
 
-            WorldHandler.getEntityHandler().UPDATE_ENTITYHANDLER();
-            WorldHandler.getModuleHandler().UPDATE_MODULEHANDLER();
+			WorldHandler.getEntityHandler().UPDATE_ENTITYHANDLER();
+			WorldHandler.getModuleHandler().UPDATE_MODULEHANDLER();
 
-            WorldHandler.getModuleHandler().getModulesOf(SelectionModule.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+			updateModule(SelectionModule.class, gc, sbg);
+			updateModule(PhysicsModule.class, gc, sbg);
+			updateModule(MovementModule.class, gc, sbg);
+			updateModule(MoveSelectedEntityToMouseClick.class, gc, sbg);
+			updateModule(FollowPlayerAI.class, gc, sbg);
+			updateModule(ThetaStarMovementModule.class, gc, sbg);
+			updateModule(EntityStatusModule.class, gc, sbg);
+			updateModule(MouseSelectionModule.class, gc, sbg);
+			updateModule(LightEmitter.class, gc, sbg);
+			updateModule(MouseTileSelectionModule.class, gc, sbg);
+			updateModule(DebugConsoleModule.class, gc, sbg);
 
-            WorldHandler.getModuleHandler().getModulesOf(PhysicsModule.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+			WorldHandler.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
+			WorldHandler.getEventDispatcher().dispatchEvents();
 
-            WorldHandler.getModuleHandler().getModulesOf(MovementModule.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+			// XXX TEST END
+			next_game_tick += Config.TIME_PER_TICK;
+			loops++;
 
-            WorldHandler.getModuleHandler().getModulesOf(MoveSelectedEntityToMouseClick.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+		}
 
-            WorldHandler.getModuleHandler().getModulesOf(FollowPlayerAI.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+		if (next_game_tick < System.currentTimeMillis())
 
-            WorldHandler.getModuleHandler().getModulesOf(ThetaStarMovementModule.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+		{
+			next_game_tick = System.currentTimeMillis();
+		}
 
-            WorldHandler.getModuleHandler().getModulesOf(EntityStatusModule.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+		// extrapolation = 1 - (next_game_tick - System.currentTimeMillis()) / Config.TIME_PER_TICK;
 
-            WorldHandler.getModuleHandler().getModulesOf(MouseSelectionModule.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+	}
 
-            WorldHandler.getModuleHandler().getModulesOf(LightEmitter.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+	/**
+	 * Test method to update modules
+	 *
+	 * @param clazz
+	 * @param gc
+	 * @param sbg
+	 */
+	public void updateModule(Class<? extends UpdatableModule> clazz, GameContainer gc, StateBasedGame sbg) {
+		WorldHandler.getModuleHandler().getModulesOf(clazz)
+				.ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
+	}
 
-            WorldHandler.getModuleHandler().getModulesOf(MouseTileSelectionModule.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
-
-            WorldHandler.getModuleHandler().getModulesOf(DebugConsoleModule.class)
-                    .ifPresent(modules -> modules.forEach(m -> m.UPDATE(gc, sbg)));
-
-            WorldHandler.getB2World().step(1.0f / Config.TICKS_PER_SECOND, 6, 2);
-            WorldHandler.getEventDispatcher().dispatchEvents();
-
-            // XXX TEST END
-            next_game_tick += Config.TIME_PER_TICK;
-            loops++;
-
-        }
-
-        if (next_game_tick < System.currentTimeMillis())
-
-        {
-            next_game_tick = System.currentTimeMillis();
-        }
-
-        // extrapolation = 1 - (next_game_tick - System.currentTimeMillis()) / Config.TIME_PER_TICK;
-
-    }
-
-    @Override
-    public int getID() {
-        return ID;
-    }
+	@Override
+	public int getID() {
+		return ID;
+	}
 
 }
