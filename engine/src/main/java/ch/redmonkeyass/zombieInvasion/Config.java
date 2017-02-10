@@ -1,30 +1,34 @@
 package ch.redmonkeyass.zombieInvasion;
 
+import com.typesafe.config.ConfigFactory;
+
 public class Config {
-//	public static final com.typesafe.config.Config conf = ConfigFactory.load("ZombieInvasion");
+	public static final com.typesafe.config.Config conf = ConfigFactory.load("ZombieInvasion");
 
 
 	public Config() {
 		// Game state identifiers
-//		public static final int SPLASHSCREEN = conf.getInt("states.SPLASHSCREEN");
-//		public static final int MAINMENU = conf.getInt("states.MAINMENU");
-//		public static final int GAME = conf.getInt("states.GAME");
+		//final int SPLASHSCREEN = conf.getInt("states.SPLASHSCREEN");
+		//final int MAINMENU = conf.getInt("states.MAINMENU");
+		//final int GAME = conf.getInt("states.GAME");
 	}
 
+	static {
+	}
 
 	// Game state identifiers
-	public static final int SPLASHSCREEN = 0;
-	public static final int MAINMENU = 1;
-	public static final int GAME = 2;
+	public static final int SPLASHSCREEN = conf.getInt("states.SPLASHSCREEN");
+	public static final int MAINMENU = conf.getInt("states.MAINMENU");
+	public static final int GAME = conf.getInt("states.GAME");
 
 	// Application Properties
-	public static final int WIDTH = 1920;
-	public static final int HEIGHT = 1080;
-	public static final int FPS = 60;
-	public static final double VERSION = 0.9;
-	public static final float TICKS_PER_SECOND = 30;
-	public static final double TIME_PER_TICK = 1000 / TICKS_PER_SECOND;
-	public static final int MAX_FRAMESKIP = 5;
+	public static final int WIDTH = conf.getInt("application.WIDTH");
+	public static final int HEIGHT = conf.getInt("application.WIDTH");
+	public static final int FPS = conf.getInt("application.FPS");
+	public static final float VERSION = (float) conf.getDouble("application.VERSION");
+	public static final float TICKS_PER_SECOND = (float) conf.getDouble("application.TICKS_PER_SECOND");
+	public static final float TIME_PER_TICK = 1000f / (float) TICKS_PER_SECOND;
+	public static final int MAX_FRAMESKIP = conf.getInt("application.MAX_FRAMESKIP");
 
 	// Box2D Config(??)
   /*
@@ -38,7 +42,7 @@ public class Config {
 	public static final int CAM_VIEWPORT_HEIGHT = HEIGHT;
 
 	// Input
-	public static final float MOUSE_DRAG_SMOOTHNESS = 2.5f;
+	public static final float MOUSE_DRAG_SMOOTHNESS = (float) conf.getDouble("input.MOUSE_DRAG_SMOOTHNESS");
 
 
 	// WorldMap

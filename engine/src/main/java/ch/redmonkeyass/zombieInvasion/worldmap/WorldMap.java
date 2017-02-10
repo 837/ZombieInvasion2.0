@@ -205,7 +205,7 @@ public class WorldMap implements RenderableModule {
     try {
       n = array[x][y];
     } catch (Exception e) {
-      // XXX kinda hacky, so that I don't have to check if x,y is in the array
+      //XXX kinda hacky, so that I don't have to check if x,y is in the array
     }
     return n;
   }

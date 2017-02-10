@@ -52,7 +52,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 5, 10), new MoveSelectedEntityToMouseClick(id),
+        new MovementModule(id, 1, 1), new MoveSelectedEntityToMouseClick(id),
         new SimpleImageRenderModule(id, Images.ADOLF),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
@@ -72,7 +72,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 5, 10), new MoveSelectedEntityToMouseClick(id),
+        new MovementModule(id, 1, 1), new MoveSelectedEntityToMouseClick(id),
         new SimpleImageRenderModule(id, Images.HANS),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
@@ -92,7 +92,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new SelectionModule(id),
-        new MovementModule(id, 5, 10), new MoveSelectedEntityToMouseClick(id),
+        new MovementModule(id, 1, 1), new MoveSelectedEntityToMouseClick(id),
         new SimpleImageRenderModule(id, Images.GERHART),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 
@@ -111,7 +111,7 @@ public class EntityFactory {
     WorldHandler.getEntityHandler().addEntity(new Entity(id));
 
     WorldHandler.getModuleHandler().addModules(new EntityStatusModule(id),
-        new MovementModule(id, 4, 4), new FollowPlayerAI(id, "HANS"),
+        new MovementModule(id, 1, 1), new FollowPlayerAI(id, "HANS"),
         new SimpleImageRenderModule(id, Images.ZOMBIE),
         EntityFactoryHelper.createPhysicsModule(entityBuilder, id));
 

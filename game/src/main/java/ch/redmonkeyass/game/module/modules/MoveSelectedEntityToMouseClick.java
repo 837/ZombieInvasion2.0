@@ -22,72 +22,71 @@ import java.util.Optional;
  * DataType.IS_SELECTED,<br>
  * DataType.POSITION,<br>
  * EventType.RIGHT_CLICK<br>
- * 
- * @author Matthias
  *
+ * @author Matthias
  */
 public class MoveSelectedEntityToMouseClick extends Module implements UpdatableModule {
 
-  List<Node> pathToEnd = null;
+	List<Node> pathToEnd = null;
 
-  public MoveSelectedEntityToMouseClick(String entityID) {
-    super(entityID);
-    // TODO Auto-generated constructor stub
-  }
+	public MoveSelectedEntityToMouseClick(String entityID) {
+		super(entityID);
+		// TODO Auto-generated constructor stub
+	}
 
-  @Override
-  public void UPDATE(GameContainer gc, StateBasedGame sbg) {
-    WorldHandler.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
-      events.parallelStream().forEach(event -> {
-        switch (event.getEvent()) {
-          case RIGHT_CLICK:
-            // Asking the Entity if it is selected
-            WorldHandler.getEntityHandler()
-                .getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
-                .ifPresent(isSelected -> {
+	@Override
+	public void UPDATE(GameContainer gc, StateBasedGame sbg) {
+		WorldHandler.getEntityHandler().getEventsFrom(getEntityID()).ifPresent(events -> {
+			events.parallelStream().forEach(event -> {
+				switch (event.getEvent()) {
+					case RIGHT_CLICK:
+						// Asking the Entity if it is selected
+						WorldHandler.getEntityHandler()
+								.getDataFrom(getEntityID(), DataType.IS_SELECTED, Boolean.class)
+								.ifPresent(isSelected -> {
 
-              if (isSelected) {
-                // Getting the MouseClick Position from the RIGHT_CLICK event
-                event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
+									if (isSelected) {
+										// Getting the MouseClick Position from the RIGHT_CLICK event
+										event.getAdditionalInfo(Vector2.class).ifPresent(position -> {
 
-                  // Calculating the click position and converting it to B2D coordinates
-                  // Vector2 moveToPos =
-                  // position.add(WorldHandler.getCamera().getPosition()).scl(Config.PIX2B).cpy();
-                  WorldHandler.getEntityHandler()
-                      .getDataFrom("MOUSE", DataType.MOUSE_SELECTED_NODE, Node.class)
-                      .ifPresent(goalPos -> {
+											// Calculating the click position and converting it to B2D coordinates
+											// Vector2 moveToPos =
+											// position.add(WorldHandler.getCamera().getPosition()).scl(Config.PIX2B).cpy();
+											WorldHandler.getEntityHandler()
+													.getDataFrom("MOUSE", DataType.MOUSE_SELECTED_NODE, Node.class)
+													.ifPresent(goalPos -> {
 
-                    // Asking the Entity for its position
-                    WorldHandler.getEntityHandler()
-                        .getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
-                        .ifPresent(entityPos -> {
+														// Asking the Entity for its position
+														WorldHandler.getEntityHandler()
+																.getDataFrom(getEntityID(), DataType.POSITION, Vector2.class)
+																.ifPresent(entityPos -> {
 
 
-                      pathToEnd = MovementHelper.ASTAR_CALCULATOR.calculatePath(
-                          WorldHandler.getWorldMap().getMapNodePos(entityPos), goalPos);
+																	pathToEnd = MovementHelper.ASTAR_CALCULATOR.calculatePath(
+																			WorldHandler.getWorldMap().getMapNodePos(entityPos), goalPos);
 
-                    });
-                  });
-                });
-              }
-            });
-        }
-      });
-    });
+																});
+													});
+										});
+									}
+								});
+				}
+			});
+		});
 
-  }
+	}
 
-  @Override
-  public Optional<Object> getData(DataType dataType) {
-    switch (dataType) {
-      case CALCULATED_PATH:
-        return Optional.ofNullable(pathToEnd);
-    }
-    return Optional.empty();
-  }
+	@Override
+	public Optional<Object> getData(DataType dataType) {
+		switch (dataType) {
+			case CALCULATED_PATH:
+				return Optional.ofNullable(pathToEnd);
+		}
+		return Optional.empty();
+	}
 
-  @Override
-  public void prepareModuleForRemoval() {
-    pathToEnd = null;
-  }
+	@Override
+	public void prepareModuleForRemoval() {
+		pathToEnd = null;
+	}
 }
