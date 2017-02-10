@@ -23,7 +23,7 @@ public class Config {
 
 	// Application Properties
 	public static final int WIDTH = conf.getInt("application.WIDTH");
-	public static final int HEIGHT = conf.getInt("application.WIDTH");
+	public static final int HEIGHT = conf.getInt("application.HEIGHT");
 	public static final int FPS = conf.getInt("application.FPS");
 	public static final float VERSION = (float) conf.getDouble("application.VERSION");
 	public static final float TICKS_PER_SECOND = (float) conf.getDouble("application.TICKS_PER_SECOND");
